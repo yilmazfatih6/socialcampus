@@ -1,5 +1,5 @@
 <!--Header-->
-<div class="row" style="background-image:url('/storage/covers/{{$user->cover}}'); margin-top:-20px; padding:25px 0;">
+<div class="row profile-header" style="background-image:url('/storage/covers/{{$user->cover}}');">
 
     <div class="col-lg-10 col-lg-offset-1">
         <!--Profile Photo-->

@@ -1,18 +1,17 @@
 <template>
 	<div class="media">
 		<div class="media-left">
-			<a href="/chat" class="inline"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
-			<img :src="src+user.avatar"/>
+			<img :src="src+club.avatar"/>
 		</div>
 		<div class="media-body">
-			<span>{{user.first_name}} {{user.last_name}}</span>
+			<span>{{club.name}}</span>
 		</div>
 	</div>
 </template>
 
 <script>
 	export default {
-		 props: ['user'],
+		 props: ['club'],
 		 data() {
             return {
                 src: '/storage/avatars/'
@@ -25,14 +24,13 @@
 	.media {
 		margin-top: -5px;
 		background-color: #fff;
-		padding: 15px;
+		padding: 10px;
 		border: 1px solid #e8ecef;
 	}
 	.media img {
 		border-radius: 100%;
 		width: 50px;
 		height: 50px;
-		display: inline;
 	}
 	.media-body span {
 		line-height: 50px;

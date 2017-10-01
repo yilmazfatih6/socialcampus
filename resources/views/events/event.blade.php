@@ -168,13 +168,7 @@
 			@endforeach
 
 		<!--Admins-->
-		<div id="admins-wrapper">
-			<div id="admins">
-				<section class="admins">
-					@include('events.partials.pagination.admins')
-				</section>
-			</div>
-		</div>
+		p
 
 		<!--Attenders-->
 		<div id="attenders-wrapper">

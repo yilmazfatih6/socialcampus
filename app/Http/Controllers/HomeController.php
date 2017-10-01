@@ -23,7 +23,8 @@ class HomeController extends Controller
             })
             ->orWhereIn('page_id', Auth::user()->pages()->pluck('page_id'))
             ->orWhereIn('club_id', Auth::user()->clubs()->pluck('club_id'))
-            ->orWhereIn('event_id', Auth::user()->events()->pluck('event_id'))->orderBy('created_at', 'desc')->paginate(4);
+            ->orWhereIn('event_id', Auth::user()->events()->pluck('event_id'))
+            ->orderBy('created_at', 'desc')->paginate(4);
 
             if ($request->ajax()) {
                 return view('statuses.load')->with('statuses', $statuses)->render();
@@ -33,9 +34,9 @@ class HomeController extends Controller
             $events = Auth::user()->events()->get();
             $pages = Auth::user()->pages()->where('admin', true)->get();
             return view('home.timeline')->with('statuses', $statuses)
-                                                    ->with('clubs', $clubs)
-                                                    ->with('events', $events)
-                                                    ->with('pages', $pages);
+                                        ->with('clubs', $clubs)
+                                        ->with('events', $events)
+                                        ->with('pages', $pages);
         }
 
         return view('home.index');

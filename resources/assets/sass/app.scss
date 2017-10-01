@@ -213,17 +213,17 @@ main purple: #6626af;
 	.navbar-icon {
 		border: 0;
 		margin: 0;
-		padding: 0 5px;
+		padding: 0;
 		line-height: 50px;
-		font-size: 20px;
+		font-size: 18px;
 		color: #40c4ed;
 		float: left;
-		width: 11%;
+		width: 10%;
 	}
 	.navbar-icon:focus, .navbar-icon:hover, .navbar-icon:active {
 		border-radius: 0;
 		background-color: #40c4ed !important;
-		color: #fff;
+		color: #fff !important;
 	}
 	.navbar-icon-lg:focus, .navbar-icon-lg:hover, .navbar-icon-lg:active {
 		border-radius: 0;
@@ -725,3 +725,9 @@ main purple: #6626af;
 		background-color: #555;
 	}
 /********************* End of Chat ****************************/
+/********************* PROFILE ****************************/
+	.profile-header {
+		margin-top:-25px;
+		padding:50px 0;
+	}
+/********************* END OF PROFILE ****************************/

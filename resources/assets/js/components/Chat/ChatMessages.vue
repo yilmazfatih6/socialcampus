@@ -25,7 +25,7 @@
 
 <script>
   export default {
-    props: ['messages', 'authId']
+    props: ['messages', 'authId'],
   };
 </script>
 
@@ -33,6 +33,7 @@
 .chat-log {
     overflow: scroll;
     overflow-x:hidden;
+    height: 75vh;
 }
 .message-box span{
     background-color: #fff;

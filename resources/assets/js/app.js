@@ -21,51 +21,75 @@ Vue.component('chat-form', require('./components/Chat/ChatForm.vue'));
 Vue.component('userblock', require('./components/Chat/Userblock.vue'));
 Vue.component('users', require('./components/Inbox/Users.vue'));
 Vue.component('inbox-user', require('./components/Inbox/Userblock.vue'));
+Vue.component('clubblock', require('./components/Chat/ClubBlock.vue'));
 
+// Personal Chat Vue Instance
+if( $('#personal-chat').length !== 0 ) {
+	const personalChat = new Vue({
+	    el: '#personal-chat',
 
-const app = new Vue({
-    el: '#app',
+	    data: {
+	        messages: []
+	    },
 
-    data: {
-        messages: []
-    },
+	    /*
+		* Everything typed in listen method happens on other user's screen
+		* Not in sender's Screen
+	    */
+	    created() {
+	        this.fetchMessages();
+	        Echo.private('chat')
+				.listen('MessageSent', (e) => {
+				    this.messages.push({
+						message: e.message.message,
+						sender_id: e.message.sender_id,
+						receiver_id: e.message.receiver_id
+				    });
+				});
+	    },
 
-    created() {
-        this.fetchMessages();
-        Echo.private('chat')
-			.listen('MessageSent', (e) => {
-			    this.messages.push({
-					message: e.message.message,
-					user: e.user
-			    });
-			});
-    },
+	 	methods: {
+	 		/**
+	 		* Load messages from DB
+	 		*/
+	        fetchMessages() {
+	            axios.get('/message/load/'+this.userId()).then(response => {
+	                this.messages = response.data;
+	            });
+	        },
 
- 	methods: {
-        fetchMessages() {
-            axios.get('/message/load/'+this.userId()).then(response => {
-                this.messages = response.data;
-            });
-        },
+	        addMessage(message) {
+	        	//Push Messages to sender's screen
+	            this.messages.push(message);
+	            // Send a ajax post request and persist messages to DB
+	            axios.post('/message/send/'+this.userId(), message);
+	        },
 
-        addMessage(message) {
-            this.messages.push(message);
+	        /**
+	        * Getting user id from uri
+	        */
+	        userId() {
+	    		// Get current path
+	    		var curpath = window.location.pathname;
+	    		// Split Path as Array
+	    		var splitedPath = curpath.split('/');
+	    		// Return 4rd array element which contains user id
+	    		return splitedPath[3];
+	    	}
+	    }
+	});
+}
 
-            axios.post('/message/send/'+this.userId(), message).then(response => {
-              console.log(response.data);
-            });
-        },
+// Personal Chat Vue Instance
+if( $('#club-chat').length !== 0 ) {
+	const clubChat = new Vue({
+		el: '#club-chat',
 
-        userId() {
-    		// Get current path
-    		var curpath = window.location.pathname;
-    		// Split Path as Array
-    		var splitedPath = curpath.split('/');
-    		// Return 4rd array element which contains user id
-    		return splitedPath[3];
-    	}
-    }
-});
+	    data: {
+	        messages: []
+	    },
+	});
+}
 
 /*********************************************************************
 **			 		    	JQUERY                     				**

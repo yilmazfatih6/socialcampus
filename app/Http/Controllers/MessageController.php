@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\User;
+use App\Club;
 use App\Message;
 use App\Events\MessageSent;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\AbstractPaginator;
 
 class MessageController extends Controller
 {
@@ -14,7 +16,10 @@ class MessageController extends Controller
     public function index()
     {
         $users = Auth::user()->conversations();
-        return view('chat.index')->with('users', $users);
+        $friends = Auth::user()->friends();
+
+        return view('chat.index')->with('users', $users)
+                                 ->with('friends', $friends);
     }
 
     // Get personal chatpage
@@ -34,7 +39,7 @@ class MessageController extends Controller
     }
 
     // Get Messages From DB
-    public function loadMessages($id)
+    public function loadPersonalMessages($id)
     {
         if (!Auth::check()) {
             return ['status' => 'Failed!'];
@@ -50,7 +55,7 @@ class MessageController extends Controller
     }
 
     // Send a message
-    public function sendMessage($id)
+    public function sendPersonalMessage($id)
     {
         $user = Auth::user();
         // add new message to DB
@@ -58,13 +63,20 @@ class MessageController extends Controller
             'message' => request()->get('message')
         ]);
 
-        broadcast(new MessageSent($user, $message))->toOthers();
-
         // Write id to receiver_id column
         $message->receiver_id = $id;
         // Save changes
         $message->save();
 
+        broadcast(new MessageSent($user, $message))->toOthers();
+
         return ['status' => 'Message sent!'];
+    }
+
+    public function clubChat($id)
+    {
+        $club = Club::find($id);
+
+        return view('chat.club')->with('club', $club);
     }
 }

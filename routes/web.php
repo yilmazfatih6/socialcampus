@@ -215,8 +215,11 @@
   // Get personal chat page
   Route::get('/chat/personal/{id}', 'MessageController@personalChat')->middleware('auth');
   // Get Messages from DB
-  Route::get('/message/load/{id}', 'MessageController@loadMessages')->middleware('auth');
+  Route::get('/message/load/{id}', 'MessageController@loadPersonalMessages')->middleware('auth');
   // Send a Message
-  Route::post('/message/send/{id}', 'MessageController@sendMessage')->middleware('auth');
+  Route::post('/message/send/{id}', 'MessageController@sendPersonalMessage')->middleware('auth');
+
+  // Club Chat Page
+  Route::get('/chat/club/{id}', 'MessageController@clubChat')->middleware('auth');
 /*********************** END OF CHAT *********************/
 

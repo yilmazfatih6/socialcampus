@@ -20,23 +20,8 @@
         <title>Medeniyet Sosyal</title>
     </head>
     <body>
-        @include('templates.partials.navigation')
-        @include('templates.partials.modals')
-        <div class="container-fluid">
-            @yield('header')
-                @include('templates.partials.alerts')
-            @yield('content')
-        </div>
+        @yield('content')
         <!--app.js File-->
         <script src="/js/app.js"></script>
-        <!--End of app.js File-->
-
-        <script>
-            //redirect to specific tab
-            $(document).ready(function () {
-                $('#tabs a[href="#{{ old('tab') }}"]').tab('show');
-            });
-        </script>
-
     </body>
 </html>
