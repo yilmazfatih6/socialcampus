@@ -1,4 +1,4 @@
-<div class="row" style="background-image:url('/storage/covers/{{$club->cover}}'); margin-top:-20px; padding:25px 0;">
+<div class="row profile-header" style="background-image:url('/storage/covers/{{$club->cover}}');">
 	<div class="col-lg-4 col-xs-8">
 		<!--Club Avatar Media-->
 		<div class="media">

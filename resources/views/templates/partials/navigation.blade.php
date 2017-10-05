@@ -41,7 +41,7 @@
 				<span class="badge badge-icon">{{Auth::user()->unreadNotifications->count()}}</span>
 				@endif
 			</a>
-			<ul id="dropdown-menu" class="dropdown-menu" style="width: 100vw;">
+			<ul id="dropdown-menu" class="dropdown-menu dropdown-notification">
 				<div id="content">
 					<div style="margin: 10px;">
 						@if(count(Auth::user()->unreadNotifications))
@@ -58,8 +58,8 @@
 						<li><a class="link"><h4><b>Buralar bomboş</b></h4></a></li>
 						<li><a class="link">Seni düşünen yok ¯\_(ツ)_/¯</a></li>
 						@endif
+						<li style="margin-top: 5px;"><a class="link text-center" href="/notifications"><small class="text-success">Eski bildirimleri gör</small></a></li>
 					</div>
-					<li><a class="link text-center" href="/notifications"><small class="text-success">Eski bildirimleri gör</small></a></li>
 				</div>
 			</ul>
 			<!--/Mobile Notifications-->

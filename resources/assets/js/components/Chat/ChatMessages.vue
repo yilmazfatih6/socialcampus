@@ -13,12 +13,6 @@
                     <span>{{ message.message }}</span>
                 </div>
             </div>
-            <!--Show sent instant messages -->
-            <div v-if="!message.sender_id && !message.receiver_id" class="row message-box">
-                <div class="pull-right">
-                    <span>{{ message.message }}</span>
-                </div>
-            </div>
         </div>
     </div>
 </template>

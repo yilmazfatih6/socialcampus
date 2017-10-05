@@ -21,7 +21,11 @@ Vue.component('chat-form', require('./components/Chat/ChatForm.vue'));
 Vue.component('userblock', require('./components/Chat/Userblock.vue'));
 Vue.component('users', require('./components/Inbox/Users.vue'));
 Vue.component('inbox-user', require('./components/Inbox/Userblock.vue'));
-Vue.component('clubblock', require('./components/Chat/ClubBlock.vue'));
+// Club Chat
+Vue.component('clubblock', require('./components/Chat/Club/ClubBlock.vue'));
+Vue.component('club-messages', require('./components/Chat/Club/ClubMessages.vue'));
+Vue.component('club-form', require('./components/Chat/Club/ClubForm.vue'));
+
 
 // Personal Chat Vue Instance
 if( $('#personal-chat').length !== 0 ) {
@@ -58,11 +62,11 @@ if( $('#personal-chat').length !== 0 ) {
 	            });
 	        },
 
-	        addMessage(message) {
+	        addMessage(data) {
 	        	//Push Messages to sender's screen
-	            this.messages.push(message);
+	            this.messages.push(data);
 	            // Send a ajax post request and persist messages to DB
-	            axios.post('/message/send/'+this.userId(), message);
+	            axios.post('/message/send/'+this.userId(), data);
 	        },
 
 	        /**
@@ -70,9 +74,9 @@ if( $('#personal-chat').length !== 0 ) {
 	        */
 	        userId() {
 	    		// Get current path
-	    		var curpath = window.location.pathname;
+	    		var curPath = window.location.pathname;
 	    		// Split Path as Array
-	    		var splitedPath = curpath.split('/');
+	    		var splitedPath = curPath.split('/');
 	    		// Return 4rd array element which contains user id
 	    		return splitedPath[3];
 	    	}
@@ -80,14 +84,66 @@ if( $('#personal-chat').length !== 0 ) {
 	});
 }
 
-// Personal Chat Vue Instance
+/*********** CLUB CHAT VUE INSTANCE *************/
 if( $('#club-chat').length !== 0 ) {
 	const clubChat = new Vue({
 		el: '#club-chat',
-
+		created() {
+			this.fetchMessages();
+			Echo.private('club-chat')
+				.listen('ClubMessageSent', (e) => {
+				    this.messages.push({
+						message: e.message.message,
+						sender_id: e.message.sender_id,
+						receiver_id: e.message.receiver_id,
+						club_id: e.message.club_id,
+						sender_name: e.message.sender_name,
+				    });
+				});
+		},
 	    data: {
-	        messages: []
+	        messages: [],
+	       	empty: false,
 	    },
+	    methods: {
+	    	/*Fecth messages from DB*/
+	    	fetchMessages() {
+	    		var getUrl = '/message/'+this.userId()+'/load/club/'+this.clubId();
+	    		axios.get(getUrl).then(response => {
+	    			this.messages = response.data;
+	    			if(response.data.length === 0) {
+	    				this.empty = true;
+	    			}
+	    		});
+	    	},
+	    	// Persist messages to DB
+	    	addMessageAsUser(data) {
+	        	//Push Messages to sender's screen
+	            this.messages.push(data);
+	            // Send a ajax post request and persist messages to DB
+	            var postUrl = '/message/'+this.userId()+'/send/club/'+this.clubId();
+	            axios.post(postUrl, data);
+	        },
+	        addMessageAsClub(data) {
+	        	//Push Messages to sender's screen
+	            this.messages.push(data);
+	            // Send a ajax post request and persist messages to DB
+	            var postUrl = '/message/'+this.userId()+'/club/'+this.clubId()+'/send';
+	            axios.post(postUrl, data);
+	        },
+	    	/*Get club id*/
+	    	clubId() {
+	    		var curPath = window.location.pathname;
+	    		var splitedPath = curPath.split('/');
+	    		return splitedPath[4];
+	    	},
+	    	/*Get auth user id*/
+	    	userId() {
+	    		var curPath = window.location.pathname;
+	    		var splitedPath = curPath.split('/');
+	    		return splitedPath[1];
+	    	}
+	    }
 	});
 }
 

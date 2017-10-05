@@ -7,6 +7,7 @@ use App\User;
 use App\Club;
 use App\Message;
 use App\Events\MessageSent;
+use App\Events\ClubMessageSent;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\AbstractPaginator;
 
@@ -15,7 +16,13 @@ class MessageController extends Controller
     // Load Chat Page
     public function index()
     {
-        $users = Auth::user()->conversations();
+        // Get conversation if exists
+        if (Auth::user()->conversations()) {
+            $users = Auth::user()->conversations();
+        } else {
+            $users = null; //If not exists match users to null
+        }
+
         $friends = Auth::user()->friends();
 
         return view('chat.index')->with('users', $users)
@@ -47,7 +54,10 @@ class MessageController extends Controller
         if (!Auth::user()->isFriendsWithId($id)) {
             return ['status' => 'Something went wrong!'];
         }
-        return Message::where('sender_id', Auth::user()->id)
+        return Message::where('club_id', null)
+                      ->where('page_id', null)
+                      ->where('event_id', null)
+                      ->where('sender_id', Auth::user()->id)
                       ->where('receiver_id', $id)
                       ->orWhere('sender_id', $id)
                       ->orWhere('receiver_id', Auth::user()->id)
@@ -60,23 +70,81 @@ class MessageController extends Controller
         $user = Auth::user();
         // add new message to DB
         $message = Auth::user()->sentMessages()->create([
-            'message' => request()->get('message')
+            'message' => request()->get('message'),
+            'receiver_id' => $id,
         ]);
-
-        // Write id to receiver_id column
-        $message->receiver_id = $id;
-        // Save changes
-        $message->save();
 
         broadcast(new MessageSent($user, $message))->toOthers();
 
         return ['status' => 'Message sent!'];
     }
 
-    public function clubChat($id)
-    {
-        $club = Club::find($id);
 
-        return view('chat.club')->with('club', $club);
+    // Get club chat page    
+    public function clubChat($userId, $clubId)
+    {
+        $club = Club::find($clubId);
+        $user = User::find($userId);
+        return view('chat.club')->with('club', $club)
+                                ->with('user', $user);
     }
+
+    // Load Club Messages 
+    public function loadClubMessages($userId, $clubId) {
+        // Check if authenticated
+        if (!Auth::check()) {
+            return ['status' => 'Failed!'];
+        }
+
+        // Return messages
+        return Message::where('club_id', $clubId)
+                      ->orWhere('sender_id', $userId)
+                      ->orWhere('receiver_id', $userId)
+                      ->get();
+    }
+
+    public function sendClubMessageAsUser($userId, $clubId) {
+        // Find club 
+        $club = Club::find(request()->get('club_id'));
+        $user = User::find(request()->get('sender_id'));
+
+        if (Auth::user()->id !== request()->get('sender_id')) {
+            return ['status', 'Something went wrong!'];
+        }
+
+        // Persist message to DB
+        $message = $user->sentMessages()->create([
+            'message' => request()->get('message'),
+            'sender_id' => request()->get('sender_id'),
+            //'receiver_id' => 0
+         ]);
+
+        $message->club_id = request()->get('club_id');
+        $message->save();
+
+
+        broadcast(new ClubMessageSent($user, $message))->toOthers();
+
+        return ['status' => 'Message sent!'];
+    }
+
+    public function sendClubMessageAsClub($userId, $clubId) {
+        $club = Club::find(request()->get('club_id'));
+        $user = Auth::user();
+
+        $message = $club->messages()->create([
+            'message' => request()->get('message'),
+            //  'sender_id' => request()->get('sender_id'),
+            'receiver_id' => request()->get('receiver_id'),
+        ]);        
+
+        $message->sender_name = request()->get('sender_name');
+        $message->save();
+
+        broadcast(new ClubMessageSent($user, $message))->toOthers();
+
+        return ['status' => 'Message sent!'];
+    }
+
+
 }

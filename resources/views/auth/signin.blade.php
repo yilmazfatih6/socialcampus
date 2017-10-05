@@ -6,7 +6,7 @@
 		<div class="col-lg-6 col-lg-offset-3">
 			<h1 class="display-1"><b>Giriş Yap</b></h1>
 
-			<form class="form-horizontal" id="signin-form" role="form" method="post" action="{{ route('auth.signin') }}">
+			<form class="form-horizontal" id="signin-form" role="form" method="post" action="/signin">
 
 				<!--Username Input-->
 				<label for="username" class="control-label">Kullanıcı Adı</label>
@@ -30,13 +30,14 @@
 
 				<br>
 
-				<!--Remember Me-->
+				<!--Remember Me
 				<div class="checkbox inline">
 					<label class="link">
 						<input type="checkbox" id="remember" name="remember"> Beni Hatırla
 					</label>
 				</div>
-
+				-->
+				
 				<!--Submit Button-->
 				<div class="form-gorup inline pull-right" id="signin-submit">
 					<button type="submit" class="btn btn-success">Giriş Yap</button>

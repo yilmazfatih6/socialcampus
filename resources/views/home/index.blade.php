@@ -17,7 +17,7 @@
 	<link href="http://vjs.zencdn.net/5.17.0/video-js.css" rel="stylesheet">
 	<script src="http://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
 	<!--Icons-->
-	<link rel="shortcut icon" href="/storage/icons/icon.png"><!-- taken from https://icons8.com/-->
+	<link rel="shortcut icon" href="/storage/icons/snowflake.png"><!-- taken from https://icons8.com/-->
 	<script src="https://use.fontawesome.com/fffe030555.js"></script>
 	<!--My Css File-->
 	<link rel="stylesheet" href="/css/app.css">

@@ -8359,7 +8359,7 @@ main purple: #6626af;
 
 /******CHANGE DEFAULT NAVBAR COLLAPSE WIDTH******/
 
-@media (max-width: 910px) {
+@media (max-width: 991px) {
   .navbar-header {
     float: none;
   }
@@ -8648,6 +8648,16 @@ main purple: #6626af;
   border-radius: 0;
   background-color: #40c4ed !important;
   color: #fff !important;
+}
+
+/*Notification Dropdown*/
+
+.dropdown-notification {
+  width: 100vw;
+  margin-top: -1px;
+  margin-bottom: 5px;
+  border-radius: 0px;
+  border: 0px !important;
 }
 
 /*Notification Count In Wide Navbar*/
@@ -9265,7 +9275,7 @@ input[type=range]:focus::-ms-fill-upper {
 
 .profile-header {
   margin-top: -25px;
-  padding: 50px 0;
+  padding: 75px 0;
 }
 
 /********************* END OF PROFILE ****************************/

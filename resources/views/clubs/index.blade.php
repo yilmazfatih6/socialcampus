@@ -1,6 +1,7 @@
 @extends('templates.default')
 
 @section('content')
+
 <div class="container">
 	@if(Auth::check())
 

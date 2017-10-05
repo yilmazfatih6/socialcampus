@@ -8,8 +8,15 @@
 				<button class="btn btn-success btn-sm btn-block margin-bottom-ten" data-toggle="modal" data-target="#select">
 					<i class="fa fa-plus" aria-hidden="true"></i> Yeni Sohbet Oluştur
 				</button>
-				<users :users="{{$users}}"></users>
+				@if(!empty($users))
+					<users :users="{{$users}}"></users>
+				@else
+					<div class="text-center">
+						<small>Henüz hiç mesajınız yok.</small>
+					</div>
+				@endif
 			</div>
 		</div>
 	</div>
+
 @endsection

@@ -384,7 +384,7 @@ class User extends Authenticatable
     */
     public function conversations()
     {
-        $usersId;
+        $usersId = null;
         $index = 0;
         $same = false;
         foreach (Auth::user()->messages() as $message) {
@@ -424,6 +424,12 @@ class User extends Authenticatable
             }
             $index++;
         }
+
+        // Return null if there is no user
+        if ($usersId === null) {
+            return null;
+        }
+
         $users = User::whereIn('id', $usersId)->get();
         return $users;
     }

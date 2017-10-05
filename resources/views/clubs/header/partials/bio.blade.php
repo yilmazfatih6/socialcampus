@@ -55,10 +55,18 @@
                     @endif
                 </ul>
 
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/chat/{{Auth::user()->id}}/club/{{$club->id}}"><i class="fa fa-envelope" aria-hidden="true"></i>
+                            Yöneticiye Mesaj At
+                        </a>
+                    </li>
+                </ul>
+
                 <!-- Membership Buttons Hidden on XS devices XS device button located in header.blade.php-->
                 <ul id="membership-buttons-ul" class="nav navbar-nav navbar-right hidden-xs">
                     @if(Auth::user())
-                        <div id="membership-buttons-div" class="col-lg-12">
+                        <div id="membership-buttons-div inline" class="col-lg-12">
                             @if(Auth::user()->isMember($club))
                                 <a data-toggle="modal" data-target="#quit" class="btn btn-danger" style="margin-top:7px;">
                                 Üyelikten Çık

@@ -78,4 +78,12 @@ class Club extends Model
         return $this->update(['confirmed' => true]);
     }
 
+    /**
+    *   Received and Sent Messages of Club
+    */
+    public function messages()
+    {
+        return $this->hasMany('App\Message', 'club_id');
+    }
+
 }

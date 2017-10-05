@@ -18,7 +18,7 @@
 
   Route::get('/signin', [
     'uses' => '\App\Http\Controllers\AuthController@getSignin',
-    'as' => 'auth.signin',
+    'as' => 'login',
     'middleware' => ['guest'],
   ]);
 
@@ -220,6 +220,12 @@
   Route::post('/message/send/{id}', 'MessageController@sendPersonalMessage')->middleware('auth');
 
   // Club Chat Page
-  Route::get('/chat/club/{id}', 'MessageController@clubChat')->middleware('auth');
+  Route::get('/chat/{userId}/club/{clubId}', 'MessageController@clubChat')->middleware('auth');
+  // Get messages of chat between some user and some club
+  Route::get('/message/{userId}/load/club/{clubId}', 'MessageController@loadClubMessages')->middleware('auth');
+  // Send message as user
+  Route::post('/message/{userId}/send/club/{clubId}', 'MessageController@sendClubMessageAsUser')->middleware('auth');
+  // Send message as club
+  Route::post('/message/{userId}/club/{clubId}/send', 'MessageController@sendClubMessageAsClub')->middleware('auth');
 /*********************** END OF CHAT *********************/
 

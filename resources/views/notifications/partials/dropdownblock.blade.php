@@ -1,5 +1,5 @@
 <a class="link" id="mark-as-read" data-id="{{$notification->id}}" href="{{$notification->data['link'] }}">
-	<div class="row" style="margin-bottom: 5px;">
+	<div class="row">
 		<!--Notification Image-->
 		@if( $notification->type =="medeniyetsosyal\Notifications\MembershipRequest" )
 			<div class="col-xs-2">
