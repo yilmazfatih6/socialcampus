@@ -59,4 +59,11 @@ class Page extends Model
                                         ->where('admin', false)->count();
     }
 
+    /**
+    *   Received and Sent Messages of Club
+    */
+    public function messages()
+    {
+        return $this->hasMany('App\Message', 'page_id');
+    }
 }

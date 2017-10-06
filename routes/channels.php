@@ -26,3 +26,7 @@ Broadcast::channel('club-chat', function ($user) {
 Broadcast::channel('event-chat', function ($user) {
   return Auth::check();
 });
+
+Broadcast::channel('page-chat', function ($user) {
+  return Auth::check();
+});

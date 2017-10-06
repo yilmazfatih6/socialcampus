@@ -237,5 +237,14 @@
   // Send message as event
   Route::post('/message/{userId}/event/{eventId}/send', 'MessageController@sendEventMessageAsEvent')->middleware('auth');
 
+  // Pages Chat Page
+  Route::get('/chat/{userId}/page/{pageId}', 'MessageController@pageChat')->middleware('auth');
+  // Get messages of chat between some user and some event
+  Route::get('/message/{userId}/load/page/{pageId}', 'MessageController@loadPageMessages')->middleware('auth');
+  // Send message as user
+  Route::post('/message/{userId}/send/page/{pageId}', 'MessageController@sendPageMessageAsUser')->middleware('auth');
+  // Send message as event
+  Route::post('/message/{userId}/page/{pageId}/send', 'MessageController@sendPageMessageAsPage')->middleware('auth');
+
 /*********************** END OF CHAT *********************/
 

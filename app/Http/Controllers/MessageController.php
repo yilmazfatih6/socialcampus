@@ -10,6 +10,7 @@ use App\Event;
 use App\Message;
 use App\Events\MessageSent;
 use App\Events\ClubMessageSent;
+use App\Events\PageMessageSent;
 use App\Events\EventMessageSent;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\AbstractPaginator;
@@ -212,5 +213,69 @@ class MessageController extends Controller
 
         return ['status' => 'Message sent!'];
     }
+
+    public function pageChat($userId, $pageId) {
+        $user = User::find($userId);
+        $page = Page::find($pageId);
+
+        return view('chat.page')->with('user', $user)
+                                ->with('page', $page);
+    }
+
+    // Load Page Messages 
+    public function loadPageMessages($userId, $pageId) {
+        // Check if authenticated
+        if (!Auth::check()) {
+            return ['status' => 'Failed!'];
+        }
+
+        // Return messages
+        return Message::where('page_id', $pageId)
+                      ->orWhere('sender_id', $userId)
+                      ->orWhere('receiver_id', $userId)
+                      ->get();
+    }
+
+    public function sendPageMessageAsUser($userId, $pageId) {
+        // Find Page 
+        $user = User::find(request()->get('sender_id'));
+
+        if (Auth::user()->id !== request()->get('sender_id')) {
+            return ['status', 'Something went wrong!'];
+        }
+
+        // Persist message to DB
+        $message = $user->sentMessages()->create([
+            'message' => request()->get('message'),
+            'sender_id' => request()->get('sender_id'),
+            //'receiver_id' => 0
+         ]);
+
+        $message->page_id = request()->get('page_id');
+        $message->save();
+
+        broadcast(new PageMessageSent($user, $message))->toOthers();
+
+        return ['status' => 'Message sent!'];
+    }
+
+    public function sendPageMessageAsPage($userId, $pageId) {
+        $page = Page::find(request()->get('page_id'));
+        $user = Auth::user();
+
+        $message = $page->messages()->create([
+            'message' => request()->get('message'),
+            //  'sender_id' => request()->get('sender_id'),
+            'receiver_id' => request()->get('receiver_id'),
+        ]);        
+
+        $message->sender_name = request()->get('sender_name');
+        $message->save();
+
+        broadcast(new PageMessageSent($user, $message))->toOthers();
+
+        return ['status' => 'Message sent!'];
+    }
+
 
 }

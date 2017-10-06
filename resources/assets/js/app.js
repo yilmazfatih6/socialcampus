@@ -29,6 +29,10 @@ Vue.component('club-form', require('./components/Chat/Club/ClubForm.vue'));
 Vue.component('eventblock', require('./components/Chat/Event/EventBlock.vue'));
 Vue.component('event-messages', require('./components/Chat/Event/EventMessages.vue'));
 Vue.component('event-form', require('./components/Chat/Event/EventForm.vue'));
+// Page Chat
+Vue.component('pageblock', require('./components/Chat/Page/PageBlock.vue'));
+Vue.component('page-messages', require('./components/Chat/Page/PageMessages.vue'));
+Vue.component('page-form', require('./components/Chat/Page/PageForm.vue'));
 
 
 // Personal Chat Vue Instance
@@ -212,8 +216,71 @@ if( $('#event-chat').length !== 0 ) {
 	    	}
 	    }
 	});
-
 }
+
+/*********** PAGE CHAT VUE INSTANCE *************/
+if( $('#page-chat').length !== 0 ) {
+	const pageChat = new Vue({
+		el: '#page-chat',
+		created() {
+			this.fetchMessages();
+			Echo.private('page-chat')
+				.listen('PageMessageSent', (e) => {
+				    this.messages.push({
+						message: e.message.message,
+						sender_id: e.message.sender_id,
+						receiver_id: e.message.receiver_id,
+						page_id: e.message.page_id,
+						sender_name: e.message.sender_name,
+				    });
+				});
+		},
+	    data: {
+	        messages: [],
+	       	empty: false,
+	    },
+	    methods: {
+	    	/*Fecth messages from DB*/
+	    	fetchMessages() {
+	    		var getUrl = '/message/'+this.userId()+'/load/page/'+this.pageId();
+	    		axios.get(getUrl).then(response => {
+	    			this.messages = response.data;
+	    			if(response.data.length === 0) {
+	    				this.empty = true;
+	    			}
+	    		});
+	    	},
+	    	// Persist messages to DB
+	    	addMessageAsUser(data) {
+	        	//Push Messages to sender's screen
+	            this.messages.push(data);
+	            // Send a ajax post request and persist messages to DB
+	            var postUrl = '/message/'+this.userId()+'/send/page/'+this.pageId();
+	            axios.post(postUrl, data);
+	        },
+	        addMessageAsPage(data) {
+	        	//Push Messages to sender's screen
+	            this.messages.push(data);
+	            // Send a ajax post request and persist messages to DB
+	            var postUrl = '/message/'+this.userId()+'/page/'+this.pageId()+'/send';
+	            axios.post(postUrl, data);
+	        },
+	    	/*Get page id*/
+	    	pageId() {
+	    		var curPath = window.location.pathname;
+	    		var splitedPath = curPath.split('/');
+	    		return splitedPath[4];
+	    	},
+	    	/*Get auth user id*/
+	    	userId() {
+	    		var curPath = window.location.pathname;
+	    		var splitedPath = curPath.split('/');
+	    		return splitedPath[1];
+	    	}
+	    }
+	});
+}
+
 /*********************************************************************
 **			 		    	JQUERY                     				**
 **********************************************************************/
