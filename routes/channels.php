@@ -22,3 +22,7 @@ Broadcast::channel('chat', function ($user) {
 Broadcast::channel('club-chat', function ($user) {
   return Auth::check();
 });
+
+Broadcast::channel('event-chat', function ($user) {
+  return Auth::check();
+});

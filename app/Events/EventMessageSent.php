@@ -12,14 +12,14 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class ClubMessageSent implements ShouldBroadcast
+class EventMessageSent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $user;
 
     public $message;
-    
+
     /**
      * Create a new event instance.
      *
@@ -38,6 +38,6 @@ class ClubMessageSent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('club-chat');
+        return new PrivateChannel('event-chat');
     }
 }

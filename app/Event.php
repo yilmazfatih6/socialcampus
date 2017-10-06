@@ -66,4 +66,12 @@ class Event extends Model
     {
         return (bool) $this->where('price', null)->count();
     }
+
+     /**
+    *   Received and Sent Messages of Evemt
+    */
+    public function messages()
+    {
+        return $this->hasMany('App\Message', 'event_id');
+    }
 }

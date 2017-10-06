@@ -1207,6 +1207,10 @@ Vue.component('inbox-user', __webpack_require__(65));
 Vue.component('clubblock', __webpack_require__(70));
 Vue.component('club-messages', __webpack_require__(75));
 Vue.component('club-form', __webpack_require__(80));
+// Event Chat
+Vue.component('eventblock', __webpack_require__(94));
+Vue.component('event-messages', __webpack_require__(99));
+Vue.component('event-form', __webpack_require__(104));
 
 // Personal Chat Vue Instance
 if ($('#personal-chat').length !== 0) {
@@ -1339,6 +1343,75 @@ if ($('#club-chat').length !== 0) {
 	});
 }
 
+/*********** EVENT CHAT VUE INSTANCE *************/
+if ($('#event-chat').length !== 0) {
+	var eventChat = new Vue({
+		el: '#event-chat',
+		created: function created() {
+			var _this5 = this;
+
+			this.fetchMessages();
+			Echo.private('event-chat').listen('EventMessageSent', function (e) {
+				_this5.messages.push({
+					message: e.message.message,
+					sender_id: e.message.sender_id,
+					receiver_id: e.message.receiver_id,
+					event_id: e.message.event_id,
+					sender_name: e.message.sender_name
+				});
+			});
+		},
+
+		data: {
+			messages: [],
+			empty: false
+		},
+		methods: {
+			/*Fecth messages from DB*/
+			fetchMessages: function fetchMessages() {
+				var _this6 = this;
+
+				var getUrl = '/message/' + this.userId() + '/load/event/' + this.eventId();
+				axios.get(getUrl).then(function (response) {
+					_this6.messages = response.data;
+					if (response.data.length === 0) {
+						_this6.empty = true;
+					}
+				});
+			},
+
+			// Persist messages to DB
+			addMessageAsUser: function addMessageAsUser(data) {
+				//Push Messages to sender's screen
+				this.messages.push(data);
+				// Send a ajax post request and persist messages to DB
+				var postUrl = '/message/' + this.userId() + '/send/event/' + this.eventId();
+				axios.post(postUrl, data);
+			},
+			addMessageAsAdmin: function addMessageAsAdmin(data) {
+				//Push Messages to sender's screen
+				this.messages.push(data);
+				// Send a ajax post request and persist messages to DB
+				var postUrl = '/message/' + this.userId() + '/event/' + this.eventId() + '/send';
+				axios.post(postUrl, data);
+			},
+
+			/*Get event id*/
+			eventId: function eventId() {
+				var curPath = window.location.pathname;
+				var splitedPath = curPath.split('/');
+				return splitedPath[4];
+			},
+
+			/*Get auth user id*/
+			userId: function userId() {
+				var curPath = window.location.pathname;
+				var splitedPath = curPath.split('/');
+				return splitedPath[1];
+			}
+		}
+	});
+}
 /*********************************************************************
 **			 		    	JQUERY                     				**
 **********************************************************************/
@@ -49948,6 +50021,689 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 86 */,
+/* 87 */,
+/* 88 */,
+/* 89 */,
+/* 90 */,
+/* 91 */,
+/* 92 */,
+/* 93 */,
+/* 94 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(95)
+}
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(97)
+/* template */
+var __vue_template__ = __webpack_require__(98)
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-b739f326"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/Chat/Event/EventBlock.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] EventBlock.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-b739f326", Component.options)
+  } else {
+    hotAPI.reload("data-v-b739f326", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 95 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(96);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(3)("2a3202da", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-b739f326\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./EventBlock.vue", function() {
+     var newContent = require("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-b739f326\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./EventBlock.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 96 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "\n.media[data-v-b739f326] {\n\tmargin-top: -5px;\n\tbackground-color: #fff;\n\tpadding: 10px;\n\tborder: 1px solid #e8ecef;\n}\n.media img[data-v-b739f326] {\n\tborder-radius: 100%;\n\twidth: 50px;\n\theight: 50px;\n}\n.media-body span[data-v-b739f326] {\n\tline-height: 50px;\n\tcolor: #636b6f;\n\ttext-decoration: none;\n\tmargin-left: 10px;\n}\na[data-v-b739f326], a[data-v-b739f326]:hover {\n\ttext-decoration: none;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 97 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['event'],
+    data: function data() {
+        return {
+            src: '/storage/avatars/'
+        };
+    }
+});
+
+/***/ }),
+/* 98 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "media" }, [
+    _c("div", { staticClass: "media-body" }, [
+      _c("span", [_vm._v(_vm._s(_vm.event.name))])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-b739f326", module.exports)
+  }
+}
+
+/***/ }),
+/* 99 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(100)
+}
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(102)
+/* template */
+var __vue_template__ = __webpack_require__(103)
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-5a8f49c8"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/Chat/Event/EventMessages.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] EventMessages.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5a8f49c8", Component.options)
+  } else {
+    hotAPI.reload("data-v-5a8f49c8", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 100 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(101);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(3)("3bdb79b9", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-5a8f49c8\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./EventMessages.vue", function() {
+     var newContent = require("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-5a8f49c8\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./EventMessages.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 101 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "\n.chat-log[data-v-5a8f49c8] {\n    overflow: scroll;\n    overflow-x:hidden;\n}\n.empty[data-v-5a8f49c8] {\n    margin: 25px 0;\n}\n.message-box[data-v-5a8f49c8]{\n    background-color: #fff;\n    border-radius: 10px;\n    padding: 10px;\n    margin-bottom: 5px;\n    border: 1px solid #e8ecef;\n}\n.message-box span[data-v-5a8f49c8] {\n    display: block;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 102 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['messages', 'userId', 'authId', 'empty']
+});
+
+/***/ }),
+/* 103 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "container-fluid chat-log" },
+    [
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.empty,
+              expression: "empty"
+            }
+          ],
+          staticClass: "empty text-center"
+        },
+        [_c("small", [_vm._v("Henüz mesaj yok.")])]
+      ),
+      _vm._v(" "),
+      _vm._l(_vm.messages, function(message) {
+        return _c("div", [
+          _vm.authId === _vm.userId
+            ? _c("div", [
+                _vm.userId === message.receiver_id
+                  ? _c("div", { staticClass: "row message-box" }, [
+                      _c("div", { staticClass: "pull-left" }, [
+                        _c("span", {
+                          domProps: { textContent: _vm._s(message.message) }
+                        }),
+                        _vm._v(" "),
+                        _c("small", {
+                          staticClass: "text-danger",
+                          domProps: { textContent: _vm._s(message.sender_name) }
+                        })
+                      ])
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.userId === message.sender_id
+                  ? _c("div", { staticClass: "row message-box" }, [
+                      _c("div", { staticClass: "pull-right" }, [
+                        _c("span", {
+                          domProps: { textContent: _vm._s(message.message) }
+                        })
+                      ])
+                    ])
+                  : _vm._e()
+              ])
+            : _c("div", [
+                _vm.userId === message.receiver_id
+                  ? _c("div", { staticClass: "row message-box" }, [
+                      _c("div", { staticClass: "pull-right" }, [
+                        _c("span", {
+                          domProps: { textContent: _vm._s(message.message) }
+                        }),
+                        _vm._v(" "),
+                        _c("small", {
+                          staticClass: "text-danger",
+                          domProps: { textContent: _vm._s(message.sender_name) }
+                        })
+                      ])
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.userId === message.sender_id
+                  ? _c("div", { staticClass: "row message-box" }, [
+                      _c("div", { staticClass: "pull-left" }, [
+                        _c("span", {
+                          domProps: { textContent: _vm._s(message.message) }
+                        })
+                      ])
+                    ])
+                  : _vm._e()
+              ])
+        ])
+      })
+    ],
+    2
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-5a8f49c8", module.exports)
+  }
+}
+
+/***/ }),
+/* 104 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(105)
+}
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(107)
+/* template */
+var __vue_template__ = __webpack_require__(108)
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-d92f72d8"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/Chat/Event/EventForm.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] EventForm.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-d92f72d8", Component.options)
+  } else {
+    hotAPI.reload("data-v-d92f72d8", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 105 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(106);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(3)("081c0b86", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-d92f72d8\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./EventForm.vue", function() {
+     var newContent = require("!!../../../../../../node_modules/css-loader/index.js!../../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-d92f72d8\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./EventForm.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 106 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "\n.input-group[data-v-d92f72d8] {\n    margin-bottom: 25px;\n}\n.input-group button[data-v-d92f72d8], .input-group input[data-v-d92f72d8]{\n    border-radius: 0px;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 107 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['eventId', 'userId', 'authId', 'dataName'],
+
+    created: function created() {
+        if (this.authId !== this.userId) {
+            this.admin = true;
+        }
+    },
+    data: function data() {
+        return {
+            newMessage: '',
+            admin: false
+        };
+    },
+
+
+    methods: {
+        sendMessageAsUser: function sendMessageAsUser() {
+            this.$emit('messagesentuser', {
+                message: this.newMessage,
+                sender_id: this.authId,
+                event_id: this.eventId
+            });
+
+            this.newMessage = '';
+        },
+        sendMessageAsAdmin: function sendMessageAsAdmin() {
+            this.$emit('messagesentevent', {
+                message: this.newMessage,
+                event_id: this.eventId,
+                //sender_id: this.authId,
+                receiver_id: this.userId,
+                sender_name: this.dataName
+            });
+
+            this.newMessage = '';
+        }
+    }
+});
+
+/***/ }),
+/* 108 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.admin
+    ? _c("div", [
+        _c("div", { staticClass: "input-group" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.newMessage,
+                expression: "newMessage"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: {
+              id: "btn-input",
+              type: "text",
+              name: "message",
+              placeholder: "Mesaj yaz admin kardeş..."
+            },
+            domProps: { value: _vm.newMessage },
+            on: {
+              keyup: function($event) {
+                if (
+                  !("button" in $event) &&
+                  _vm._k($event.keyCode, "enter", 13)
+                ) {
+                  return null
+                }
+                _vm.sendMessageAsAdmin($event)
+              },
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.newMessage = $event.target.value
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c("span", { staticClass: "input-group-btn" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-info",
+                attrs: { id: "btn-chat" },
+                on: { click: _vm.sendMessageAsAdmin }
+              },
+              [
+                _c("i", {
+                  staticClass: "fa fa-paper-plane",
+                  attrs: { "aria-hidden": "true" }
+                })
+              ]
+            )
+          ])
+        ])
+      ])
+    : _c("div", [
+        _c("div", { staticClass: "input-group" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.newMessage,
+                expression: "newMessage"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: {
+              id: "btn-input",
+              type: "text",
+              name: "message",
+              placeholder: "Mesaj yaz..."
+            },
+            domProps: { value: _vm.newMessage },
+            on: {
+              keyup: function($event) {
+                if (
+                  !("button" in $event) &&
+                  _vm._k($event.keyCode, "enter", 13)
+                ) {
+                  return null
+                }
+                _vm.sendMessageAsUser($event)
+              },
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.newMessage = $event.target.value
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c("span", { staticClass: "input-group-btn" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-info",
+                attrs: { id: "btn-chat" },
+                on: { click: _vm.sendMessageAsUser }
+              },
+              [
+                _c("i", {
+                  staticClass: "fa fa-paper-plane",
+                  attrs: { "aria-hidden": "true" }
+                })
+              ]
+            )
+          ])
+        ])
+      ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-d92f72d8", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

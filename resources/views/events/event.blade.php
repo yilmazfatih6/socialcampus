@@ -68,8 +68,10 @@
 
 			<!--Ask smthng to Admin Modal Button-->
 			@if(Auth::check())
-				<li class="list-group-item ask-to-admin hidden-lg hidden-md" data-toggle="modal" data-target="#ask-to-admin">
-					<i class="fa fa-comments" aria-hidden="true"></i> Organizatöre Soru Sor
+				<li class="list-group-item ask-to-admin hidden-lg hidden-md">
+					<a class="link-white" href="/chat/{{Auth::user()->id}}/event/{{$event->id}}">
+						<i class="fa fa-comments" aria-hidden="true"></i> Organizatöre Soru Sor
+					</a>
 				</li>
 			@endif
 

@@ -25,6 +25,10 @@ Vue.component('inbox-user', require('./components/Inbox/Userblock.vue'));
 Vue.component('clubblock', require('./components/Chat/Club/ClubBlock.vue'));
 Vue.component('club-messages', require('./components/Chat/Club/ClubMessages.vue'));
 Vue.component('club-form', require('./components/Chat/Club/ClubForm.vue'));
+// Event Chat
+Vue.component('eventblock', require('./components/Chat/Event/EventBlock.vue'));
+Vue.component('event-messages', require('./components/Chat/Event/EventMessages.vue'));
+Vue.component('event-form', require('./components/Chat/Event/EventForm.vue'));
 
 
 // Personal Chat Vue Instance
@@ -147,6 +151,69 @@ if( $('#club-chat').length !== 0 ) {
 	});
 }
 
+/*********** EVENT CHAT VUE INSTANCE *************/
+if( $('#event-chat').length !== 0 ) {
+	const eventChat = new Vue({
+		el: '#event-chat',
+		created() {
+			this.fetchMessages();
+			Echo.private('event-chat')
+				.listen('EventMessageSent', (e) => {
+				    this.messages.push({
+						message: e.message.message,
+						sender_id: e.message.sender_id,
+						receiver_id: e.message.receiver_id,
+						event_id: e.message.event_id,
+						sender_name: e.message.sender_name,
+				    });
+				});
+		},
+	    data: {
+	        messages: [],
+	       	empty: false,
+	    },
+	    methods: {
+	    	/*Fecth messages from DB*/
+	    	fetchMessages() {
+	    		var getUrl = '/message/'+this.userId()+'/load/event/'+this.eventId();
+	    		axios.get(getUrl).then(response => {
+	    			this.messages = response.data;
+	    			if(response.data.length === 0) {
+	    				this.empty = true;
+	    			}
+	    		});
+	    	},
+	    	// Persist messages to DB
+	    	addMessageAsUser(data) {
+	        	//Push Messages to sender's screen
+	            this.messages.push(data);
+	            // Send a ajax post request and persist messages to DB
+	            var postUrl = '/message/'+this.userId()+'/send/event/'+this.eventId();
+	            axios.post(postUrl, data);
+	        },
+	        addMessageAsAdmin(data) {
+	        	//Push Messages to sender's screen
+	            this.messages.push(data);
+	            // Send a ajax post request and persist messages to DB
+	            var postUrl = '/message/'+this.userId()+'/event/'+this.eventId()+'/send';
+	            axios.post(postUrl, data);
+	        },
+	    	/*Get event id*/
+	    	eventId() {
+	    		var curPath = window.location.pathname;
+	    		var splitedPath = curPath.split('/');
+	    		return splitedPath[4];
+	    	},
+	    	/*Get auth user id*/
+	    	userId() {
+	    		var curPath = window.location.pathname;
+	    		var splitedPath = curPath.split('/');
+	    		return splitedPath[1];
+	    	}
+	    }
+	});
+
+}
 /*********************************************************************
 **			 		    	JQUERY                     				**
 **********************************************************************/

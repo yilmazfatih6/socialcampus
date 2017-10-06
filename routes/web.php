@@ -227,5 +227,15 @@
   Route::post('/message/{userId}/send/club/{clubId}', 'MessageController@sendClubMessageAsUser')->middleware('auth');
   // Send message as club
   Route::post('/message/{userId}/club/{clubId}/send', 'MessageController@sendClubMessageAsClub')->middleware('auth');
+
+  // Event Chat Page
+  Route::get('/chat/{userId}/event/{eventId}', 'MessageController@eventChat')->middleware('auth');
+  // Get messages of chat between some user and some event
+  Route::get('/message/{userId}/load/event/{eventId}', 'MessageController@loadEventMessages')->middleware('auth');
+  // Send message as user
+  Route::post('/message/{userId}/send/event/{eventId}', 'MessageController@sendEventMessageAsUser')->middleware('auth');
+  // Send message as event
+  Route::post('/message/{userId}/event/{eventId}/send', 'MessageController@sendEventMessageAsEvent')->middleware('auth');
+
 /*********************** END OF CHAT *********************/
 

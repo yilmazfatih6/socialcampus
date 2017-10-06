@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use Auth;
 use App\User;
 use App\Club;
+use App\Page;
+use App\Event;
 use App\Message;
 use App\Events\MessageSent;
 use App\Events\ClubMessageSent;
+use App\Events\EventMessageSent;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\AbstractPaginator;
 
@@ -146,5 +149,68 @@ class MessageController extends Controller
         return ['status' => 'Message sent!'];
     }
 
+    // Event chat page
+    public function eventChat($userId, $eventId) {
+        $user = User::find($userId);
+        $event = Event::find($eventId);
+
+        return view('chat.event')->with('user', $user)
+                                 ->with('event', $event);
+    }
+
+    // Load Event Messages 
+    public function loadEventMessages($userId, $eventId) {
+        // Check if authenticated
+        if (!Auth::check()) {
+            return ['status' => 'Failed!'];
+        }
+
+        // Return messages
+        return Message::where('event_id', $eventId)
+                      ->orWhere('sender_id', $userId)
+                      ->orWhere('receiver_id', $userId)
+                      ->get();
+    }
+
+    public function sendEventMessageAsUser($userId, $eventId) {
+        // Find Event 
+        $user = User::find(request()->get('sender_id'));
+
+        if (Auth::user()->id !== request()->get('sender_id')) {
+            return ['status', 'Something went wrong!'];
+        }
+
+        // Persist message to DB
+        $message = $user->sentMessages()->create([
+            'message' => request()->get('message'),
+            'sender_id' => request()->get('sender_id'),
+            //'receiver_id' => 0
+         ]);
+
+        $message->event_id = request()->get('event_id');
+        $message->save();
+
+        broadcast(new EventMessageSent($user, $message))->toOthers();
+
+        return ['status' => 'Message sent!'];
+    }
+
+    public function sendEventMessageAsEvent($userId, $eventId) {
+        $event = Event::find(request()->get('event_id'));
+        $user = Auth::user();
+
+        $message = $event->messages()->create([
+            'message' => request()->get('message'),
+            //  'sender_id' => request()->get('sender_id'),
+            'receiver_id' => request()->get('receiver_id'),
+        ]);        
+
+        $message->sender_name = request()->get('sender_name');
+        $message->save();
+
+        broadcast(new EventMessageSent($user, $message))->toOthers();
+
+        return ['status' => 'Message sent!'];
+    }
 
 }
