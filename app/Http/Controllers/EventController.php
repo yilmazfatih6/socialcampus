@@ -306,7 +306,7 @@ class EventController extends Controller
         //Image
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $filename = time().'_event_'.$id.'.'.$image->getClientOriginalExtension();
+            $filename = 'event_'.time().'_'.$id.'.'.$image->getClientOriginalExtension();
             $request->file('image')->storeAs('public/statuses/images', $filename);
             $status->image = $filename;
         }
@@ -314,7 +314,7 @@ class EventController extends Controller
         //Video
         if ($request->hasFile('video')) {
             $video = $request->file('video');
-            $filename = time().'_event_'.$id.'.'.$video->getClientOriginalExtension();
+            $filename = 'event_'.time().'_'.$id.'.'.$video->getClientOriginalExtension();
             $request->file('video')->storeAs('public/statuses/videos', $filename);
             $status->video = $filename;
         }

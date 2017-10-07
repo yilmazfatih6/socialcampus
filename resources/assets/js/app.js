@@ -769,10 +769,12 @@ $(document).ready(function(){
 			success: function(data) {
 				$('#after').after(alertSuccess);
 				$('#alert').text(data['message']);
-				$('#membership-buttons-ul').load('/club/'+data['abbr']+' #membership-buttons-div');
+				$('#membership-buttons').html(data.bio);
+				$('#membership-buttons-xs').html(data.header);
 			},
 		});
 	});
+
 
 	// Quit A Club
 	$('body').on('submit', '#quit-club', function(e) {
@@ -784,7 +786,10 @@ $(document).ready(function(){
 			success: function(data) {
 				$('#after').after(alertDanger);
 				$('#alert').text(data['message']);
-				$('#membership-buttons-ul').load('/club/'+data['abbr']+' #membership-buttons-div');
+				$('#alert').fadeOut('slow');
+				$('#membership-buttons').html(data.bio);
+				$('#membership-buttons-xs').html(data.header);
+				$('#quit').modal('toggle');	
 			},
 		});
 	});

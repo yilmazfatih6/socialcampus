@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use App\Notifications\MemberAcceptance;
+use App\Notifications\MembershipRequest;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Notification;
 
@@ -125,12 +126,14 @@ class ClubController extends Controller
         Auth::user()->addClub($club);
 
         // Send notifications to club admins
-        Notification::send($admins, new MembershipRequest(Auth::user(), $club));
+        Notification::send($admins, new MembershipRequest(Auth::user(), $club));    
 
         if ($request->ajax()) {
             return response()->json(['message' => 'Kulübe katılım isteği gönderildi.',
-                                                'abbr' => $club->abbreviation,
-                                              ]);
+                                     'abbr' => $club->abbreviation,
+                                     'bio' => view('clubs.partials.load.navButtons')->with('club', $club)->render(),
+                                     'header' => view('clubs.partials.load.headerButtons')->with('club', $club)->render(),
+                                    ]);
         }
 
         return redirect()->route('clubs.profile', ['abbreviation' => $club->abbreviation])->with('success', 'İstek gönderildi.');
@@ -144,8 +147,10 @@ class ClubController extends Controller
 
         if ($request->ajax()) {
             return response()->json(['message' => 'Kulüpten ayrıldınız.',
-                                                'abbr' => $club->abbreviation,
-                                                ]);
+                                     'abbr' => $club->abbreviation,
+                                     'bio' => view('clubs.partials.load.navButtons')->with('club', $club)->render(),
+                                     'header' => view('clubs.partials.load.headerButtons')->with('club', $club)->render(),
+                                    ]);
         }
 
         return redirect()->route('clubs.profile', ['abbreviation' => $club->abbreviation])->with('danger', 'Kulüpten Ayrıldın');
@@ -288,7 +293,7 @@ class ClubController extends Controller
           'twitter_url' => $request->input('twitter_url'),
           'insta_url' => $request->input('insta_url'),
         ]);
-        return redirect()->back()->with('success', 'Kulüp bilgileri güncellendi.');
+        return redirect()->action('ClubController@getEdit', ['abbreviation' => $club->abbreviation])->with('success', 'Bilgiler güncellendi.');
     }
 
     /***********************UPLOADING AVATAR TO CLUB**********************/
@@ -300,8 +305,9 @@ class ClubController extends Controller
                 Storage::delete('/public/avatars/'.$club->avatar);
             }
             $avatar = $request->file('avatar');
-            $filename = time().'_'.$club->abbreviation.'.'.$avatar->getClientOriginalExtension();
-            Image::make($avatar)->fit(300, 300)->save(storage_path('/app/public/avatars/'.$filename));
+            $filename = 'club_'.time().'_'.$club->abbreviation.'.'.$avatar->getClientOriginalExtension();
+            // Store file at specific path 
+            $avatar->storeAs('/public/avatars/', $filename);
             $club->avatar = $filename;
             $club->save();
         }
@@ -318,8 +324,9 @@ class ClubController extends Controller
                 Storage::delete('/public/covers/'.$club->cover);
             }
             $cover = $request->file('cover');
-            $filename = time().'_'.$club->abbreviation.'.'.$cover->getClientOriginalExtension();
-            Image::make($cover)->fit(1366, 480)->save(storage_path('/app/public/covers/'.$filename));
+            $filename = 'club_'.time().'_'.$club->abbreviation.'.'.$cover->getClientOriginalExtension();
+            // Store file at specific path 
+            $cover->storeAs('/public/covers/', $filename);
             $club->cover = $filename;
             $club->save();
         }

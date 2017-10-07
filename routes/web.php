@@ -195,6 +195,13 @@
   Route::post('page/{abbr}/post', 'PageController@postStatus')->middleware('auth');
   Route::post('/page/{abbr}/follow', 'PageController@followPage')->middleware('auth');
   Route::post('/page/{abbr}/unfollow', 'PageController@unfollowPage')->middleware('auth');
+  // Upload Avatar & Cover
+  Route::post('/page/{abbr}/upload/avatar', 'PageController@uploadAvatar')->middleware('auth');
+  Route::post('/page/{abbr}/upload/cover', 'PageController@uploadCover')->middleware('auth');
+  // Edit Page Info
+  Route::get('/page/{abbr}/edit', 'PageController@getEdit')->middleware('auth');
+  Route::post('/page/{abbr}/edit', 'PageController@postEdit')->middleware('auth');
+
 /***********************END OF PAGES*********************/
 
 /***********************NOTIFICATIONS*********************/

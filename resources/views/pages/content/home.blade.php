@@ -2,7 +2,7 @@
 <div class="row">
     <div class="col-lg-6 col-md-offset-3">
         <!--Posting Status-->
-        @if(Auth::user()->isPageAdmin($page))
+        @if(Auth::check() && Auth::user()->isPageAdmin($page))
             @include('pages.header.partials.posting')
         @endif
         <!--Starting of the Page Statuses-->

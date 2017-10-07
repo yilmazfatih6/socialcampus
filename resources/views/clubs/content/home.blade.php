@@ -4,8 +4,8 @@
         <!--Posting Status-->
         <div class="row">
             <div class="col-lg-6 col-lg-offset-3">
-		@include('clubs.header.partials.posting')
-		<br>
+    		@include('clubs.header.partials.posting')
+    		<br>
         	</div>
         </div>
     @endif
@@ -13,9 +13,9 @@
 
 <!--Statuses-->
 <div class="row">
+    <h3 class="text-center">Kulüp İçi Paylaşımlar</h3><hr>
     <div class="col-lg-6 col-lg-offset-3">
         <!--Starting of the Club Statuses-->
-        <h3><b>Kulüp İçi Paylaşımlar</b></h3>
         <section class="results">
             @include('statuses.load')
         </section>

@@ -7,7 +7,9 @@
 @endsection
 
 @section('content')
-
+	<!--Include pages-->
+	@include('pages.partials.modals')
+	
 	<!--Content of the Profile-->
 	<ul class="nav nav-pills nav-justified tabs-nav" id="tabs">
 		<li class="active">
@@ -19,6 +21,11 @@
 		<li>
 			<a data-toggle="pill" href="#about">Hakkında</a>
 		</li>
+		@if(Auth::check() && Auth::user()->isPageAdmin($page))
+			<li>
+				<a data-toggle="pill" href="#admin">Yönetim</a>
+			</li>
+		@endif
 	</ul>
 	<div class="tab-content">
 			<div id="home" class="tab-pane fade in active">
@@ -30,6 +37,11 @@
 			<div id="about" class="tab-pane fade">
 				@include('pages.content.about')
 			</div>
+			@if(Auth::check() && Auth::user()->isPageAdmin($page))
+			<div id="admin" class="tab-pane fade">
+				@include('pages.content.admin')
+			</div>
+		@endif
 	</div>
 
 @endsection

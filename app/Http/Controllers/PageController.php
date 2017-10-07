@@ -62,10 +62,7 @@ class PageController extends Controller
     {
         $this->validate($request, [
           'name' => 'required|max:200',
-          'abbr' => 'required|unique:pages|alpha_dash|max:50',
-          'genre' => 'required',
-          'password' => 'required|min:6|confirmed',
-          'password_confirmation' => 'required|min:6',
+          'abbr' => 'required|unique:pages|alpha_dash|max:50'
         ]);
 
         Auth::user()->pages()->create([
@@ -76,7 +73,6 @@ class PageController extends Controller
           'fb_url' => $request->input('fb_url'),
           'twitter_url' => $request->input('twitter_url'),
           'insta_url' => $request->input('insta_url'),
-          'password' => bcrypt($request->input('password')),
         ]);
 
         $page = Page::where('abbr', $request->input('abbr'))->first();
@@ -87,7 +83,7 @@ class PageController extends Controller
         return redirect()->action('PageController@getProfile', ['abbr'=>$request->input('abbr')])->with('Yepyeni sayfanız oluşturuldu.');
     }
 
-    /***********************POSTING A STATUS ON A CLUB**********************/
+    /***********************POSTING A STATUS ON A PAGE**********************/
     public function postStatus(Request $request, $abbr)
     {
         $this->validate($request, [
@@ -114,8 +110,7 @@ class PageController extends Controller
         //Posting Image
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $filename =
-            time().'_'.Auth::user()->username.'_'.$page->abbr.'.'.$image->getClientOriginalExtension();
+            $filename = 'event_'.time().'_'.Auth::user()->username.'_'.$page->abbr.'.'.$image->getClientOriginalExtension();
             $request->file('image')->storeAs('/public/statuses/images/', $filename);
             $status->image = $filename;
             $status->save();
@@ -124,8 +119,7 @@ class PageController extends Controller
         //Posting Video
         if ($request->hasFile('video')) {
             $video = $request->file('video');
-            $filename =
-            time().'_'.Auth::user()->username.'_'.$page->abbr.'.'.$video->getClientOriginalExtension();
+            $filename = 'event_'.time().'_'.Auth::user()->username.'_'.$page->abbr.'.'.$video->getClientOriginalExtension();
             $request->file('video')->storeAs('/public/statuses/videos/', $filename);
             $status = Auth::user()->statuses()->orderBy('created_at', 'desc')->first();
             $status->video = $filename;
@@ -163,5 +157,76 @@ class PageController extends Controller
         }
 
         return redirect()->back()->with('Bu sayfayı takip etmeyi bıraktın.');
+    }
+
+    /***********************UPLOADING AVATAR TO PAGE**********************/
+    public function uploadAvatar(Request $request, $abbr)
+    {
+        if ($request->hasFile('avatar')) {
+            $page = Page::where('abbr', $abbr)->first();
+            if ($page->avatar !== 'default.png') {
+                Storage::delete('/public/avatars/'.$page->avatar);
+            }
+            $avatar = $request->file('avatar');
+            $filename = 'page_'.time().'_'.$page->abbr.'.'.$avatar->getClientOriginalExtension();
+            // Store file at specific path 
+            $avatar->storeAs('/public/avatars/', $filename);
+            $page->avatar = $filename;
+            $page->save();
+        }
+        return redirect()->back()->with('success', 'Sayfa profil fotoğrafı başarılı bir şekilde değiştirildi.')
+                                 ->withInput(['tab'=>'admin']);
+    }
+
+    /***********************UPLOADING COVER TO PAGE**********************/
+    public function uploadCover(Request $request, $abbr)
+    {
+        $page = Page::where('abbr', $abbr)->first();
+        if ($request->hasFile('cover')) {
+            if ($page->cover !== 'default.jpg') {
+                Storage::delete('/public/covers/'.$page->cover);
+            }
+            $cover = $request->file('cover');
+            $filename = 'page_'.time().'_'.$page->abbr.'.'.$cover->getClientOriginalExtension();
+            // Store file at specific path 
+            $cover->storeAs('/public/covers/', $filename);
+            $page->cover = $filename;
+            $page->save();
+        }
+        return redirect()->back()->with('success', 'Sayfa kapak fotoğrafı başarılı bir şekilde değiştirildi.')
+                                 ->withInput(['tab'=>'admin']);
+    }
+
+    /***********************EDITING PAGE INFORMATIONS***********************/
+    public function getEdit($abbr)
+    {
+        $page = Page::where('abbr', $abbr)->first();
+        return view('pages.edit')->with('page', $page);
+    }
+
+    public function postEdit(Request $request, $abbr)
+    {
+        $page = Page::where('abbr', $abbr)->first();
+
+        $this->validate($request, [
+          'name' => 'required|max:200',//array isimleri formlardaki name değerleri ile eşleşmelidir.
+          'abbr' => ['required', Rule::unique('pages')->ignore($page->id), 'alpha_dash', 'max:50'],
+        ]);
+
+        if (!Auth::user()->isPageAdmin($page)) {
+            return redirect()->back()->with('danger', 'Yetkisiz girişim.');
+        }
+
+        $page->update([
+          'name' => $request->input('name'),
+          'abbr' => $request->input('abbr'),
+          'description' => $request->input('description'),
+          'genre' => $request->input('genre'),
+          'fb_url' => $request->input('fb_url'),
+          'twitter_url' => $request->input('twitter_url'),
+          'insta_url' => $request->input('insta_url'),
+        ]);
+
+        return redirect()->action('PageController@getEdit', ['abbr' => $page->abbr])->with('success', 'Bilgiler güncellendi.');;
     }
 }

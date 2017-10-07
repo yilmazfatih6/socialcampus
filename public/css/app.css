@@ -8606,6 +8606,10 @@ main purple: #6626af;
   color: #fff;
 }
 
+.padding-remover {
+  padding: 0px !important;
+}
+
 /************************ NAVIGATION **************************/
 
 /*Navbar Snowflake Icon*/

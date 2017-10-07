@@ -1,8 +1,6 @@
 <div class="row">
+	<h3 class="text-center">Kulüp Açıklaması</h3><hr>
 	<div class="col-lg-12">
-	  	<div class="container-fluid">
-	    		<h2>Kulüp Açıklaması</h2>
-        			<p style="overflow: hidden; white-space: pre-wrap; word-wrap: break-word;">{{$club->description}}</p>
-		</div>
+		<p class="textarea">{{$club->description}}</p>
 	</div>
 </div>

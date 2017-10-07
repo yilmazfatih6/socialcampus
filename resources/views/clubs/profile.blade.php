@@ -4,7 +4,6 @@
 @endsection
 @section('content')
 	<!--All Club Modals-->
-
 	@include('clubs.partials.modals')
 	<!--Content of the Profile-->
 	<ul class="nav nav-pills nav-justified tabs-nav" id="tabs">

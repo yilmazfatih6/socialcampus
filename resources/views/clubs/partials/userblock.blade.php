@@ -5,7 +5,7 @@
         </a>
     </div>
     <div class="media-body">
-        <h4 class="media-heading"><a href="/user/{{$user->username}}">{{ $user->getNameOrUsername() }}</a></h4>
+        <h4 class="media-heading"><a class="link-header" href="/user/{{$user->username}}">{{ $user->getNameOrUsername() }}</a></h4>
         <span class="text-muted"><span>@</span>{{ $user->username }}</span><br>
       
         <!--Kick User-->

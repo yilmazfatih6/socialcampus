@@ -54,35 +54,24 @@
 
                     @endif
                 </ul>
+                
 
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="/chat/{{Auth::user()->id}}/club/{{$club->id}}"><i class="fa fa-envelope" aria-hidden="true"></i>
-                            Yöneticiye Mesaj At
-                        </a>
-                    </li>
-                </ul>
+                @if(Auth::check() && !Auth::user()->isAdmin($club))
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="/chat/{{Auth::user()->id}}/club/{{$club->id}}"><i class="fa fa-envelope" aria-hidden="true"></i>
+                                Yöneticiye Mesaj At
+                            </a>
+                        </li>
+                    </ul>
+                @endif
 
                 <!-- Membership Buttons Hidden on XS devices XS device button located in header.blade.php-->
-                <ul id="membership-buttons-ul" class="nav navbar-nav navbar-right hidden-xs">
-                    @if(Auth::user())
-                        <div id="membership-buttons-div inline" class="col-lg-12">
-                            @if(Auth::user()->isMember($club))
-                                <a data-toggle="modal" data-target="#quit" class="btn btn-danger" style="margin-top:7px;">
-                                Üyelikten Çık
-                                </a>
-                            <!--Modal is in view('clubs.profile')-->
-                            @elseif(Auth::user()->isRequestedClub($club))
-                                <button class="btn btn-warning navbar-btn">Onay Beklemede</button>
-                            @else
-                                <form id="join-club" class="inline" action="/club/add/{{$club->abbreviation}}" method="post">
-                                    <button class="btn btn-success navbar-btn">Katılım İsteği Gönder</button>
-                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                </form>
-                            @endif
-                        </div>
-                    @endif
-                </ul>
+                @if(Auth::check())
+                    <ul id="membership-buttons" class="nav navbar-nav navbar-right hidden-xs">
+                        @include('clubs.partials.load.navButtons')
+                    </ul>
+                @endif
                 <!-- / Membership Buttons -->
 
 

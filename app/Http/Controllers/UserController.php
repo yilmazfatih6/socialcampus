@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Auth;
-use Image;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -107,8 +106,10 @@ class UserController extends Controller
             }
 
             $avatar = $request->file('avatar');
-            $filename = time().'_'.$user->username.'.'.$avatar->getClientOriginalExtension();
-            Image::make($avatar)->fit(300, 300)->save(storage_path('/app/public/avatars/'.$filename));
+            // Give a specific name
+            $filename = 'user_'.time().'_'.$user->username.'.'.$avatar->getClientOriginalExtension();
+            // Store file at specific path 
+            $avatar->storeAs('/public/avatars/', $filename);
             $user->avatar = $filename;
             $user->save();
             if ($request->ajax()) {
@@ -134,8 +135,8 @@ class UserController extends Controller
                 Storage::delete('/public/covers/'.$user->cover);
             }
             $cover = $request->file('cover');
-            $filename = time().'_'.$user->username.'.'.$cover->getClientOriginalExtension();
-            Image::make($cover)->fit(1366, 480)->save(storage_path('/app/public/covers/'.$filename));
+            $filename = 'user_'.time().'_'.$user->username.'.'.$cover->getClientOriginalExtension();
+            $cover->storeAs('/public/covers/', $filename);
             $user->cover = $filename;
             $user->save();
         }
