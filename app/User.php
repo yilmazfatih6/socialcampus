@@ -132,6 +132,11 @@ class User extends Authenticatable
                                      ->where('admin', true)->count();
     }
 
+    public function isEventAdminAny()
+    {
+        return (bool) $this->events()->where('admin', true)->count();
+    }
+
     public function waitingToBeConfirmed(Event $event)
     {
         return (bool) $this->events()->where('event_id', $event->id)
@@ -149,6 +154,10 @@ class User extends Authenticatable
         return (bool) $this->events()->where('user_id', $user_id)
                                      ->where('event_id', $event->id)
                                      ->where('confirmed', null)->count();
+    }
+
+    public function ownedEvents() {
+        return $this->events()->where('admin', true)->get();
     }
 
     /************************   END OF EVENTS   *********************************/
@@ -216,6 +225,10 @@ class User extends Authenticatable
     public function isRequestedAnyClub()
     {
         return (bool) $this->requestedClubs()->count();
+    }
+
+    public function ownedClubs() {
+        return $this->clubs()->where('admin', true)->get();
     }
 
     /*************************  END OF CLUBS  *****************************/
@@ -345,6 +358,10 @@ class User extends Authenticatable
         return (bool) $this->pages()->where('user_id', Auth::user()->id)
                                     ->where('admin', false)->count();
     }
+
+    public function ownedPages() {
+        return $this->pages()->where('admin', true)->get();
+    }
     /*********************     END OF PAGES     ************************/
 
     /*********************    LORD     ************************/
@@ -374,13 +391,18 @@ class User extends Authenticatable
         return $this->hasMany('App\Message', 'sender_id');
     }
 
+    // Personal messages
     public function messages()
     {
-        return Message::where('sender_id', Auth::user()->id)->orWhere('receiver_id', Auth::user()->id)->get();
+        return Message::where('club_id', null)
+                      ->where('event_id', null)
+                      ->where('page_id', null)
+                      ->where('sender_id', Auth::user()->id)
+                      ->orWhere('receiver_id', Auth::user()->id)->get();
     }
 
     /**
-    * Gets lastly chatted users (Ugly code that's for sure :/)
+    * Gets lastly chatted users (Ugly code af :/)
     */
     public function conversations()
     {
@@ -432,6 +454,148 @@ class User extends Authenticatable
 
         $users = User::whereIn('id', $usersId)->get();
         return $users;
+    }
+
+    /**
+    *   CLUB CONVERSATIONS
+    */
+    public function clubConversations() {
+        // Getting ids of owned club
+        if ($this->ownedClubs()) {
+            $ids = $this->ownedClubs()->map(function ($club) {
+                return collect($club->toArray())->only('id')->all();
+            });
+        } else {
+            $ids = 0;
+        }
+        
+        // Get club messages
+        $messages = Message::whereIn('club_id', $ids)
+                           ->orWhere('sender_id', $this->id)
+                           ->orWhere('receiver_id', $this->id)
+                           ->get();
+
+        //Below section creates and array which holds club id values of the user's messages
+        // Values are held as unique. Therefore there are not any same club id value in the array.
+        if (count($messages)) {
+            // Get club ids of club messages
+            $messageClubIds = null; // This will be array which holds club ids of messages
+            $index = 0; // index value for foreach
+            foreach ($messages as $message) {
+                $same = false; // checking 
+                if (isset($messageClubIds)) {
+                    foreach ($messageClubIds as $id) {
+                        if ($message->club_id == $id) {
+                            $same = true;
+                            break;
+                        }
+                    }
+                }
+                if (!$same) {
+                    $messageClubIds[$index] = $message->club_id;
+                }
+                $index++;
+            }
+        } else {
+            return null;
+        }
+        return Club::whereIn('id', $messageClubIds)->get();
+    }
+
+    /**
+    *   EVENT CONVERSATIONS
+    */
+    public function eventConversations() {
+        // Getting ids of owned event
+        if ($this->ownedEvents()) {
+            $ids = $this->ownedEvents()->map(function ($event) {
+                return collect($event->toArray())->only('id')->all();
+            });
+        } else {
+            $ids = 0;
+        }
+        
+        // Get club messages
+        $messages = Message::whereIn('event_id', $ids)
+                           ->where('club_id', null)
+                           ->where('page_id', null)
+                           ->orWhere('sender_id', $this->id)
+                           ->orWhere('receiver_id', $this->id)
+                           ->get();
+
+        //Below section creates and array which holds event id values of the user's messages
+        // Values are held as unique. Therefore there are not any same event id value in the array.
+        if (count($messages)) {
+            // Get event ids of event messages
+            $messageEventIds = null; // This will be array which holds event ids of messages
+            $index = 0; // index value for foreach
+            foreach ($messages as $message) {
+                $same = false; // checking 
+                if (isset($messageEventIds)) {
+                    foreach ($messageEventIds as $id) {
+                        if ($message->event_id == $id) {
+                            $same = true;
+                            break;
+                        }
+                    }
+                }
+                if (!$same) {
+                    $messageEventIds[$index] = $message->event_id;
+                }
+                $index++;
+            }
+        } else {
+            return null;
+        }
+        return Event::whereIn('id', $messageEventIds)->get();
+    }
+
+    /**
+    *   PAGE CONVERSATIONS
+    */
+    public function pageConversations() {
+        // Getting ids of owned event
+        if ($this->ownedPages()) {
+            $ids = $this->ownedPages()->map(function ($page) {
+                return collect($page->toArray())->only('id')->all();
+            });
+        } else {
+            $ids = 0;
+        }
+        
+        // Get club messages
+        $messages = Message::whereIn('page_id', $ids)
+                           ->where('club_id', null)
+                           ->where('event_id', null)
+                           ->orWhere('sender_id', $this->id)
+                           ->orWhere('receiver_id', $this->id)
+                           ->get();
+
+        //Below section creates and array which holds page id values of the user's messages
+        // Values are held as unique. Therefore there are not any same page id value in the array.
+        if (count($messages)) {
+            // Get page ids of page messages
+            $messagePageIds = null; // This will be array which holds page ids of messages
+            $index = 0; // index value for foreach
+            foreach ($messages as $message) {
+                $same = false; // checking 
+                if (isset($messagePageIds)) {
+                    foreach ($messagePageIds as $id) {
+                        if ($message->page_id == $id) {
+                            $same = true;
+                            break;
+                        }
+                    }
+                }
+                if (!$same) {
+                    $messagePageIds[$index] = $message->page_id;
+                }
+                $index++;
+            }
+        } else {
+            return null;
+        }
+        return Page::whereIn('id', $messagePageIds)->get();
     }
 
     /*********************     END OF MESSAGES     ************************/

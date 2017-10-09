@@ -1,6 +1,6 @@
-@if(count($myClubs))
-	@foreach($myClubs as $event)
-		<div class="col-lg-3 col-md-4 col-sm-6">
+@if(count($joinedClubsEvents))
+	@foreach($joinedClubsEvents as $event)
+		<div class="col-lg-3 col-md-4 col-sm-6 event-thumbnail-{{$event->id}}">
 			@include('events.partials.blocks.eventblock')
 		</div>
 	@endforeach

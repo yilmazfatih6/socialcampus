@@ -141,7 +141,9 @@ class PageController extends Controller
         Notification::send($admins, new FollowRequest(Auth::user(), $page));
 
         if ($request->ajax()) {
-            return response()->json([ 'message' => 'Sayfa takip edildi.' ]);
+            return response()->json(['message' => 'Sayfa takip edildi.',
+                                     'bio' => view('pages.header.partials.bio')->with('page', $page)->render(),
+                                    ]);
         }
 
         return redirect()->back()->with('Başarılı bir şekilde takip edildi.');
@@ -153,7 +155,9 @@ class PageController extends Controller
         Auth::user()->unfollowPage($page);
 
         if ($request->ajax()) {
-            return response()->json([ 'message' => 'Sayfayı takip etmeyi bıraktın.' ]);
+            return response()->json(['message' => 'Sayfayı takip etmeyi bıraktın.',
+                                     'bio' => view('pages.header.partials.bio')->with('page', $page)->render(),
+                                    ]);
         }
 
         return redirect()->back()->with('Bu sayfayı takip etmeyi bıraktın.');

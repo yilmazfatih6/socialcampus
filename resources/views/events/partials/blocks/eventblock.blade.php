@@ -16,15 +16,15 @@
 			@else
 				<p><b>Ücretsiz</b></p>
 			@endif
-			<div id="aw-{{$event->id}}">
-				<p id="attenders-{{$event->id}}">
+			<div>
+				<p>
 					<b><i class="fa fa-users" aria-hidden="true"></i></b>
 					{{($event->attenders)}}
 				</p>
 			</div>
 		@if( Auth::check() && Auth::user()->canAttend($event) )
-		<div class="row" id="bw-{{$event->id}}">
-			<div class="container-fluid" id="buttons-{{$event->id}}">
+		<div class="row">
+			<div class="container-fluid">
 				@if(Auth::user()->isConfirmed($event))
 				<form action="/event/{{$event->id}}/quit" method="post" class="inline" id="quit-event-quick" data-id="{{$event->id}}">
 					<div class="form-group inline">

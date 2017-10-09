@@ -20,7 +20,9 @@
         <title>Medeniyet Sosyal</title>
     </head>
     <body>
-        @include('templates.partials.navigation')
+        <div class="navigation">
+            @include('templates.partials.navigation')
+        </div>
         @include('templates.partials.modals')
         <div class="container-fluid">
             @yield('header')

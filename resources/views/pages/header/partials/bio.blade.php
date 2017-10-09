@@ -63,12 +63,12 @@
                 <ul class="nav navbar-nav navbar-right">
 	            	<div class="col-lg-12">
 						@if(Auth::user()->isFollowingPage($page))
-				    		<form action="/page/{{$page->abbr}}/unfollow" method="post" style="display: inline;">
+				    		<form id="follow-page" class="inline" action="/page/{{$page->abbr}}/unfollow" method="post">
 	                            <button class="btn btn-danger navbar-btn">Takibi Bırak</button>
 	                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
 	                        </form>
 						@else
-							<form action="/page/{{$page->abbr}}/follow" method="post" style="display: inline;">
+							<form id="unfollow-page" class="inline" action="/page/{{$page->abbr}}/follow" method="post">
 	                            <button class="btn btn-success navbar-btn">Takip Et</button>
 	                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
 	                        </form>

@@ -42,10 +42,10 @@ class ClubController extends Controller
                 $otherClubs->withPath('/other_clubs');
 
                 return view('clubs.index')->with('clubs', $clubs)
-                                                    ->with('ownedClubs', $ownedClubs)
-                                                    ->with('requestedClubs', $requestedClubs)
-                                                    ->with('joinedClubs', $joinedClubs)
-                                                    ->with('otherClubs', $otherClubs);
+                                            ->with('ownedClubs', $ownedClubs)
+                                            ->with('requestedClubs', $requestedClubs)
+                                            ->with('joinedClubs', $joinedClubs)
+                                            ->with('otherClubs', $otherClubs);
             }
         }
         return view('clubs.index')->with('clubs', $clubs);

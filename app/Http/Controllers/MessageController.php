@@ -27,9 +27,33 @@ class MessageController extends Controller
             $users = null; //If not exists match users to null
         }
 
-        $friends = Auth::user()->friends();
+        // Get club conversation if exists
+        if (Auth::user()->clubConversations()) {
+            $clubs = Auth::user()->clubConversations();
+        } else {
+            $clubs = null; //If not exists match users to null
+        }
 
+        // Get event conversation if exists
+        if (Auth::user()->eventConversations()) {
+            $events = Auth::user()->eventConversations();
+        } else {
+            $events = null; //If not exists match users to null
+        }
+
+        // Get page conversation if exists
+        if (Auth::user()->pageConversations()) {
+            $pages = Auth::user()->pageConversations();
+        } else {
+            $pages = null; //If not exists match users to null
+        }
+
+        $friends = Auth::user()->friends();
+        
         return view('chat.index')->with('users', $users)
+                                 ->with('clubs', $clubs)
+                                 ->with('events', $events)
+                                 ->with('pages', $pages)
                                  ->with('friends', $friends);
     }
 

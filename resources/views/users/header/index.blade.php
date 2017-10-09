@@ -27,5 +27,7 @@
 <!-- / Header-->
 
 <!--Bio Nav Bar-->
-@include('users.header.partials.bio')
+<div class="user-bio">
+    @include('users.header.partials.bio')
+</div>
 <!--/ Bio Nav Bar-->

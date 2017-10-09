@@ -73,6 +73,10 @@ class Club extends Model
         return $this->hasMany('App\Event', 'club_id');
     }
 
+    public function hasEventsAny() {
+        return $this->events()->count();
+    }
+
     public function confirm()
     {
         return $this->update(['confirmed' => true]);

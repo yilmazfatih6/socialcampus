@@ -22,54 +22,84 @@ class EventController extends Controller
     public function index()
     {
         $events = Event::orderBy('attenders', 'desc')->get();
-        if (Auth::check()) {
-            $clubAdmin = Auth::user()->clubs()->where('admin', true)->get();
+        $ownedClubs = null; // Clubs with Admin privileges
+        $ownedEvents = null; // Events with Admin privileges
+        $joinedClubsEvents = null; // Events of Clubs which user is member of 
+        $attendedEvents = null; // Attended events which user doesn't have admin privileges
+        $otherEvents = null; // Events of Clubs which user is not member of 
 
-            /*If User Attending Any Event*/
-            if (Auth::user()->isAttendingAny() || Auth::user()->isMemberAny()) {
-                $attendedEvents = Auth::user()->events()->where('confirmed', true)->where('admin', false)->get();
-                $myEvents = Auth::user()->events()->where('admin', true)->get();
-                /*Retrieving Joined Club's Events*/
-                $ids;
-                $i = 0;
-                foreach (Auth::user()->clubs()->get() as $club) {
-                    $ids[$i] = $club->id;
-                    $i++;
-                }
-                $myClubs = Event::whereIn('club_id', $ids)->get();
+        // Getting Clubs with admin privileges 
+        if(Auth::check() && Auth::user()->isAdminAny()) {
+            $ownedClubs = Auth::user()->clubs()->where('admin', true)->get();
+        }
 
-                /*Retrieving Other Events*/
-                $ids2;
-                $j = 0;
-                foreach ($attendedEvents as $event) {
-                    $ids2[$j] = $event->id;
-                    $j++;
+        // Getting Events with admin privileges 
+        if(Auth::check() && Auth::user()->isEventAdminAny()) {
+            $ownedEvents = Auth::user()->events()->where('admin', true)->get();
+        }
+
+        // Attended Events
+        if (Auth::user()->isAttendingAny()) {
+            $attendedEvents = Auth::user()->events()->where('confirmed', true)->where('admin', false)->get();
+        }
+
+        /*If User Is Member to any Club*/
+        if (Auth::user()->isMemberAny()) {
+
+            // Collecting club ids of user's joined clubs
+            $joinedClubs = Auth::user()->clubs()->get();
+            $joinedClubsIds = $joinedClubs->map(function ($club) {
+                return collect($club->toArray())->only('id')->all();
+            });
+
+            // Checking if users joined clubs has any events
+            $hasJoinedClubHasAnyEvent = false;
+            foreach ($joinedClubs as $club) {
+                if ($club->hasEventsAny()) {
+                    $hasJoinedClubHasAnyEvent = true;
                 }
-                foreach ($myEvents as $event) {
-                    $ids2[$j] = $event->id;
-                    $j++;
-                }
-                foreach ($myClubs as $event) {
-                    $ids2[$j] = $event->id;
-                    $j++;
-                }
-                $otherEvents = Event::whereNotIn('id', $ids2)->get();
-                return view('events.index')->with('events', $events)
-                                           ->with('clubAdmin', $clubAdmin)
-                                           ->with('myEvents', $myEvents)
-                                           ->with('myClubs', $myClubs)
-                                           ->with('otherEvents', $otherEvents)
-                                           ->with('attendedEvents', $attendedEvents);
             }
 
-            return view('events.index')->with('events', $events)
-                                       ->with('clubAdmin', $clubAdmin);
-        } else {
-            return view('events.index')->with('events', $events);
+            // Getting events of user's joined events if exists
+            if($hasJoinedClubHasAnyEvent) {
+                $joinedClubsEvents = Event::whereIn('club_id', $joinedClubsIds)->get();
+            }
+
+            if ($attendedEvents || $ownedEvents || $joinedClubsEvents) {
+                /*Retrieving Other Events*/
+                $ids2 = null;
+                $j = 0;
+                if($attendedEvents) {
+                    foreach ($attendedEvents as $event) {
+                        $ids2[$j] = $event->id;
+                        $j++;
+                    }
+                }
+                if($ownedEvents) {
+                    foreach ($ownedEvents as $event) {
+                        $ids2[$j] = $event->id;
+                        $j++;
+                    }
+                }
+                if($joinedClubsEvents) {
+                    foreach ($joinedClubsEvents as $event) {
+                        $ids2[$j] = $event->id;
+                        $j++;
+                    }
+                }
+                $otherEvents = Event::whereNotIn('id', $ids2)->get();
+            }
         }
+
+        return view('events.index')->with('events', $events)
+                                   ->with('ownedClubs', $ownedClubs)
+                                   ->with('ownedEvents', $ownedEvents)
+                                   ->with('joinedClubsEvents', $joinedClubsEvents)
+                                   ->with('attendedEvents', $attendedEvents)
+                                   ->with('otherEvents', $otherEvents);
     }
 
-    //Getting Create Event Form Page
+    /*****************CREATE EVENT PAGE******************/
     public function getCreate($abbreviation)
     {
         $club = Club::where('abbreviation', $abbreviation)->first();
@@ -80,7 +110,7 @@ class EventController extends Controller
         return view('events.create')->with('club', $club);
     }
 
-    //Createing Event
+    /*****************PERSIST EVENT TO DB******************/
     public function postCreate(Request $request, $abbreviation)
     {
         $this->validate($request, [
@@ -170,11 +200,17 @@ class EventController extends Controller
         if ($event->price===null || $event->price===0) {
             $event->confirm(Auth::user());
             $event->save();
-            return response()->json(['message' => 'Etkinliğe katıldınız.',]);
+            return response()->json(['message' => 'Etkinliğe katıldınız.',
+                                     'thumbnail' => view('events.partials.blocks.eventblock')->with('event', $event)->render(),
+                                     'info' => view('events.partials.info')->with('event', $event)->render(),
+                                    ]);
         }
 
         // If attend is NOT free return this
-        return response()->json(['message' => 'Katılım isteği gönderildi. Lütfen ödeme için etkinlik sahibi ile görüşün.']);
+        return response()->json(['message' => 'Katılım isteği gönderildi. Lütfen ödeme için etkinlik sahibi ile görüşün.',
+                                 'thumbnail' => view('events.partials.blocks.eventblock')->with('event', $event)->render(),
+                                 'info' => view('events.partials.info')->with('event', $event)->render(),
+                                ]);
     }
 
     public function quitEvent($id)
@@ -184,6 +220,8 @@ class EventController extends Controller
         $event->attenders--;
         $event->save();
         return response()->json(['message' => 'Etkinlikten çıkış yapıldı.',
+                                 'thumbnail' => view('events.partials.blocks.eventblock')->with('event', $event)->render(),
+                                 'info' => view('events.partials.info')->with('event', $event)->render(),
                                 ]);
     }
 
@@ -196,8 +234,8 @@ class EventController extends Controller
         $event->save();
 
         return response()->json(['message' => 'Kullanıcı etkinlikten çıkartıldı.',
-                                            'event_id' => $event->id,
-                                          ]);
+                                 'event_id' => $event->id,
+                                ]);
     }
 
     public function makeAdmin($eventId, $userId)
@@ -207,8 +245,8 @@ class EventController extends Controller
         $event->makeAdmin($user);
 
         return response()->json(['message' => 'Kullanıcıya organizatör yetkileri verildi.',
-                                            'event_id' => $event->id,
-                                           ]);
+                                 'event_id' => $event->id,
+                                ]);
     }
 
     //Getting Event Home Page

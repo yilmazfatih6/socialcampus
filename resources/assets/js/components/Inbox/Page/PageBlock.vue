@@ -1,11 +1,11 @@
 <template>
-	<a :href="href+user.id">
+	<a :href="'/chat/'+user.id+'/page/'+page.id">
 		<div class="media">
 			<div class="media-left">
-				<img :src="src+user.avatar"/>
+				<img :src="src+page.avatar"/>
 			</div>
 			<div class="media-body">
-				<span>{{user.first_name}} {{user.last_name}}</span>
+				<span>{{page.name}}</span>
 			</div>
 		</div>
 	</a>
@@ -13,10 +13,9 @@
 
 <script>
 	export default {
-		 props: ['user'],
+		 props: ['page', 'user'],
 		 data() {
             return {
-                href: '/chat/personal/',
                 src: '/storage/avatars/'
             }
         },

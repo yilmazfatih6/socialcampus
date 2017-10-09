@@ -9,4 +9,6 @@
 	</div>
 </div>
 
-@include('pages.header.partials.bio')
+<div class="page-bio">
+	@include('pages.header.partials.bio')
+</div>

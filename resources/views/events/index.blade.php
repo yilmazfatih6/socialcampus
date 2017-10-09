@@ -1,5 +1,6 @@
 @extends('templates.default')
 @section('content')
+	@include('events.partials.modals')
 	<!--Header & Create Button-->
 	<div class="row">
 		<div class="col-lg-12 text-center">
@@ -17,39 +18,39 @@
 	<!-- / Header & Create Button-->
 	<hr>
 	<!-- Event Panels  -->
-	@if( isset($myEvents) || isset($myClubs) || isset($attendedEvents) )
-		@if( count($myEvents) || count($myClubs) || count($attendedEvents) )
+	@if( isset($ownedEvents) || isset($joinedClubsEvents) || isset($attendedEvents) )
+		@if( count($ownedEvents) || count($joinedClubsEvents) || count($attendedEvents) )
 		<div class="row">
 			<div class="container-fluid">
 				<ul class="nav nav-pills nav-justified tabs-nav" id="tabs">
-					@if( count($myEvents) )
-					<li>
-						<a href="#myEvents">Etkinliklerim</a>
-					</li>
+					@if( count($ownedEvents) )
+						<li>
+							<a href="#ownedEvents">Etkinliklerim</a>
+						</li>
 					@endif
 					@if( count($attendedEvents) )
-					<li>
-						<a href="#attended">Katıldıklarım</a>
-					</li>
+						<li>
+							<a href="#attended">Katıldıklarım</a>
+						</li>
 					@endif
-					@if( count($myClubs) )
-					<li class="active">
-						<a href="#myClubs">Kulüplerim</a>
-					</li>
-					<li>
-						<a href="#others">Diğer Etkinlikler</a>
-					</li>
+					@if( count($joinedClubsEvents) )
+						<li class="active">
+							<a href="#joinedClubsEvents">Kulüplerim</a>
+						</li>
+						<li>
+							<a href="#others">Diğer Etkinlikler</a>
+						</li>
 					@else
-					<li class="active">
-						<a href="#others">Diğer Etkinlikler</a>
-					</li>
+						<li class="active">
+							<a href="#others">Diğer Etkinlikler</a>
+						</li>
 					@endif
 				</ul>
-			</div><br>
+			</div><br><br>
 			<div class="tab-content">
-				@if( count($myClubs) )
-				<div id="myClubs" class="tab-pane active fade content">
-					@include('events.partials.tabs.myClubsEvents')
+				@if( count($joinedClubsEvents) )
+				<div id="joinedClubsEvents" class="tab-pane active fade content">
+					@include('events.partials.tabs.joinedClubsEvents')
 				</div>
 				<div id="others" class="tab-pane fade content">
 					@include('events.partials.tabs.otherEvents')
@@ -59,8 +60,8 @@
 					@include('events.partials.tabs.otherEvents')
 				</div>
 				@endif
-				<div id="myEvents" class="tab-pane fade content">
-					@include('events.partials.tabs.myEvents')
+				<div id="ownedEvents" class="tab-pane fade content">
+					@include('events.partials.tabs.ownedEvents')
 				</div>
 				<div id="attended" class="tab-pane fade content">
 					@include('events.partials.tabs.attendedEvents')

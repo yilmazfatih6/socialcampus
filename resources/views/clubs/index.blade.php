@@ -67,11 +67,9 @@
 					<div class="col-lg-12">
 						<h4><b>Tüm Kulüpler</b></h4>
 					</div>
-					@foreach($clubs as $club)
-						<div class="col-lg-4 col-md-4" style="margin-bottom:10px;">
-							@include('clubs.partials.clubblock')
-						</div>
-					@endforeach
+					<section class="allClubs">
+						@include('clubs.partials.pagination.clubs')
+					</section>
 				@else
 					<div class="col-lg-12 text-center">
 						<small>Site üzerinde henüz hiçbir kulüp yok.</small>

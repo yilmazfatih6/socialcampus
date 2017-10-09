@@ -16,7 +16,7 @@ class FriendController extends Controller
         $requests= Auth::user()->friendRequests();
 
         return view('friends.index')->with('friends', $friends)
-                                                ->with('requests', $requests);
+                                    ->with('requests', $requests);
     }
 
     public function getAdd(Request $request, $id)
@@ -45,14 +45,15 @@ class FriendController extends Controller
 
         if ($request->ajax()) {
             return response()->json(['message' => 'İstek gönderildi.',
-                                                   'username' => $user->username,
-                                                ]);
+                                     'username' => $user->username,
+                                     'bio' => view('users.header.partials.bio')->with('user', $user)->render(),
+                                    ]);
         }
 
         return redirect()->back()->with('success', 'Arkadaşlık isteği gönderildi.');
     }
 
-    public function getAccept($id)
+    public function getAccept(Request $request, $id)
     {
         $user = User::where('id', $id)->first();
 
@@ -65,13 +66,16 @@ class FriendController extends Controller
         }
 
         Auth::user()->acceptFriendRequest($user);
-
-        return response()->json(['message' => 'Arkadaşlık isteği kabul edildi.',
-                                 'username' => $user->username,
-                                ]);
+        if($request->ajax()) {
+            return response()->json(['message' => 'Arkadaşlık isteği kabul edildi.',
+                                     'username' => $user->username,
+                                     'bio' => view('users.header.partials.bio')->with('user', $user)->render(),
+                                    ]);
+        }
+        return redirect()->back()->with('success', 'Arkadaşlık isteği kabul edildi.');
     }
 
-    public function getReject($id)
+    public function getReject(Request $request, $id)
     {
         $user = User::where('id', $id)->first();
         if (!$user) {
@@ -80,9 +84,13 @@ class FriendController extends Controller
             return redirect()->back()->with('info', 'Üzgünüz bir sorun oluştu.');
         } else {
             Auth::user()->deleteFriend($user);
-            return response()->json(['message' => 'Arkadaşlık isteği reddedildi.',
-                                                   'username' => $user->username,
-                                                ]);
+            if($request->ajax()) {
+                return response()->json(['message' => 'Arkadaşlık isteği reddedildi.',
+                                         'username' => $user->username,
+                                         'bio' => view('users.header.partials.bio')->with('user', $user)->render(),
+                                        ]);
+            }
+            return redirect()->back()->with('danger', 'Arkadaşlık isteği reddedildi.');
         }
     }
 
@@ -95,8 +103,13 @@ class FriendController extends Controller
 
         Auth::user()->deleteFriend($user);
 
-        return response()->json(['message' => 'Arkadaşlıktan çıkarıldı.',
-                                              'username' => $user->username
-                                            ]);
+        if($request->ajax()) {
+            return response()->json(['message' => 'Arkadaşlıktan çıkarıldı.',
+                                     'username' => $user->username,
+                                     'bio' => view('users.header.partials.bio')->with('user', $user)->render(),
+                                    ]);
+        }
+
+        return redirect()->back()->with('danger', 'Arkadaşlıktan çıkarıldı.');
     }
 }

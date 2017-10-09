@@ -1,5 +1,5 @@
 @if(Auth::check())
-	@if( isset($clubAdmin) )
+	@if( isset($ownedClubs) )
 	<!--Create Event Modal-->
 	<div id="create-event" class="modal fade" role="dialog">
 		<!--Modal Dialog-->
@@ -13,9 +13,9 @@
 		        		</div><!--End of the Modal Header-->
 			        	<!--Modal Body-->
 				<div class="modal-body">
-					@if(count($clubAdmin))
+					@if(count($ownedClubs))
 						<h4>Şu kulüp için etkinlik oluştur.</h4>
-						@foreach($clubAdmin as $club)
+						@foreach($ownedClubs as $club)
 							@if($club->confirmed)
 								@include('events.partials.blocks.clubblock')
 							@else

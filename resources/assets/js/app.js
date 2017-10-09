@@ -1,4 +1,4 @@
-
+	
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -15,20 +15,35 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example', require('./components/Example.vue'));
-Vue.component('chat-messages', require('./components/Chat/ChatMessages.vue'));
-Vue.component('chat-form', require('./components/Chat/ChatForm.vue'));
-Vue.component('userblock', require('./components/Chat/Userblock.vue'));
-Vue.component('users', require('./components/Inbox/Users.vue'));
-Vue.component('inbox-user', require('./components/Inbox/Userblock.vue'));
+/*****INBOX*****/
+//User
+Vue.component('users', require('./components/Inbox/User/Users.vue'));
+Vue.component('inbox-user', require('./components/Inbox/User/Userblock.vue'));
+//Club
+Vue.component('clubs', require('./components/Inbox/Club/Clubs.vue'));
+Vue.component('inbox-club', require('./components/Inbox/Club/ClubBlock.vue'));
+//Event
+Vue.component('events', require('./components/Inbox/Event/Events.vue'));
+Vue.component('inbox-event', require('./components/Inbox/Event/EventBlock.vue'));
+//Page
+Vue.component('pages', require('./components/Inbox/Page/Pages.vue'));
+Vue.component('inbox-page', require('./components/Inbox/Page/PageBlock.vue'));
+
+// User Chat
+Vue.component('chat-messages', require('./components/Chat/User/ChatMessages.vue'));
+Vue.component('chat-form', require('./components/Chat/User/ChatForm.vue'));
+Vue.component('userblock', require('./components/Chat/User/Userblock.vue'));
+
 // Club Chat
 Vue.component('clubblock', require('./components/Chat/Club/ClubBlock.vue'));
 Vue.component('club-messages', require('./components/Chat/Club/ClubMessages.vue'));
 Vue.component('club-form', require('./components/Chat/Club/ClubForm.vue'));
+
 // Event Chat
 Vue.component('eventblock', require('./components/Chat/Event/EventBlock.vue'));
 Vue.component('event-messages', require('./components/Chat/Event/EventMessages.vue'));
 Vue.component('event-form', require('./components/Chat/Event/EventForm.vue'));
+
 // Page Chat
 Vue.component('pageblock', require('./components/Chat/Page/PageBlock.vue'));
 Vue.component('page-messages', require('./components/Chat/Page/PageMessages.vue'));
@@ -413,7 +428,7 @@ $(document).ready(function(){
 
 /********************* FRIENDS ******************************/
 	// Send Friendship
-	$("#send-friendship").submit(function(event) {
+	$(".send-friendship").submit(function(event) {
 		event.preventDefault();
 		$.ajax({
 			method: "POST",
@@ -424,13 +439,14 @@ $(document).ready(function(){
 				/*Insert Alert*/
 				$('#after').after(alertSuccess);
 				$("#alert").text(data['message']);
-				$("#friendship-buttons-ul").load("/user/"+data['username']+" #friendship-buttons-li");
+				// Reload bio navbar
+				$(".user-bio").html(data.bio);
 			}
 		});
 	});
 
 	//Accept Friendship
-	$('body').on('submit', '#accept-friendship', function(e) {
+	$('body').on('submit', '.accept-friendship', function(e) {
 		e.preventDefault();
 		$.ajax({
 			method: $(this).attr('method'),
@@ -438,19 +454,18 @@ $(document).ready(function(){
 			data: $(this).serialize(),
 			dataType: "json",
 			success: function(data){
-				console.log(data.username);
-				console.log(data['username']);
 				/*Insert Alert*/
 				$('#after').after(alertSuccess);
 				$("#alert").text(data['message']);
-				$("#friendship-buttons-ul").load("/user/"+data['username']+" #friendship-buttons-li");
+				// Reload bio navbar
+				$(".user-bio").html(data.bio);
 			}
 		});
 
 	});
 
 	//Reject Friendship
-	$("#reject-friendship").submit(function(e){
+	$(".reject-friendship").submit(function(e){
 		e.preventDefault();
 		$.ajax({
 			method: $(this).attr('method'),
@@ -461,15 +476,15 @@ $(document).ready(function(){
 				/*Insert Alert*/
 				$('#after').after(alertDanger);
 				$("#alert").text(data['message']);
-				$("#friendship-buttons-ul").load("/user/"+data['username']+" #friendship-buttons-li");
+				// Reload bio navbar
+				$(".user-bio").html(data.bio);
 			}
 		});
 
 	});
 
 	//Delete Friendship
-	$("#delete-friendship").submit(function(event){
-
+	$(".delete-friendship").submit(function(event){
 		event.preventDefault();
 		$.ajax({
 			method: "POST",
@@ -480,10 +495,10 @@ $(document).ready(function(){
 				/*Insert Alert*/
 				$('#after').after(alertDanger);
 				$("#alert").text(data['message']);
-				$("#friendship-buttons-ul").load("/user/"+data['username']+" #friendship-buttons-li");
+				// Reload bio navbar
+				$(".user-bio").html(data.bio);
 			}
 		});
-
 	});
 
 	// Send Friendship Quick
@@ -526,7 +541,11 @@ $(document).ready(function(){
 			success: function(data) {
 				$('#after').after(alertSuccess);
 				$('#alert').text(data['message']);
+				// Reload userblock buttons
+				$('#friendship-btn-wrapper-'+data['username']).load('/user/info/'+data['username']+' #friendship-btn-'+data['username']);
+				// Reload friends index page
 				$('#friends-wrapper').load('/friends #friends');
+				$('#dropdownblock-'+notification).fadeOut();
 			}
 		});
 	});
@@ -545,6 +564,9 @@ $(document).ready(function(){
 				/*Insert Alert*/
 				$('#after').after(alertDanger);
 				$('#alert').text(data['message']);
+				// Reload userblock buttons
+				$('#friendship-btn-wrapper-'+data['username']).load('/user/info/'+data['username']+' #friendship-btn-'+data['username']);
+				// Reload friends index page
 				$('#friends-wrapper').load('/friends #friends');
 				$('#dropdownblock-'+notification).fadeOut();
 			}
@@ -566,14 +588,12 @@ $(document).ready(function(){
 				/*Insert Alert*/
 				$('#after').after(alertSuccess);
 				$("#alert").text(data['message']);
-				/*Refreshing some sections*/
-				$("#attender-num-wrap").load("/event/"+id+" #attender-num");
-				/*reload attenders*/
+				/*reload attenders on index page*/
 				$("#attenders-wrapper").load("/event/"+id+" #attenders");
-				/*Reload Event Buttons in Event Button Wrapper*/
-				$("#ebw").load("/event/"+id+" #eb");
-				$("#event-message").load("/event/"+id+" #message");
+				/*reload sharing on index page*/
 				$("#sharing-wrapper").load("/event/"+id+" #share");
+				// reload info section
+				$('.event-info').html(data.info);
 
 			}
 		});
@@ -590,14 +610,12 @@ $(document).ready(function(){
 				/*Insert Alert*/
 				$('#after').after(alertDanger);
 				$("#alert").text(data['message']);
-				/*Refreshing some sections*/
-				$("#attender-num-wrap").load("/event/"+id+" #attender-num");
-				/*reload attenders*/
+				/*reload attenders on index page*/
 				$("#attenders-wrapper").load("/event/"+id+" #attenders");
-				/*Reload Event Buttons in Event Button Wrapper*/
-				$("#ebw").load("/event/"+id+" #eb");
-				$("#event-message").load("/event/"+id+" #message");
+				/*reload sharing on index page*/
 				$("#sharing-wrapper").load("/event/"+id+" #share");
+				// reload info section
+				$('.event-info').html(data.info);
 			}
 		});
 	});
@@ -614,8 +632,7 @@ $(document).ready(function(){
 				$('#after').after(alertSuccess);
 				$("#alert").text(data['message']);
 				/*Refreshing some sections*/
-				$("#aw-"+id).load("/eventblock/"+id+" #attenders-"+id);
-				$("#bw-"+id).load("/eventblock/"+id+" #buttons-"+id);
+				$(".event-thumbnail-"+id).html(data.thumbnail);
 			}
 		});
 	});
@@ -632,8 +649,7 @@ $(document).ready(function(){
 				$('#after').after(alertDanger);
 				$("#alert").text(data['message']);
 				/*Refreshing some sections*/
-				$("#aw-"+id).load("/eventblock/"+id+" #attenders-"+id);
-				$("#bw-"+id).load("/eventblock/"+id+" #buttons-"+id);
+				$(".event-thumbnail-"+id).html(data.thumbnail);
 			}
 		});
 	});
@@ -674,6 +690,38 @@ $(document).ready(function(){
 /************************ END OF EVENTS ********************************/
 
 /************************ PAGES ********************************/
+
+	// Follow page
+	$('body').on('submit', '#follow-page', function(e) {
+		e.preventDefault();
+		$.ajax({
+			url: $(this).attr('action'),
+			method: $(this).attr('method'),
+			dataType: 'json',
+			success: function(data) {
+				$('#after').after(alertSuccess);
+				$('#alert').text(data['message']);
+				$('.page-bio').html(data.bio);
+			},
+		});
+	});
+
+
+	// Unfollow page
+	$('body').on('submit', '#unfollow-page', function(e) {
+		e.preventDefault();
+		$.ajax({
+			url: $(this).attr('action'),
+			method: $(this).attr('method'),
+			dataType: 'json',
+			success: function(data) {
+				$('#after').after(alertDanger);
+				$('#alert').text(data['message']);
+				$('.page-bio').html(data.bio);
+			},
+		});
+	});
+
 	// Follow Page Quick
 	$('body').on('submit' , '#follow-page-quick' , function(e) {
 		e.preventDefault();
@@ -786,7 +834,6 @@ $(document).ready(function(){
 			success: function(data) {
 				$('#after').after(alertDanger);
 				$('#alert').text(data['message']);
-				$('#alert').fadeOut('slow');
 				$('#membership-buttons').html(data.bio);
 				$('#membership-buttons-xs').html(data.header);
 				$('#quit').modal('toggle');	
@@ -846,7 +893,8 @@ $(document).ready(function(){
 				method: 'get',
 				dataType: 'json',
 				success: function(data) {
-					$('nav').load('/clubs nav .container-fluid');
+					$('#main-nav').load('/clubs nav .container-fluid');
+					//$('.navigation').load(data.nav);
 			}
 		});
 	});
