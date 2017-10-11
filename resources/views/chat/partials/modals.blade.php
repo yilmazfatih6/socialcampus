@@ -34,8 +34,8 @@
             </div><!--/ Modal Header-->
             <!--Modal Body-->
             <div class="modal-body">
-                @if(!empty(Auth::user()->clubs()->get()) && count(Auth::user()->clubs()->get()))    
-                    <clubs :user="{{Auth::user()}}" :clubs="{{Auth::user()->clubs()->get()}}"></clubs>
+                @if(!empty(Auth::user()->notOwnedClubs()) && count(Auth::user()->notOwnedClubs()))    
+                    <clubs :user="{{Auth::user()}}" :clubs="{{Auth::user()->notOwnedClubs()}}"></clubs>
                 @else
                     <small class="text-center">Üyesi olduğun kulüp yok.</small>
                 @endif
@@ -59,8 +59,8 @@
             </div><!--/ Modal Header-->
             <!--Modal Body-->
             <div class="modal-body">
-                @if(!empty(Auth::user()->events()->get()) && count(Auth::user()->events()->get()))
-                    <events :user="{{Auth::user()}}" :events="{{Auth::user()->events()->get()}}"></events>
+                @if(!empty(Auth::user()->notOwnedEvents()) && count(Auth::user()->notOwnedEvents()))
+                    <events :user="{{Auth::user()}}" :events="{{Auth::user()->notOwnedEvents()}}"></events>
                 @else
                     <small class="text-center">Gitmekte olduğun etkinlik yok.</small>
                 @endif
@@ -83,8 +83,8 @@
             </div><!--/ Modal Header-->
             <!--Modal Body-->
             <div class="modal-body">
-                @if(count(Auth::user()->pages()->get()))
-                    <pages :user="{{Auth::user()}}" :pages="{{Auth::user()->pages()->get()}}"></pages>
+                @if(!empty(Auth::user()->notOwnedPages() && count(Auth::user()->notOwnedPages() )))
+                    <pages :user="{{Auth::user()}}" :pages="{{Auth::user()->notOwnedPages()}}"></pages>
                 @else
                     <small class="text-center">Takip ettiğin sayfa yok.</small>
                 @endif

@@ -160,6 +160,10 @@ class User extends Authenticatable
         return $this->events()->where('admin', true)->get();
     }
 
+    public function notOwnedEvents() {
+        return $this->events()->where('admin', false)->where('confirmed', true)->get();
+    }
+
     /************************   END OF EVENTS   *********************************/
 
 
@@ -229,6 +233,10 @@ class User extends Authenticatable
 
     public function ownedClubs() {
         return $this->clubs()->where('admin', true)->get();
+    }
+
+    public function notOwnedClubs() {
+        return $this->clubs()->where('admin', false)->get();
     }
 
     /*************************  END OF CLUBS  *****************************/
@@ -361,6 +369,10 @@ class User extends Authenticatable
 
     public function ownedPages() {
         return $this->pages()->where('admin', true)->get();
+    }
+
+    public function notOwnedPages() {
+        return $this->pages()->where('admin', false)->get();
     }
     /*********************     END OF PAGES     ************************/
 

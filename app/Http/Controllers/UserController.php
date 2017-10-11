@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use Image;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -109,7 +110,7 @@ class UserController extends Controller
             // Give a specific name
             $filename = 'user_'.time().'_'.$user->username.'.'.$avatar->getClientOriginalExtension();
             // Store file at specific path 
-            $avatar->storeAs('/public/avatars/', $filename);
+            Image::make($avatar)->fit(500, 500)->save(storage_path('/app/public/avatars/'.$filename));
             $user->avatar = $filename;
             $user->save();
             if ($request->ajax()) {

@@ -5,9 +5,13 @@
         <!--Profile Photo-->
             <div class="media inline pull-left">
                 <div class="media-left media-top">
-                    <a data-toggle="modal" data-target="#uploadAvatar" class="pull-left" x>
-                        <img class="img-circle" alt=" {{ $user->getNameOrUsername() }} " src="/storage/avatars/{{$user->avatar}}" style="width:100px; height:100px;"/>
-                    </a>
+                    @if(Auth::user()->id === $user->id)
+                        <a data-toggle="modal" data-target="#uploadAvatar" class="pull-left" x>
+                            <img class="img-circle  avatar-profile" alt=" {{ $user->getNameOrUsername() }} " src="/storage/avatars/{{$user->avatar}}"/>
+                        </a>
+                    @else
+                        <img class="img-circle avatar-profile" alt=" {{ $user->getNameOrUsername() }} " src="/storage/avatars/{{$user->avatar}}"/>
+                    @endif
                 </div>
             </div>
         <!--End of Profile Photo-->

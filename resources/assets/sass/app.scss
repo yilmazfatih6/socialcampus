@@ -549,6 +549,9 @@ main purple: #6626af;
 		width: 50px;
 		height: 50px;
 	}
+	.avatar-profile {
+		width:100px; height:100px;
+	}
 	.modal-avatar {
 		width: 100px;
 		height: 100px;
@@ -740,5 +743,6 @@ main purple: #6626af;
 	.profile-header {
 		margin-top:-25px;
 		padding: 75px 0;
+	 	background-size: 100vw auto;
 	}
 /********************* END OF PROFILE ****************************/

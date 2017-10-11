@@ -307,7 +307,7 @@ class ClubController extends Controller
             $avatar = $request->file('avatar');
             $filename = 'club_'.time().'_'.$club->abbreviation.'.'.$avatar->getClientOriginalExtension();
             // Store file at specific path 
-            $avatar->storeAs('/public/avatars/', $filename);
+            Image::make($avatar)->fit(500, 500)->save(storage_path('/app/public/avatars/'.$filename));
             $club->avatar = $filename;
             $club->save();
         }

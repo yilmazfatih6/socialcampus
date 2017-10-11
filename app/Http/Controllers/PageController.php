@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use Image;
 use App\User;
 use App\Page;
 use App\Status;
@@ -174,7 +175,7 @@ class PageController extends Controller
             $avatar = $request->file('avatar');
             $filename = 'page_'.time().'_'.$page->abbr.'.'.$avatar->getClientOriginalExtension();
             // Store file at specific path 
-            $avatar->storeAs('/public/avatars/', $filename);
+            Image::make($avatar)->fit(500, 500)->save(storage_path('/app/public/avatars/'.$filename));
             $page->avatar = $filename;
             $page->save();
         }

@@ -9069,6 +9069,11 @@ main purple: #6626af;
   height: 50px;
 }
 
+.avatar-profile {
+  width: 100px;
+  height: 100px;
+}
+
 .modal-avatar {
   width: 100px;
   height: 100px;
@@ -9280,6 +9285,7 @@ input[type=range]:focus::-ms-fill-upper {
 .profile-header {
   margin-top: -25px;
   padding: 75px 0;
+  background-size: 100vw auto;
 }
 
 /********************* END OF PROFILE ****************************/

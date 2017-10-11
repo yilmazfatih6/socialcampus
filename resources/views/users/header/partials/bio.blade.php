@@ -25,7 +25,7 @@
                 <!--End of out of username-->
 
                 <!--Editing Friendship-->
-                @if(Auth::user() && Auth::user()->id!==$user->id)
+                @if(Auth::user() && Auth::user()->id!==$user->id && Auth::user()->isFriendsWith($user))
                 <ul class="nav navbar-nav navbar-right">
                     
                     <!--Send Message Link Message-->
