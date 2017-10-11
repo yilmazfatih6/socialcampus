@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use Mail;
 use App\User;
+Use App\Mail\NewUserValidation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -35,6 +37,10 @@ class AuthController extends Controller
         ]);
 
         Auth::attempt($request->only(['username','password']), $request->has('remember'));
+
+        // Send email for validation
+        Mail::to(Auth::user()->email)
+            ->send(new NewUserValidation());
 
         return redirect()->route('home')->with('info', 'Hesabınız oluşturuldu lütfen email adresinize gönderilen email ile doğrulama yapınız.');
     }
@@ -80,4 +86,5 @@ class AuthController extends Controller
 
         return redirect()->route('home')->with('warning', 'Çıkış yapıldı.');
     }
+
 }

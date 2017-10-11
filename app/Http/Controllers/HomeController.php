@@ -60,18 +60,4 @@ class HomeController extends Controller
         $page = Page::where('id', $id)->first();
         return view('pages.header.partials.posting')->with('page', $page)->render();
     }
-
-    public function foo(Request $request) {
-        $this->validate($request, [
-            'image' => 'image',
-        ]);
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $filename = time().'.'.$image->getClientOriginalExtension();
-            $request->file('image')->storeAs('public/', $filename);
-            Image::make($image)->fit(500, 500)->save(storage_path('/app/public/min/'.$filename));
-        }
-
-        return redirect()->back()->with('success', "that's the spirit!");
-    }
 }

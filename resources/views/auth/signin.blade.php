@@ -46,7 +46,7 @@
 				<br>
 				<div role="alert" id="signin-alert"></div>
 
-	      			<input type="hidden" name="_token" value="{{ Session::token() }}"/>
+      			<input type="hidden" name="_token" value="{{ Session::token() }}"/>
 			</form>
 		</div>
 	</div>

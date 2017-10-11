@@ -76,11 +76,15 @@ class MessageController extends Controller
     // Get Messages From DB
     public function loadPersonalMessages($id)
     {
+        // Makin some validations
         if (!Auth::check()) {
             return ['status' => 'Failed!'];
         }
+        if ($id == Auth::user()->id) {
+            return ['status' => "Kendi kendine mi konuşmaya çalışıyorsun :("];
+        }
         if (!Auth::user()->isFriendsWithId($id)) {
-            return ['status' => 'Something went wrong!'];
+            return ['status' => "Bu kullanıcı ile konuşmak için arkadaş olmanız gerekli!"];
         }
         return Message::where('club_id', null)
                       ->where('page_id', null)
@@ -95,6 +99,17 @@ class MessageController extends Controller
     // Send a message
     public function sendPersonalMessage($id)
     {
+        // Makin some validations
+        if (!Auth::check()) {
+            return ['status' => 'Failed!'];
+        }
+        if ($id == Auth::user()->id) {
+            return ['status' => "Kendi kendine mi konuşmaya çalışıyorsun :("];
+        }
+        if (!Auth::user()->isFriendsWithId($id)) {
+            return ['status' => "Bu kullanıcı ile konuşmak için arkadaş olmanız gerekli!"];
+        }
+
         $user = Auth::user();
         // add new message to DB
         $message = Auth::user()->sentMessages()->create([
@@ -113,15 +128,34 @@ class MessageController extends Controller
     {
         $club = Club::find($clubId);
         $user = User::find($userId);
+
+        // Makin some validations
+        if (!Auth::check()) {
+            return ['status' => 'Failed!'];
+        }
+        if (Auth::user()->isAdmin($club)) {
+            if(Auth::user()->id === $userId) {
+                return ['status' => "Bu kulübün yöneticisisin!"];
+            }
+        }
+        
         return view('chat.club')->with('club', $club)
                                 ->with('user', $user);
     }
 
     // Load Club Messages 
     public function loadClubMessages($userId, $clubId) {
-        // Check if authenticated
+        
+        $club = Club::find($clubId);
+
+        // Makin some validations
         if (!Auth::check()) {
             return ['status' => 'Failed!'];
+        }
+        if (Auth::user()->isAdmin($club)) {
+            if(Auth::user()->id === $userId) {
+                return ['status' => "Bu kulübün yöneticisisin!"];
+            }
         }
 
         // Return messages
@@ -136,8 +170,17 @@ class MessageController extends Controller
         $club = Club::find(request()->get('club_id'));
         $user = User::find(request()->get('sender_id'));
 
+        // Makin some validations
+        if (!Auth::check()) {
+            return ['status' => 'Failed!'];
+        }
         if (Auth::user()->id !== request()->get('sender_id')) {
             return ['status', 'Something went wrong!'];
+        }
+        if (Auth::user()->isAdmin($club)) {
+            if(Auth::user()->id === $userId) {
+                return ['status' => "Bu kulübün yöneticisisin!"];
+            }
         }
 
         // Persist message to DB
@@ -150,7 +193,6 @@ class MessageController extends Controller
         $message->club_id = request()->get('club_id');
         $message->save();
 
-
         broadcast(new ClubMessageSent($user, $message))->toOthers();
 
         return ['status' => 'Message sent!'];
@@ -159,6 +201,19 @@ class MessageController extends Controller
     public function sendClubMessageAsClub($userId, $clubId) {
         $club = Club::find(request()->get('club_id'));
         $user = Auth::user();
+
+        // Makin some validations
+        if (!Auth::check()) {
+            return ['status' => 'Failed!'];
+        }
+        if (!Auth::user()->isAdmin($club)) {
+            return ['status' => "Bu kulübün yöneticisi değilsin!"];
+        }
+        if (Auth::user()->isAdmin($club)) {
+            if(Auth::user()->id === $userId) {
+                return ['status' => "Bu kulübün yöneticisisin!"];
+            }
+        }
 
         $message = $club->messages()->create([
             'message' => request()->get('message'),
@@ -179,6 +234,14 @@ class MessageController extends Controller
         $user = User::find($userId);
         $event = Event::find($eventId);
 
+        // Makin some validations
+        if (!Auth::check()) {
+            return ['status' => 'Failed!'];
+        }
+        if(Auth::user()->isEventAdmin($event) && Auth::user()->id === $userId) {
+            return ['status' => 'You are admin!'];
+        }
+
         return view('chat.event')->with('user', $user)
                                  ->with('event', $event);
     }
@@ -189,7 +252,9 @@ class MessageController extends Controller
         if (!Auth::check()) {
             return ['status' => 'Failed!'];
         }
-
+        if(Auth::user()->isEventAdmin($event) && Auth::user()->id === $userId) {
+            return ['status' => 'You are admin!'];
+        }
         // Return messages
         return Message::where('event_id', $eventId)
                       ->orWhere('sender_id', $userId)
@@ -204,7 +269,9 @@ class MessageController extends Controller
         if (Auth::user()->id !== request()->get('sender_id')) {
             return ['status', 'Something went wrong!'];
         }
-
+        if(Auth::user()->isEventAdmin($event) && Auth::user()->id === $userId) {
+            return ['status' => 'You are admin!'];
+        }
         // Persist message to DB
         $message = $user->sentMessages()->create([
             'message' => request()->get('message'),
@@ -223,7 +290,12 @@ class MessageController extends Controller
     public function sendEventMessageAsEvent($userId, $eventId) {
         $event = Event::find(request()->get('event_id'));
         $user = Auth::user();
-
+        if(!Auth::check()) {
+            return ['status' => 'Authentication problem!']
+        }
+        if(Auth::user()->isEventAdmin($event) && Auth::user()->id === $userId) {
+            return ['status' => 'You are admin!'];
+        }
         $message = $event->messages()->create([
             'message' => request()->get('message'),
             //  'sender_id' => request()->get('sender_id'),
@@ -241,7 +313,12 @@ class MessageController extends Controller
     public function pageChat($userId, $pageId) {
         $user = User::find($userId);
         $page = Page::find($pageId);
-
+        if(!Auth::check()) {
+            return ['status' => 'Authentication problem!']
+        }
+        if(Auth::user()->isPageAdmin($page) && Auth::user()->id === $userId) {
+            return ['status' => 'You are admin!'];
+        }
         return view('chat.page')->with('user', $user)
                                 ->with('page', $page);
     }
@@ -251,6 +328,9 @@ class MessageController extends Controller
         // Check if authenticated
         if (!Auth::check()) {
             return ['status' => 'Failed!'];
+        }
+        if(Auth::user()->isPageAdmin($page) && Auth::user()->id === $userId) {
+            return ['status' => 'You are admin!'];
         }
 
         // Return messages
@@ -264,6 +344,12 @@ class MessageController extends Controller
         // Find Page 
         $user = User::find(request()->get('sender_id'));
 
+        if (!Auth::check()) {
+            return ['status' => 'Failed!'];
+        }
+        if(Auth::user()->isPageAdmin($page) && Auth::user()->id === $userId) {
+            return ['status' => 'You are admin!'];
+        }
         if (Auth::user()->id !== request()->get('sender_id')) {
             return ['status', 'Something went wrong!'];
         }
@@ -286,6 +372,13 @@ class MessageController extends Controller
     public function sendPageMessageAsPage($userId, $pageId) {
         $page = Page::find(request()->get('page_id'));
         $user = Auth::user();
+
+        if (!Auth::check()) {
+            return ['status' => 'Failed!'];
+        }
+        if(Auth::user()->isPageAdmin($page) && Auth::user()->id === $userId) {
+            return ['status' => 'You are admin!'];
+        }
 
         $message = $page->messages()->create([
             'message' => request()->get('message'),

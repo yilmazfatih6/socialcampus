@@ -1,10 +1,5 @@
 <?php
 
-Route::get('/foo', function () {
-	return view('foo');
-});
-
-Route::post('/foo', 'HomeController@foo');
 /*******************HOME***********************/
   Route::get('/', 'HomeController@index')->name('home');
 /*******************END OF HOME***********************/
@@ -260,3 +255,6 @@ Route::post('/foo', 'HomeController@foo');
 
 /*********************** END OF CHAT *********************/
 
+/*********************** MAIL *********************/
+//....
+/*********************** END OF MAIL *********************/
