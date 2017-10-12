@@ -9,9 +9,9 @@ class Status extends Model
     protected $table = 'statuses';
 
     protected $fillable = [
-          'body',
-          'event_id',
-      ];
+        'body',
+        'event_id',
+    ];
 
     public function user()
     {
@@ -53,13 +53,21 @@ class Status extends Model
         return $this->morphMany('App\Likeable', 'likeable');
     }
 
+    // Checking if status longer than 250 characters
+    public function isLong() {
+        if (strlen($this->body) > 250) {
+        	return true;
+        } else {
+        	return false;
+        }
+    }
+
     public function shortened()
     {
         if (strlen($this->body) > 250) {
             $this->body = substr($this->body, 0, 250);
             $this->body = substr($this->body, 0, strrpos($this->body, ' '));
             $this->body = substr($this->body, 0, strrpos($this->body, ' '));
-            $this->body = $this->body.'<a class="link extend-status color-blue" data-status-id="'.$this->id.'">  <i class="fa fa-chevron-down" aria-hidden="true"></i> Genişlet</a>';
             return $this->body;
         }
         return $this->body;

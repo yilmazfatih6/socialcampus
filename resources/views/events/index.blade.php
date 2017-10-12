@@ -74,6 +74,6 @@
 		@include('events.partials.tabs.allEvents')
 	</div>
 	@endif
-
+	
 	@include('events.partials.modals')
 @endsection

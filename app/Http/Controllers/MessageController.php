@@ -291,7 +291,7 @@ class MessageController extends Controller
         $event = Event::find(request()->get('event_id'));
         $user = Auth::user();
         if(!Auth::check()) {
-            return ['status' => 'Authentication problem!']
+            return ['status' => 'Authentication problem!'];
         }
         if(Auth::user()->isEventAdmin($event) && Auth::user()->id === $userId) {
             return ['status' => 'You are admin!'];
@@ -314,7 +314,7 @@ class MessageController extends Controller
         $user = User::find($userId);
         $page = Page::find($pageId);
         if(!Auth::check()) {
-            return ['status' => 'Authentication problem!']
+            return ['status' => 'Authentication problem!'];
         }
         if(Auth::user()->isPageAdmin($page) && Auth::user()->id === $userId) {
             return ['status' => 'You are admin!'];

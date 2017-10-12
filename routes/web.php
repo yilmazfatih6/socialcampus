@@ -4,6 +4,13 @@
   Route::get('/', 'HomeController@index')->name('home');
 /*******************END OF HOME***********************/
 
+/*******************FEEDBACK***********************/
+  Route::get('/feedback', 'FeedbacksController@index');
+  Route::post('/feedback/send', 'FeedbacksController@send')->middleware('guest');
+  Route::post('/feedback/auth/send', 'FeedbacksController@sendAuth')->middleware('auth');
+
+/*******************END OF FEEDBACK***********************/
+
 /***********************AUTHENTICATION*********************/
   Route::get('/signup', [
       'uses' => '\App\Http\Controllers\AuthController@getSignup',

@@ -1531,18 +1531,22 @@ $(document).ready(function () {
 			method: "GET",
 			url: "/status/extend/" + id,
 			success: function success(data) {
-				$("#status-body-" + id).html(data['status']);
+				$("#status-body-" + id).text(data['status']);
+				$("#status-body-" + id).after(data['link']);
+				$("#extend-status-" + id).remove();
 			}
 		});
 	});
 	// Shorten Status
-	$('body').on('click', '#shorten-status', function () {
+	$('body').on('click', '.shorten-status', function () {
 		var id = $(this).attr("data-status-id");
 		$.ajax({
 			method: "GET",
 			url: "/status/shorten/" + id,
 			success: function success(data) {
-				$("#status-body-" + id).html(data['status']);
+				$("#status-body-" + id).text(data['status']);
+				$("#status-body-" + id).after(data['link']);
+				$("#shorten-status-" + id).remove();
 			}
 		});
 	});
@@ -1553,7 +1557,8 @@ $(document).ready(function () {
 			method: "GET",
 			url: "/event/" + id + "/extend/description",
 			success: function success(data) {
-				$("#description").html(data['description']);
+				$("#description").text(data['description']);
+				$('#description').append(data['link']); // appending shorten link to end
 			}
 		});
 	});
@@ -1564,7 +1569,8 @@ $(document).ready(function () {
 			method: "GET",
 			url: "/event/" + id + "/shorten/description",
 			success: function success(data) {
-				$("#description").html(data['description']);
+				$("#description").text(data['description']);
+				$('#description').append(data['link']); // appending extend link to end
 			}
 		});
 	});
@@ -2428,6 +2434,23 @@ $(document).ready(function () {
 		});
 	});
 	/************* END OF CHANGING TIMELINE POSTING **************/
+
+	/************* FEEDBACK **************/
+	$('.send-feedback').submit(function (e) {
+		e.preventDefault();
+		$.ajax({
+			url: $(this).attr('action'),
+			method: $(this).attr('method'),
+			data: $(this).serialize(),
+			success: function success(data) {
+				$('#after').after(alertSuccess);
+				$("#alert").text(data.message);
+				$(".form-control").val('');
+			}
+		});
+	});
+
+	/************* END OF FEEDBACK **************/
 });
 
 /***/ }),

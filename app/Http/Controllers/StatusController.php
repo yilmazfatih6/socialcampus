@@ -215,8 +215,10 @@ class StatusController extends Controller
     public function extend($id)
     {
         $status = Status::where('id', $id)->first()->body;
-        $status = $status.'<a class="link" id="shorten-status" data-status-id="'.$id.'">  <i class="fa fa-chevron-up" aria-hidden="true"></i> Daralt</a>';
-        return response()->json([ 'status' => $status ]);
+        $link = '<a id="shorten-status-'.$id.'" class="link shorten-status color-blue" data-status-id="'.$id.'">  <i class="fa fa-chevron-up" aria-hidden="true"></i> Daralt</a>';
+        return response()->json([ 'status' => $status,
+                                  'link' => $link
+                                ]);
     }
 
     // Shorten Status
@@ -224,6 +226,9 @@ class StatusController extends Controller
     {
         $status = Status::where('id', $id)->first();
         $status = $status->shortened();
-        return response()->json([ 'status' => $status ]);
+        $link = '<a id="extend-status-'.$id.'" class="link extend-status color-blue" data-status-id="'.$id.'"> <i class="fa fa-chevron-down" aria-hidden="true"></i> Genişlet</a>';
+        return response()->json([ 'status' => $status,
+                                  'link' => $link
+                                ]);
     }
 }

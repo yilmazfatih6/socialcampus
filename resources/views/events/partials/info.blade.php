@@ -3,8 +3,14 @@
 	<li class="list-group-item text-center"><h3>{{$event->name}}</h3></li>
 	<!--Image-->
 	<img src="/storage/events/posters/{{$event->poster}}" class="center-block" style=" max-width:100%; max-height:100%;">
+	
 	<!--Description-->
-	<li class="list-group-item white-space" id="description">{!! $event->shortenDescript() !!}</li>
+	@if($event->isDescLong())
+	<li class="list-group-item white-space" id="description">{{$event->shortenDescript()}}<a class="link extend-desc" data-event-id="{{$event->id}}"> <i class="fa fa-chevron-down" aria-hidden="true"></i> Genişlet</a></li>
+	@else
+	<li class="list-group-item white-space" id="description">{{$event->description}}</li>
+	@endif
+
 	<!--Date-->
 	<li class="list-group-item">
 		<b><i class="fa fa-calendar" aria-hidden="true"></i> Tarih:</b>

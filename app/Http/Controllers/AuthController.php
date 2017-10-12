@@ -38,10 +38,12 @@ class AuthController extends Controller
 
         Auth::attempt($request->only(['username','password']), $request->has('remember'));
 
+        /*
         // Send email for validation
         Mail::to(Auth::user()->email)
             ->send(new NewUserValidation());
-
+        */
+            
         return redirect()->route('home')->with('info', 'Hesabınız oluşturuldu lütfen email adresinize gönderilen email ile doğrulama yapınız.');
     }
 
@@ -71,8 +73,8 @@ class AuthController extends Controller
         //If password doesn't macthes executes below
         elseif (!Auth::attempt($request->only(['username','password']), $request->has('remember'))) {
             return response()->json(['message' => 'Şifre yanlış.',
-                                                     'status'  => '1'
-                                                 ]);
+                                     'status'  => '1'
+                                    ]);
         }
         //If everything is ok executes below
         else {

@@ -1,4 +1,4 @@
-@if(Auth::user()->isAdmin($club))
+@if(Auth::check() && Auth::user()->isAdmin($club))
 <!--Uploading Avatar-->
     <!--Modal Fade-->
     <div class="modal fade" id="uploadAvatar" role="dialog">

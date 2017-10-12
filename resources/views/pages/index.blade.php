@@ -4,19 +4,21 @@
 
 
 <div class="container">
-	@if(Auth::check())
-
-		<!--Header & Create Button-->
-		<div class="row">
-		    	<div class="col-lg-12 text-center">
-				<h1 class="inline">Sayfalar</h1>
+	<!--Header & Create Button-->
+	<div class="row">
+    	<div class="col-lg-12 text-center">
+			<h1 class="inline">Sayfalar</h1>
+			<!--Create Page Button-->
+			@if(Auth::check())
 				<a href="/page/create" class="btn-create">
 					<i class="fa fa-plus" aria-hidden="true"></i>
 				</a>
-			</div>
-		</div> <!-- / Header & Create Button-->
+			@endif
+		</div>
+	</div> <!-- / Header & Create Button-->
+	<hr>
+	@if(Auth::check())
 
-		<hr>
 		@if( isset($pages) )
 			<!--Admined Pages-->
 			@if(Auth::user()->isPageAdminAny())
@@ -86,7 +88,7 @@
 				<div class="col-lg-12">
 					<h4><b>Tüm Sayfalar</b></h4>
 				</div>
-				@foreach($otherPages as $page)
+				@foreach($pages as $page)
 					<div class="col-lg-4 col-md-4" style="margin-bottom:10px;">
 							@include('pages.partials.pageblock')
 					</div>

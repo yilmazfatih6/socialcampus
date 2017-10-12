@@ -17,10 +17,14 @@
 			<a href="/events" class="navbar-toggle text-center navbar-icon">
 				<i class="fa fa-calendar" aria-hidden="true"></i>
 			</a>
+			
 			<!--Messages-->
-			<a href="/chat" class="navbar-toggle text-center navbar-icon">
-				<i class="fa fa-envelope" aria-hidden="true"></i>
-			</a>
+			@if(Auth::check())
+				<a href="/chat" class="navbar-toggle text-center navbar-icon">
+					<i class="fa fa-envelope" aria-hidden="true"></i>
+				</a>
+			@endif
+
 			<!--Search-->
 			<a href="/search" class="navbar-toggle text-center navbar-icon">
 				<i class="fa fa-search" aria-hidden="true"></i>
@@ -106,7 +110,9 @@
 					</li>
 				@endif
 				<!--Messagess-->
-				<li><a href="/chat" class="navbar-icon-lg">Mesajlar</a></li>
+				@if(Auth::check())
+					<li><a href="/chat" class="navbar-icon-lg">Mesajlar</a></li>
+				@endif
 			</ul>
 
 

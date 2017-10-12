@@ -39,12 +39,12 @@ class EventController extends Controller
         }
 
         // Attended Events
-        if (Auth::user()->isAttendingAny()) {
+        if (Auth::check() && Auth::user()->isAttendingAny()) {
             $attendedEvents = Auth::user()->events()->where('confirmed', true)->where('admin', false)->get();
         }
 
         /*If User Is Member to any Club*/
-        if (Auth::user()->isMemberAny()) {
+        if (Auth::check() && Auth::user()->isMemberAny()) {
 
             // Collecting club ids of user's joined clubs
             $joinedClubs = Auth::user()->clubs()->get();
@@ -371,8 +371,10 @@ class EventController extends Controller
     public function extendDescript($id)
     {
         $event = Event::where('id', $id)->first();
-        $description = $event->description.'<a class="link shorten-desc" data-event-id="'.$id.'">  <i class="fa fa-chevron-up" aria-hidden="true"></i> Daralt</a>';
-        return response()->json([ 'description' => $description ]);
+        $link = '<a class="link shorten-desc" data-event-id="'.$id.'">  <i class="fa fa-chevron-up" aria-hidden="true"></i> Daralt</a>';
+        return response()->json([ 'description' => $event->description,
+                                  'link' => $link
+                                ]);
     }
 
     // Shorten Status
@@ -380,6 +382,9 @@ class EventController extends Controller
     {
         $event = Event::where('id', $id)->first();
         $description = $event->shortenDescript();
-        return response()->json([ 'description' => $description ]);
+        $link = '<a class="link extend-desc" data-event-id="'.$id.'">  <i class="fa fa-chevron-up" aria-hidden="true"></i> Daralt</a>';
+        return response()->json([ 'description' => $description,
+                                  'link' => $link
+                                ]);
     }
 }

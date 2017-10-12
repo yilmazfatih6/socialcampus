@@ -50,13 +50,20 @@ class Event extends Model
         return $this->attenders()->where('admin', true)->get();
     }
 
+    public function isDescLong() {
+        if (strlen($this->description) > 150) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function shortenDescript()
     {
         if (strlen($this->description) > 150) {
             $this->description = substr($this->description, 0, 150);
             $this->description = substr($this->description, 0, strrpos($this->description, ' '));
             $this->description = substr($this->description, 0, strrpos($this->description, ' '));
-            $this->description = $this->description.'<a class="link extend-desc" data-event-id="'.$this->id.'">  <i class="fa fa-chevron-down" aria-hidden="true"></i> Genişlet</a>';
             return $this->description;
         }
         return $this->description;

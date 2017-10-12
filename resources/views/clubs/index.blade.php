@@ -84,7 +84,7 @@
 	<!-- Non Authenticated-->
 	@if(!Auth::check())
 		<div class="row">
-			<h1 class="text-center"><strong>Kulüpler</strong></h1><hr>
+			<h1 class="text-center">Kulüpler</h1><hr>
 			@if( count($clubs) )
 				<section class="allClubs">
 					@include('clubs.partials.pagination.clubs')

@@ -75,11 +75,17 @@
 
             </div>
             <!--End of the Header Row-->
-
+            
             <!--Start of the Status Body-->
+            @if($status->isLong())
             <div class="row">
-                <p  id="status-body-{{$status->id}}" class="textarea">{!! $status->shortened() !!}</p>
+                <p id="status-body-{{$status->id}}" class="textarea inline">{{$status->shortened()}}<a class="link extend-status color-blue" data-status-id="{{$status->id}}"> <i class="fa fa-chevron-down" aria-hidden="true"></i> Genişlet</a></p>
             </div>
+            @else
+            <div class="row">
+                <p class="textarea inline">{{$status->body}}</p>
+            </div>
+            @endif
             <!--End of the Status Body-->
 
             <!--Post Image-->
@@ -196,9 +202,17 @@
 
                         <!--Starting of the Reply Body-->
                         <div class="row"    >
-                          <div class="col-lg-12">
-                             <p style="overflow: hidden; white-space: pre-wrap; word-wrap: break-word;">{{$reply->body}}</p>
-                          </div>
+                            <div class="col-lg-12">
+                                @if($reply->isLong())
+                                    <div class="row">
+                                        <p id="status-body-{{$reply->id}}" class="textarea inline">{{$reply->shortened()}}<a class="link extend-status color-blue" data-status-id="{{$reply->id}}"> <i class="fa fa-chevron-down" aria-hidden="true"></i> Genişlet</a></p>
+                                    </div>
+                                @else
+                                    <div class="row">
+                                        <p class="textarea inline">{{$reply->body}}</p>
+                                    </div>
+                                @endif
+                            </div>
                         </div>
                         <!--Ending of the Reply Body-->
 

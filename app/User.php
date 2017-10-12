@@ -611,4 +611,11 @@ class User extends Authenticatable
     }
 
     /*********************     END OF MESSAGES     ************************/
+
+    /************************   FEEDBACKS   *********************************/
+    public function feedbacks() {
+        return $this->hasMany('App\Feedback', 'user_id');
+    }
+    /************************  END OF  FEEDBACKS   *********************************/
+
 }
