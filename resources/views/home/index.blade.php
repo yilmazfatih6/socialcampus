@@ -2,25 +2,22 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!--CSRF Protection-->
-	<meta name="csrf-token" content="{{ csrf_token() }}">
-	<title>Medeniyet Sosyal</title>
-	<!--Jquery-->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-	<!--Bootstrap-->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-	<!--Videojs-->
-	<link href="http://vjs.zencdn.net/5.17.0/video-js.css" rel="stylesheet">
-	<script src="http://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
-	<!--Icons-->
-	<link rel="shortcut icon" href="/storage/icons/snowflake.png"><!-- taken from https://icons8.com/-->
-	<script src="https://use.fontawesome.com/fffe030555.js"></script>
-	<!--My Css File-->
-	<link rel="stylesheet" href="/css/app.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--CSRF Protection-->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!--Videojs-->
+    <link href="http://vjs.zencdn.net/5.17.0/video-js.css" rel="stylesheet">
+    <!-- If you'd like to support Video Player in IE8 -->
+    <script src="http://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+    <!--Snowflake Icons taken from https://icons8.com/-->
+    <link rel="shortcut icon" href="/storage/icons/snowflake.png">
+    <!--Font Awesome-->
+    <script src="https://use.fontawesome.com/fffe030555.js"></script>
+    <!--My Css File-->
+    <link rel="stylesheet" href="/css/app.css">
+    <!--Pusher-->
+    <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
+    <title>Medeniyet Sosyal</title>
 </head>
 <body>
 	<div id="app">
