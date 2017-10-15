@@ -37,7 +37,8 @@ class UserController extends Controller
                                                     ->with('clubs', $clubs);
         } else {
             return view('users.index')->with('user', $user)->with('friends', $friends)
-                                                          ->with('statuses', $statuses);
+                                                           ->with('clubs', $clubs)
+                                                           ->with('statuses', $statuses);
         }
     }
 

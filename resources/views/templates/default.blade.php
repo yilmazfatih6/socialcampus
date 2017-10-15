@@ -27,6 +27,12 @@
         <div class="container-fluid">
             @yield('header')
                 @include('templates.partials.alerts')
+                <a href="/feedback" class="link">
+                    <div class="alert alert-warning">
+                        <i class="fa fa-exclamation" aria-hidden="true"></i>
+                        <span>Pşşt! Şuan erken erişim aşamasındayız eğer bir terslik farkedersen bana tıkla ve geri bildirim gönder.</span>
+                    </div>
+                </a>
             @yield('content')
         </div>
         <!--app.js File-->

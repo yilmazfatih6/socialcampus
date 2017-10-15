@@ -1,7 +1,7 @@
 <!-- Friend , Friend request -->
 <h4>Kulüp Listesi</h4>
 @if(!$user->clubs()->count())
-    @if(Auth::user()->username===$user->username)
+    @if(Auth::check() && Auth::user()->username===$user->username)
         <p class="text-muted">Henüz bir kulübe üye değilsin.</p>
         <a type="submit" class="btn btn-info btn-sm" href="/clubs">Kulüpler anasayfasına git</a>
     @else

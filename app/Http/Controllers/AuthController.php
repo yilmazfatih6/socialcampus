@@ -43,8 +43,8 @@ class AuthController extends Controller
         Mail::to(Auth::user()->email)
             ->send(new NewUserValidation());
         */
-            
-        return redirect()->route('home')->with('info', 'Hesabınız oluşturuldu lütfen email adresinize gönderilen email ile doğrulama yapınız.');
+        // Hesabınız oluşturuldu lütfen email adresinize gönderilen email ile doğrulama yapınız.
+        return redirect()->route('home')->with('info', 'Hesabınız başarılı bir şekilde oluşturuldu.');
     }
 
     //Get Login Page

@@ -5,7 +5,7 @@
         <!--Profile Photo-->
             <div class="media inline pull-left">
                 <div class="media-left media-top">
-                    @if(Auth::user()->id === $user->id)
+                    @if(Auth::check() && Auth::user()->id === $user->id)
                         <a data-toggle="modal" data-target="#uploadAvatar" class="pull-left" x>
                             <img class="img-circle  avatar-profile" alt=" {{ $user->getNameOrUsername() }} " src="/storage/avatars/{{$user->avatar}}"/>
                         </a>
@@ -17,7 +17,7 @@
         <!--End of Profile Photo-->
 
         <!--Upload Avatar-->
-        @if($user->username === Auth::user()->username)
+        @if(Auth::check() && $user->username === Auth::user()->username)
             <div class=" pull-right">
                 <button data-toggle="modal" data-target="#uploadCover" class="btn btn-lg btn-upload" id="btn-upload-avatar">
                     <i class="fa fa-cloud-upload upload-cover-icon" aria-hidden="true"></i>

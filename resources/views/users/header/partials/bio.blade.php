@@ -10,7 +10,7 @@
             </div>
             <div class="collapse navbar-collapse" id="bioNav">
                 <!--Output of username-->
-                @if(Auth::user()->id === $user->id)
+                @if(Auth::check() && Auth::user()->id === $user->id)
                 <ul class="nav navbar-nav hidden-md hidden-lg">
                     <li><a href="{{ route('profile.edit') }}" class="text-center">Profilini Güncelle</a></li>
                     <li><a href="/profile/edit/password" class="text-center">Şifreni Değiştir</a></li>
@@ -25,7 +25,7 @@
                 <!--End of out of username-->
 
                 <!--Editing Friendship-->
-                @if(Auth::user() && Auth::user()->id!==$user->id && Auth::user()->isFriendsWith($user))
+                @if(Auth::check() && Auth::user()->id!==$user->id && Auth::user()->isFriendsWith($user))
                 <ul class="nav navbar-nav navbar-right">
                     
                     <!--Send Message Link Message-->

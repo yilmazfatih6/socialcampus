@@ -5,4 +5,5 @@
 		<h1 class="text-center">Üzgünüz bir hata oluştu :(</h1><hr>
 		@include('feedback.partials.form')
 	</div>	
+
 @endsection

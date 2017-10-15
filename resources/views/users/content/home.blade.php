@@ -1,4 +1,4 @@
-@if(Auth::user()->id === $user->id)
+@if(Auth::check() && Auth::user()->id === $user->id)
 	<div class="row">
 	    <div class="col-lg-8 col-lg-offset-2">
 	        @include('users.header.partials.posting')
