@@ -32,7 +32,7 @@
 					<i class="fa fa-snowflake-o hp-icon" aria-hidden="true"></i>
 		      			<h1><b>Merhaba!</b></h1>
 		      			<h2>Medeniyet Sosyal'e Hoşgeldin!</h2>
-		      			<small><b>Erken Erişim Süreci</b></small>
+		      			<small><b>Erken Erişim</b></small>
 		      			<!--Search-->
 		      			<div class="hp-search">
 						<form class="inline" role="search" action="/searchengine">
