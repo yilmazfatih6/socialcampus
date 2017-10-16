@@ -111,7 +111,7 @@ class UserController extends Controller
             // Give a specific name
             $filename = 'user_'.time().'_'.$user->username.'.'.$avatar->getClientOriginalExtension();
             // Store file at specific path 
-            Image::make($avatar)->fit(500, 500)->save(storage_path('/app/public/avatars/'.$filename));
+            Image::make($avatar)->fit(500, 500)->save(storage_path('app/public/avatars/'.$filename));
             $user->avatar = $filename;
             $user->save();
             if ($request->ajax()) {
