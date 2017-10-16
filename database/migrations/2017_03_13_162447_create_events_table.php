@@ -26,7 +26,7 @@ class CreateEventsTable extends Migration
             $table->integer('price')->nullable();
             $table->bigInteger('phone')->nullable();
             $table->bigInteger('phone_alternative')->nullable();
-            $table->string('poster')->default('default.png');
+            $table->string('poster')->default('default.jpg');
             $table->boolean('ended')->default('0');
             $table->timestamps();
         });
