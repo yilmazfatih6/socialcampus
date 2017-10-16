@@ -81,4 +81,13 @@ class Event extends Model
     {
         return $this->hasMany('App\Message', 'event_id');
     }
+
+    // Checking if attender limit is reached 
+    public function isAttenderLimitReached() {
+        if ($this->attenders === $this->attender_limit) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

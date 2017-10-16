@@ -105,8 +105,14 @@
 		@endif
 	<!--End of Event Buttons -->
 	@else
-	<li class="list-group-item text-center div-warning event-action-btn">
-		<b>Etkinliğe katılabilmek için bu kulübün üyesi olmanız lazım.</b>
-	</li>
+		@if($event->isAttenderLimitReached())
+			<li class="list-group-item text-center div-disabled event-action-btn">
+				<b>Katılımcı limitine ulaşıldı.</b>
+			</li>
+		@else
+			<li class="list-group-item text-center div-warning event-action-btn">
+				<b>Etkinliğe katılabilmek için bu kulübün üyesi olmanız lazım.</b>
+			</li>
+		@endif
 	@endif
 </ul>

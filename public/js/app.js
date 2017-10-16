@@ -1789,9 +1789,16 @@ $(document).ready(function () {
 			method: $(this).attr('method'),
 			dataType: "json",
 			success: function success(data) {
-				/*Insert Alert*/
-				$('#after').after(alertSuccess);
-				$("#alert").text(data['message']);
+				/*Alerting Success*/
+				if (data.message) {
+					$('#after').after(alertSuccess);
+					$("#alert").text(data['message']);
+				}
+				// Alerting Danger
+				if (data.danger) {
+					$('#after').after(alertDanger);
+					$("#alert").text(data['danger']);
+				}
 				/*reload attenders on index page*/
 				$("#attenders-wrapper").load("/event/" + id + " #attenders");
 				/*reload sharing on index page*/

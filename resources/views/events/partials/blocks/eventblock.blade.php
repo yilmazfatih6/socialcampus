@@ -53,6 +53,14 @@
 				</a>
 			</div>
 		</div>
+		@else
+		<div class="row">
+			<div class="container-fluid">
+				<a href="/event/{{$event->id}}" class="btn btn-info btn-block">
+					Detaylar <i class="fa fa-info" aria-hidden="true"></i>
+				</a>
+			</div>
+		</div>
 		@endif
 	</div>
 </div>

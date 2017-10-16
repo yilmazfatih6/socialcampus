@@ -6,7 +6,7 @@
         		<!--Club Avatar Media-->
         		<img class="img-circle" src="/storage/avatars/{{$club->avatar}}" style="width:150px; height:auto; border: 3px solid white;">
         	</div>
-	</div>
+	</div><br>
 @endsection
 @section('content')
 

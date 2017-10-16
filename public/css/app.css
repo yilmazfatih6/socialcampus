@@ -8606,6 +8606,13 @@ main purple: #6626af;
   color: #fff;
 }
 
+/* Div Disabled */
+
+.div-disabled {
+  background-color: #8b8d8e;
+  color: #fff;
+}
+
 .padding-remover {
   padding: 0px !important;
 }

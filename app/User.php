@@ -117,7 +117,11 @@ class User extends Authenticatable
     public function canAttend(Event $event)
     {
         $club = Club::where('id', $event->club_id)->first();
-        return (bool) $this->isMember($club);
+        if ( $this->isMember($club) && $event->attenders !== $event->attender_limit) {
+            return (bool) true;
+        } else {
+            return (bool) false;
+        }
     }
 
     public function isConfirmed(Event $event)

@@ -15,9 +15,8 @@ class LordController extends Controller
     {
         $clubRequests = Club::where('confirmed', false)->get();
         $confirmedClubs =  Club::where('confirmed', true)->get();
-
         return view('lord.index')->with('clubRequests', $clubRequests)
-                                ->with('confirmedClubs', $confirmedClubs);
+                                 ->with('confirmedClubs', $confirmedClubs);
     }
 
     // Apply Page

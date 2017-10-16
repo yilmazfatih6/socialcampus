@@ -118,21 +118,21 @@ class EventController extends Controller
           'description' => 'required',
           'date' => 'required|date',
           'hour' => 'required',
-          'attender_limit' => 'integer',
-          'price' => 'integer',
-          'contact' => 'integer',
-          'contact_2' => 'integer',
+          'attender_limit' => 'integer|nullable',
+          'price' => 'integer|nullable',
+          'contact' => 'integer|nullable',
+          'contact_2' => 'integer|nullable',
           'poster' => 'image',
         ]);
         ///////////////////////////////////////////////////////////////
         if (strtotime($request->input('date')) < time()) {
             return redirect()->back()->withInput($request->except('date'), $request->except('date'))
-                                                  ->with('danger', 'Etkinlik tarihi bugünden önce gerçekleşemez!');
+                                     ->with('danger', 'Etkinlik tarihi bugünden önce gerçekleşemez!');
         }
         ///////////////////////////
         if (strtotime($request->input('deadline')) > strtotime($request->input('date'))) {
             return redirect()->back()->withInput($request->except('deadline'))
-                                                  ->with('danger', 'Son katılım tarihi etkinlik tarihinden sonra olamaz!');
+                                     ->with('danger', 'Son katılım tarihi etkinlik tarihinden sonra olamaz!');
         }
 
         $club = Club::where('abbreviation', $abbreviation)->first();
@@ -184,14 +184,28 @@ class EventController extends Controller
         return redirect()->action('EventController@eventPage', ['id' => $event->id])->with('success', 'Etkinlik oluşturuldu.');
     }
 
-    public function addEvent($id)
+    // Attending to an event
+    public function addEvent(Request $request, $id)
     {
         $event = Event::where('id', $id)->first();
         $admins = $event->attenders()->where('admin', true)->get();
         // If users requested to attend to event for the second time return this
         if (Auth::user()->isAttending($event)) {
-            return response()->json(['message' => 'Bir etkinliğe birden fazla kere katılamazsınız.']);
+            if($request->ajax()) {
+                return response()->json(['danger' => 'Bir etkinliğe birden fazla kere katılamazsınız.']);
+            } else {
+                return redirect()->back()->with('danger', 'Bir etkinliğe birden fazla kere katılamazsınız.');
+            }
+        } 
+        // Checking if attender limit has been reached
+        if ($event->attenders === $event->attender_limit) {
+            if($request->ajax()) {
+                return response()->json(['danger' => 'Üzgünüz etkinlik katılımcı limitine ulaşmış.']);
+            } else {
+                return redirect()->back()->with('danger', 'Üzgünüz etkinlik katılımcı limitine ulaşmış.');
+            }
         }
+
         Auth::user()->addEvent($event);
         Notification::send($admins, new AttendanceRequest(Auth::user(), $event));
         $event->attenders++;

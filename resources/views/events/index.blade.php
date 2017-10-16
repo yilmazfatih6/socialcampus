@@ -6,7 +6,7 @@
 		<div class="col-lg-12 text-center">
 			<h1 class="inline">Etkinlikler</h1>
 			<!-- Checking Auth -->
-			@if(Auth::check())
+			@if(Auth::check() && isset($ownedClubs))
 				<!--Modal Button-->
 				<a  class="btn-create" data-toggle="modal" data-target="#create-event">
 					<i class="fa fa-plus" aria-hidden="true"></i>
