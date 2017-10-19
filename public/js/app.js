@@ -1501,6 +1501,19 @@ if ($('#page-chat').length !== 0) {
 		}
 	});
 }
+/******************************* CHAT **************************************/
+
+$(".fix-chat").click(function () {
+	$('html, body').animate({
+		scrollTop: $(".chat").offset().top
+	}, 500);
+});
+$(".scroll-to-nav").click(function () {
+	$('html, body').animate({
+		scrollTop: $("nav").offset().top
+	}, 500);
+});
+/******************************* END OF CHAT **************************************/
 
 /*********************************************************************
 **			 		    	JQUERY                     				**
@@ -1608,23 +1621,23 @@ $(document).ready(function () {
 
 	/************************ AUTH ************************************/
 	//Signin
-	$("#signin-form").submit(function (event) {
+	$(".signin-form").submit(function (event) {
 		event.preventDefault();
 		$.ajax({
-			method: "POST",
-			url: "/signin",
-			data: $("#signin-form").serialize(),
+			method: $(this).attr('method'),
+			url: $(this).attr('action'),
+			data: $(this).serialize(),
 			dataType: "json"
 		}).done(function (data) {
 			if (data['status'] == 0) {
-				$("#signin-alert").addClass("alert alert-danger");
-				$("#signin-alert").text(data['message']);
-				$("#username").val("");
-				$("#password").val("");
+				$(".signin-alert").addClass("alert alert-danger");
+				$(".signin-alert").text(data['message']);
+				$(".username").val("");
+				$(".password").val("");
 			} else if (data['status'] == 1) {
-				$("#signin-alert").addClass("alert alert-danger");
-				$("#signin-alert").text(data['message']);
-				$("#password").val("");
+				$(".signin-alert").addClass("alert alert-danger");
+				$(".signin-alert").text(data['message']);
+				$(".password").val("");
 			} else if (data['status'] == 2) {
 				window.location.replace('/');
 			}
@@ -49826,7 +49839,7 @@ exports = module.exports = __webpack_require__(0)(undefined);
 
 
 // module
-exports.push([module.i, "\n.chat-log[data-v-3d42245a] {\n    overflow: scroll;\n    overflow-x:hidden;\n    height: 75vh;\n}\n.message-box span[data-v-3d42245a]{\n    background-color: #fff;\n    border-radius: 10px;\n    padding: 10px;\n    margin-bottom: 5px;\n    display: block;\n    border: 1px solid #e8ecef;\n}\n", ""]);
+exports.push([module.i, "\n.chat-log[data-v-3d42245a] {\n    overflow: scroll;\n    overflow-x:hidden;\n    height: 86vh;\n    z-index: -1;\n}\n.message-box span[data-v-3d42245a]{\n    background-color: #fff;\n    border-radius: 10px;\n    padding: 10px;\n    margin-bottom: 5px;\n    display: block;\n    border: 1px solid #e8ecef;\n}\n", ""]);
 
 // exports
 
@@ -50190,7 +50203,7 @@ exports = module.exports = __webpack_require__(0)(undefined);
 
 
 // module
-exports.push([module.i, "\n.media[data-v-17c7a023] {\n\tmargin-top: -5px;\n\tbackground-color: #fff;\n\tpadding: 15px;\n\tborder: 1px solid #e8ecef;\n}\n.media img[data-v-17c7a023] {\n\tborder-radius: 100%;\n\twidth: 50px;\n\theight: 50px;\n\tdisplay: inline;\n}\n.media-body span[data-v-17c7a023] {\n\tline-height: 50px;\n\tcolor: #636b6f;\n\ttext-decoration: none;\n\tmargin-left: 10px;\n}\na[data-v-17c7a023], a[data-v-17c7a023]:hover {\n\ttext-decoration: none;\n}\n", ""]);
+exports.push([module.i, "\n.wrapper[data-v-17c7a023] {\n\tmargin-top: -5px;\n\tbackground-color: #fff;\n\tpadding: 15px;\n\tborder: 1px solid #e8ecef;\n\theight: 14vh;\n}\n.image[data-v-17c7a023] {\n\tborder-radius: 100%;\n\twidth: 50px;\n\theight: 50px;\n\tdisplay: inline;\n\tmargin: 0 10px 0 15px;\n}\n.name[data-v-17c7a023] {\n\tpadding-left: 20px;\n\tline-height: 50px;\n\tcolor: #636b6f;\n\ttext-decoration: none;\n\tmargin-left: 10px;\n}\na[data-v-17c7a023], a[data-v-17c7a023]:hover {\n\ttext-decoration: none;\n\tcolor: #40c4ed;\n}\n.right-arrows[data-v-17c7a023] {\n\tmargin-left: 10px;\n}\n", ""]);
 
 // exports
 
@@ -50201,6 +50214,10 @@ exports.push([module.i, "\n.media[data-v-17c7a023] {\n\tmargin-top: -5px;\n\tbac
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
 //
 //
 //
@@ -50231,17 +50248,26 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "media" }, [
-    _c("div", { staticClass: "media-left" }, [
-      _vm._m(0),
-      _vm._v(" "),
-      _c("img", { attrs: { src: _vm.src + _vm.user.avatar } })
-    ]),
+  return _c("div", { staticClass: "wrapper" }, [
+    _c(
+      "div",
+      { staticClass: "pull-left", staticStyle: { "line-height": "10vh" } },
+      [
+        _vm._m(0),
+        _vm._v(" "),
+        _c("img", {
+          staticClass: "image inline",
+          attrs: { src: _vm.src + _vm.user.avatar }
+        })
+      ]
+    ),
     _vm._v(" "),
-    _c("div", { staticClass: "media-body" }, [
+    _c("div", { staticClass: "name", staticStyle: { "line-height": "10vh" } }, [
       _c("span", [
         _vm._v(_vm._s(_vm.user.first_name) + " " + _vm._s(_vm.user.last_name))
-      ])
+      ]),
+      _vm._v(" "),
+      _vm._m(1)
     ])
   ])
 }
@@ -50252,9 +50278,29 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("a", { staticClass: "inline", attrs: { href: "/chat" } }, [
       _c("i", {
-        staticClass: "fa fa-arrow-left",
+        staticClass: "fa fa-arrow-left inline",
         attrs: { "aria-hidden": "true" }
       })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "pull-right" }, [
+      _c("a", [
+        _c("i", {
+          staticClass: "fa fa-arrows-h fix-chat",
+          attrs: { "aria-hidden": "true" }
+        })
+      ]),
+      _vm._v(" "),
+      _c("a", [
+        _c("i", {
+          staticClass: "fa fa-arrow-up scroll-to-nav right-arrows",
+          attrs: { "aria-hidden": "true" }
+        })
+      ])
     ])
   }
 ]

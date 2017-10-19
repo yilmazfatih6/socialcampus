@@ -49,3 +49,25 @@
         </div><!-- / modal content-->
     </div><!-- /modal dialog-->
 </div><!-- / Modal fade-->
+
+<div class="modal fade" id="delete-account" role="dialog">
+    <!--modal dialog-->
+    <div class="modal-dialog">
+        <!--modal content-->
+        <div class="modal-content">
+            <!--modal header-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Hesabını Sil</h4>
+            </div><!--/ modal header-->
+            <!--modal body-->
+            <div class="modal-body">
+                <form action="/account/{{Auth::user()->id}}/delete" method="post">
+                    <button type="submit" class="btn btn-danger">Hesabı Sil</button>
+                    <button class="btn btn-default pull-right" data-dismiss="modal">Vazgeç</button>
+                    {{csrf_field()}}
+                </form>
+            </div><!--/ modal body-->
+        </div><!-- / modal content-->
+    </div><!-- /modal dialog-->
+</div><!-- / Modal fade-->

@@ -32,7 +32,7 @@
             @endif
         </div>
         <div class="pull-right">
-            <button type="submit" class="btn btn-default btn-purple btn-sm">Paylaş</button>
+            <button type="submit" class="btn btn-default btn-share btn-sm">Paylaş</button>
         </div>
     </div>
 

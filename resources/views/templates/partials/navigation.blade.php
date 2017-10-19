@@ -3,7 +3,7 @@
 		<div class="navbar-header">
 			<!--Snow flake ıcon-->
 			<a class="navbar-toggle text-center navbar-icon" href="/">
-				<i class="fa fa-snowflake-o navbar-snowflake" aria-hidden="true"></i>
+				<i class="fa fa-snowflake-o" aria-hidden="true"></i>
 			</a>
 			<!--Clubs-->
 			<a href="/clubs" class="navbar-toggle text-center navbar-icon">
@@ -92,8 +92,8 @@
 
 			<ul class="nav navbar-nav">
 				<li>
-					<a class="navbar-brand text-center navbar-icon-lg" href="/">
-						<i class="fa fa-snowflake-o navbar-snowflake" aria-hidden="true"></i>
+					<a class="navbar-brand text-center navbar-icon-lg navbar-snowflake" href="/">
+						<i class="fa fa-snowflake-o" aria-hidden="true"></i>
 					</a>
 				</li>
 				<li><a href="/clubs" class="navbar-icon-lg">Kulüpler</a></li>
@@ -171,7 +171,8 @@
 						<ul class="dropdown-menu">
 							<li><a href="/user/{{Auth::user()->username}}">Profil</a></li>
 							<li><a href="{{ route('profile.edit') }}">Profilini Güncelle</a></li>
-							<li><a href="{{ route('profile.password') }}">Şifreni Değiştir</a></li>
+							<li><a href="/profile/edit/password">Şifreni Değiştir</a></li>
+							<li><a href="/account/delete">Hesabı Sil</a></li>
 							<li><a href="{{ route('auth.signout') }}">Çıkış Yap</a></li>
 						</ul>
 					</li>

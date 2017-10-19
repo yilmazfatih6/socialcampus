@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-lg-6 col-lg-offset-3">
+        <div class="col-lg-8 col-lg-offset-2">
             <h2>Profilini Güncelle</h2><br>
             <form class="form-vertical" role="form" method="post" action="/profile/edit/{{Auth::user()->username}}">
                 <div class="row">
@@ -62,7 +62,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Güncelle</button>
+                    <button type="submit" class="btn btn-info btn-block">Güncelle</button>
                 </div>
                 <input type="hidden" name="_token" value="{{Session::token()}}"/>
             </form>

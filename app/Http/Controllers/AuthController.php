@@ -63,7 +63,7 @@ class AuthController extends Controller
         ]);
 
         //Checking if username exists
-        $user = User::where('username', $request->input('username'))->count();
+        $user = User::where( 'username', $request->input('username') )->count();
         //If not execute below
         if (!$user) {
             return response()->json(['message' => 'Böyle bir kullanıcı bulunamadı.',

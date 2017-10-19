@@ -6,23 +6,23 @@
 		<div class="col-lg-6 col-lg-offset-3">
 			<h1 class="display-1"><b>Giriş Yap</b></h1>
 
-			<form class="form-horizontal" id="signin-form" role="form" method="post" action="/signin">
+			<form class="form-horizontal signin-form" role="form" method="post" action="/signin">
 
 				<!--Username Input-->
 				<label for="username" class="control-label">Kullanıcı Adı</label>
 				<div class="input-group{{ $errors->has('username') ? ' has-error' : ''}}">
 					<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-					<input type="text" class="form-control"  name="username" placeholder="Kullanıcı Adı" id="username" value="{{old('username')}}" required autofocus>
+					<input type="text" class="form-control username"  name="username" placeholder="Kullanıcı Adı" value="{{old('username')}}" required autofocus>
 					@if($errors->has('username'))
-			            		<span class="help-block">{{ $errors->first('username') }}</span>
-			        		@endif
+	            		<span class="help-block">{{ $errors->first('username') }}</span>
+	        		@endif
 				</div>
 
 				<!--Password Input-->
 				<label for="password" class="control-label" style="margin-top: 5px;">Şifre</label>
 				<div class="input-group{{ $errors->has('password') ? ' has-error' : ''}}">
 					<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-					<input id="password" type="password" class="form-control" name="password" placeholder="Şifre" id="password" required>
+					<input type="password" class="form-control password" name="password" placeholder="Şifre" id="password" required>
 					@if($errors->has('password'))
 			            		<span class="help-block">{{ $errors->first('password') }}</span>
 			       		@endif
@@ -39,12 +39,14 @@
 				-->
 				
 				<!--Submit Button-->
-				<div class="form-gorup inline pull-right" id="signin-submit">
+				<div class="form-gorup inline pull-right">
 					<button type="submit" class="btn btn-success">Giriş Yap</button>
 				</div>
+
 				<br>
 				<br>
-				<div role="alert" id="signin-alert"></div>
+
+				<div role="alert" class="signin-alert"></div>
 
       			<input type="hidden" name="_token" value="{{ Session::token() }}"/>
 			</form>

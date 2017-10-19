@@ -8619,19 +8619,6 @@ main purple: #6626af;
 
 /************************ NAVIGATION **************************/
 
-/*Navbar Snowflake Icon*/
-
-.navbar-snowflake {
-  font-size: 20px;
-  color: #40c4ed;
-}
-
-.navbar-snowflake:hover,
-.navbar-snowflake:focus,
-.navbar-snowflake:active {
-  color: #fff;
-}
-
 /* Navbar Icons on Collapse */
 
 .navbar-icon {
@@ -8651,6 +8638,10 @@ main purple: #6626af;
   border-radius: 0;
   background-color: #40c4ed !important;
   color: #fff !important;
+}
+
+.navbar-snowflake {
+  color: #40c4ed !important;
 }
 
 .navbar-icon-lg:focus,
@@ -8786,10 +8777,6 @@ main purple: #6626af;
 
 .hide-toggle {
   display: none;
-}
-
-.upload-cover-icon {
-  color: #fce114;
 }
 
 .inline {
@@ -8990,6 +8977,10 @@ main purple: #6626af;
   font-size: 20px;
 }
 
+.btn-action {
+  margin: 0px 7px 7px 7px;
+}
+
 /*************LIKE BUTTON************/
 
 .btn-like {
@@ -9044,11 +9035,14 @@ main purple: #6626af;
 .btn-upload:hover,
 .btn-upload:active,
 .btn-upload:focus {
-  border: 0;
-  margin: 0;
-  padding: 0;
-  background-color: transparent;
-  outline: none;
+  width: 120px;
+  margin-bottom: 5px;
+}
+
+.btn-share {
+  background-color: #7dc3d8;
+  color: #fff;
+  border: 1px solid #4d98af;
 }
 
 /***************** End of Buttons ******************/
@@ -9285,13 +9279,23 @@ input[type=range]:focus::-ms-fill-upper {
   background-color: #555;
 }
 
+.chat {
+  margin: -18px -15px 0 -15px;
+}
+
+#chat-form {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+}
+
 /********************* End of Chat ****************************/
 
 /********************* PROFILE ****************************/
 
 .profile-header {
   margin-top: -25px;
-  padding: 75px 0;
+  padding: 50px 0;
   background-size: 100vw auto;
 }
 

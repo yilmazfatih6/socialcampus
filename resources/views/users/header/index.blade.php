@@ -19,8 +19,18 @@
         <!--Upload Avatar-->
         @if(Auth::check() && $user->username === Auth::user()->username)
             <div class=" pull-right">
-                <button data-toggle="modal" data-target="#uploadCover" class="btn btn-lg btn-upload" id="btn-upload-avatar">
-                    <i class="fa fa-cloud-upload upload-cover-icon" aria-hidden="true"></i>
+                <button data-toggle="modal" data-target="#uploadCover" class="btn btn-upload btn-yellow btn-xs hidden-lg hidden-md hidden-sm">
+                    <small>Kapak Değiştir</small> <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+                </button><br>
+                <button data-toggle="modal" data-target="#uploadAvatar" class="btn btn-upload btn-yellow btn-xs hidden-lg hidden-md hidden-sm">
+                    <small>Fotoğraf Değiştir</small> <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+                </button>
+
+                <button data-toggle="modal" data-target="#uploadCover" class="btn btn-upload btn-yellow btn-sm hidden-xs">
+                    <small>Kapak Değiştir</small> <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+                </button><br>
+                <button data-toggle="modal" data-target="#uploadAvatar" class="btn btn-upload btn-yellow btn-sm hidden-xs">
+                    <small>Fotoğraf Değiştir</small> <i class="fa fa-cloud-upload" aria-hidden="true"></i>
                 </button>
             </div>
         @endif

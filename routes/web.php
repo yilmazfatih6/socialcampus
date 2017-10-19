@@ -63,6 +63,9 @@
   Route::post('/profile/upload/cover', 'UserController@uploadCover')->middleware('auth');
 
   Route::get('/user/info/{username}', 'UserController@userInfo')->middleware('auth');
+  // Delete User Account
+  Route::get('/account/delete', 'UserController@getDelete')->middleware('auth');
+  Route::post('/account/{id}/delete', 'UserController@postDelete')->middleware('auth');
 /***************END OF USER PROFILE******************/
 
 

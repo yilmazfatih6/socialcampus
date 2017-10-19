@@ -209,14 +209,6 @@ main purple: #6626af;
 		padding: 0px !important;
 	}
 /************************ NAVIGATION **************************/
-	/*Navbar Snowflake Icon*/
-	.navbar-snowflake {
-		font-size: 20px;
-		color: #40c4ed;
-	}
-	.navbar-snowflake:hover, .navbar-snowflake:focus, .navbar-snowflake:active,  {
-		color: #fff;
-	}
 	/* Navbar Icons on Collapse */
 	.navbar-icon {
 		border: 0;
@@ -233,6 +225,10 @@ main purple: #6626af;
 		background-color: #40c4ed !important;
 		color: #fff !important;
 	}
+	.navbar-snowflake {
+		color: #40c4ed !important;
+	}
+
 	.navbar-icon-lg:focus, .navbar-icon-lg:hover, .navbar-icon-lg:active {
 		border-radius: 0;
 		background-color: #40c4ed !important;
@@ -338,9 +334,6 @@ main purple: #6626af;
 		display: none;
 	}
 
-	.upload-cover-icon {
-		color: #fce114;
-	}
 	.inline{
 		display:inline !important;
 	}
@@ -485,6 +478,10 @@ main purple: #6626af;
 	.btn-action-green>i, .btn-action-red>i, .btn-action-orange>i {
 		font-size: 20px;
 	}
+	.btn-action {
+		margin: 0px 7px 7px 7px; 
+	}
+	
 	/*************LIKE BUTTON************/
 	.btn-like {
 		color: #7c7c7c;
@@ -528,12 +525,17 @@ main purple: #6626af;
 	}
 
 	.btn-upload, .btn-upload:hover, .btn-upload:active, .btn-upload:focus {
-		border: 0;
-		margin: 0;
-		padding: 0;
-		background-color: rgba(0, 0, 0, 0);
-		outline: none;
+		width: 120px;
+		margin-bottom: 5px;
 	}
+
+	.btn-share {
+		background-color: #7dc3d8;
+		color: #fff;
+		border: 1px solid #4d98af;
+	}
+
+
 
 /***************** End of Buttons ******************/
 
@@ -743,11 +745,19 @@ main purple: #6626af;
 		-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
 		background-color: #555;
 	}
+	.chat {
+		margin: -18px -15px 0 -15px;
+	}
+	#chat-form {
+		position:fixed;
+	    left:0;
+	    bottom:0;
+	}
 /********************* End of Chat ****************************/
 /********************* PROFILE ****************************/
 	.profile-header {
 		margin-top:-25px;
-		padding: 75px 0;
+		padding: 50px 0;
 	 	background-size: 100vw auto;
 	}
 /********************* END OF PROFILE ****************************/

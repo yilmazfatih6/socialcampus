@@ -295,6 +295,19 @@ if( $('#page-chat').length !== 0 ) {
 	    }
 	});
 }
+/******************************* CHAT **************************************/
+
+$(".fix-chat").click(function (){
+    $('html, body').animate({
+        scrollTop: $(".chat").offset().top
+    }, 500);
+});
+$(".scroll-to-nav").click(function (){
+    $('html, body').animate({
+        scrollTop: $("nav").offset().top
+    }, 500);
+});
+/******************************* END OF CHAT **************************************/
 
 /*********************************************************************
 **			 		    	JQUERY                     				**
@@ -402,33 +415,27 @@ $(document).ready(function(){
 
 /************************ AUTH ************************************/
 	//Signin
-	$("#signin-form").submit(function(event){
+	$(".signin-form").submit(function(event){
 		event.preventDefault();
 		$.ajax({
-			method: "POST",
-			url: "/signin",
-			data: $("#signin-form").serialize(),
+			method: $(this).attr('method'),
+			url: $(this).attr('action'),
+			data: $(this).serialize(),
 			dataType: "json",
-		})
-			.done(function(data){
-				if( data['status'] == 0 )
-				{
-					$("#signin-alert").addClass("alert alert-danger");
-					$("#signin-alert").text(data['message']);
-					$("#username").val("");
-					$("#password").val("");
-				}
-				else if( data['status'] == 1 )
-				{
-					$("#signin-alert").addClass("alert alert-danger");
-					$("#signin-alert").text(data['message']);
-					$("#password").val("");
-				}
-				else if( data['status'] == 2 )
-				{
-					window.location.replace('/');
-				}
-			});
+		}).done(function(data){
+			if( data['status'] == 0 ) {
+				$(".signin-alert").addClass("alert alert-danger");
+				$(".signin-alert").text(data['message']);
+				$(".username").val("");
+				$(".password").val("");
+			} else if( data['status'] == 1 ) {
+				$(".signin-alert").addClass("alert alert-danger");
+				$(".signin-alert").text(data['message']);
+				$(".password").val("");
+			} else if( data['status'] == 2 ) {
+				window.location.replace('/');
+			}
+		});
 	});
 /************************ END OF AUTH ************************************/
 

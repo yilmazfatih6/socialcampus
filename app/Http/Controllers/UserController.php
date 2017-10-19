@@ -74,7 +74,7 @@ class UserController extends Controller
 
     public function getEditPass()
     {
-        return view('users.editPassword');
+        return view('users.password');
     }
 
     public function postEditPass(Request $request)
@@ -151,5 +151,14 @@ class UserController extends Controller
     {
         $user = User::where('username', $username)->first();
         return view('users.userinfo')->with('user', $user);
+    }
+
+    public function getDelete() {
+        return view('users.delete');
+    }
+
+    public function postDelete($id) {
+        User::where('id', $id)->delete();
+        return redirect('/signin')->with('danger', 'Hesabınız silindi. Hoşçakalın!');
     }
 }

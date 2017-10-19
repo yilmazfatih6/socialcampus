@@ -11,15 +11,19 @@
             <div class="collapse navbar-collapse" id="bioNav">
                 <!--Output of username-->
                 @if(Auth::check() && Auth::user()->id === $user->id)
-                <ul class="nav navbar-nav hidden-md hidden-lg">
+                <ul class="nav navbar-nav hidden-md hidden-lg text-center">
                     <li><a href="{{ route('profile.edit') }}" class="text-center">Profilini Güncelle</a></li>
                     <li><a href="/profile/edit/password" class="text-center">Şifreni Değiştir</a></li>
+                    <li class="text-center">
+                        <a href="/account/delete">Hesabı Sil</a>
+                    </li>
+                    <!-- CHANGE AVATAR AND COVER
                     <li>
-                        <a data-toggle="modal" data-target="#uploadCover" class="btn btn-upload" id="btn-upload-avatar">Kapak Fotoğrafı Değiştir</a>
+                        <a data-toggle="modal" data-target="#uploadCover" class="btn btn-upload text-center" id="btn-upload-avatar">Kapak Fotoğrafı Değiştir</a>
                     </li>
                     <li>
-                        <a data-toggle="modal" data-target="#uploadAvatar" class="btn btn-upload" id="btn-upload-avatar">Profil Fotoğrafı Değiştir</a>
-                    </li>
+                        <a data-toggle="modal" data-target="#uploadAvatar" class="btn btn-upload text-center" id="btn-upload-avatar">Profil Fotoğrafı Değiştir</a>
+                    </li>-->
                 </ul>
                 @endif
                 <!--End of out of username-->

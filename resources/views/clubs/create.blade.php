@@ -63,7 +63,7 @@
 
 			<div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
 	          	<label for="description" class="control-label">Açıklama</label>
-	        	<textarea onkeyup="textAreaAdjust(this)" class="form-control" placeholder="Kulüp hakkında bazı açıklamalar yaz." name="description" class="form-control" id="description" rows="10">{{old('description')}}</textarea>
+	        	<textarea class="form-control" placeholder="Kulüp hakkında bazı açıklamalar yaz." name="description" class="form-control" id="description" rows="10">{{old('description')}}</textarea>
 	          	@if ($errors->has('description'))
 	            	<span class="help-block">{{ $errors->first('description') }}</span>
 	          	@endif

@@ -27,7 +27,8 @@
 .chat-log {
     overflow: scroll;
     overflow-x:hidden;
-    height: 75vh;
+    height: 86vh;
+    z-index: -1;
 }
 .message-box span{
     background-color: #fff;
