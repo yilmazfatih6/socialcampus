@@ -48,6 +48,8 @@
 .chat-log {
     overflow: scroll;
     overflow-x:hidden;
+    height: 86vh;
+    z-index: -1;
 }
 .empty {
     margin: 25px 0;

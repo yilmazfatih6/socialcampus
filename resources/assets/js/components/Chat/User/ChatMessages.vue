@@ -26,7 +26,6 @@
 <style scoped>
 .chat-log {
     overflow: scroll;
-    overflow-x:hidden;
     height: 86vh;
     z-index: -1;
 }

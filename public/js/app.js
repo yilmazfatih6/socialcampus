@@ -49839,7 +49839,7 @@ exports = module.exports = __webpack_require__(0)(undefined);
 
 
 // module
-exports.push([module.i, "\n.chat-log[data-v-3d42245a] {\n    overflow: scroll;\n    overflow-x:hidden;\n    height: 86vh;\n    z-index: -1;\n}\n.message-box span[data-v-3d42245a]{\n    background-color: #fff;\n    border-radius: 10px;\n    padding: 10px;\n    margin-bottom: 5px;\n    display: block;\n    border: 1px solid #e8ecef;\n}\n", ""]);
+exports.push([module.i, "\n.chat-log[data-v-3d42245a] {\n    overflow: scroll;\n    height: 86vh;\n    z-index: -1;\n}\n.message-box span[data-v-3d42245a]{\n    background-color: #fff;\n    border-radius: 10px;\n    padding: 10px;\n    margin-bottom: 5px;\n    display: block;\n    border: 1px solid #e8ecef;\n}\n", ""]);
 
 // exports
 
@@ -50398,7 +50398,7 @@ exports = module.exports = __webpack_require__(0)(undefined);
 
 
 // module
-exports.push([module.i, "\n.media[data-v-125c2123] {\n\tmargin-top: -5px;\n\tbackground-color: #fff;\n\tpadding: 10px;\n\tborder: 1px solid #e8ecef;\n}\n.media img[data-v-125c2123] {\n\tborder-radius: 100%;\n\twidth: 50px;\n\theight: 50px;\n}\n.media-body span[data-v-125c2123] {\n\tline-height: 50px;\n\tcolor: #636b6f;\n\ttext-decoration: none;\n\tmargin-left: 10px;\n}\na[data-v-125c2123], a[data-v-125c2123]:hover {\n\ttext-decoration: none;\n}\n", ""]);
+exports.push([module.i, "\n.wrapper[data-v-125c2123] {\n\tmargin-top: -5px;\n\tbackground-color: #fff;\n\tpadding: 15px;\n\tborder: 1px solid #e8ecef;\n\theight: 14vh;\n}\n.image[data-v-125c2123] {\n\tborder-radius: 100%;\n\twidth: 50px;\n\theight: 50px;\n\tdisplay: inline;\n\tmargin: 0 10px 0 15px;\n}\n.name[data-v-125c2123] {\n\tpadding-left: 20px;\n\tline-height: 50px;\n\tcolor: #636b6f;\n\ttext-decoration: none;\n\tmargin-left: 10px;\n}\na[data-v-125c2123], a[data-v-125c2123]:hover {\n\ttext-decoration: none;\n\tcolor: #40c4ed;\n}\n.right-arrows[data-v-125c2123] {\n\tmargin-left: 10px;\n}\n", ""]);
 
 // exports
 
@@ -50409,6 +50409,11 @@ exports.push([module.i, "\n.media[data-v-125c2123] {\n\tmargin-top: -5px;\n\tbac
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
 //
 //
 //
@@ -50438,17 +50443,60 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "media" }, [
-    _c("div", { staticClass: "media-left" }, [
-      _c("img", { attrs: { src: _vm.src + _vm.club.avatar } })
-    ]),
+  return _c("div", { staticClass: "wrapper" }, [
+    _c(
+      "div",
+      { staticClass: "pull-left", staticStyle: { "line-height": "10vh" } },
+      [
+        _vm._m(0),
+        _vm._v(" "),
+        _c("img", {
+          staticClass: "image inline",
+          attrs: { src: _vm.src + _vm.club.avatar }
+        })
+      ]
+    ),
     _vm._v(" "),
-    _c("div", { staticClass: "media-body" }, [
-      _c("span", [_vm._v(_vm._s(_vm.club.name))])
+    _c("div", { staticClass: "name", staticStyle: { "line-height": "10vh" } }, [
+      _c("span", [_vm._v(_vm._s(_vm.club.name))]),
+      _vm._v(" "),
+      _vm._m(1)
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { staticClass: "inline", attrs: { href: "/chat" } }, [
+      _c("i", {
+        staticClass: "fa fa-arrow-left inline",
+        attrs: { "aria-hidden": "true" }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "pull-right" }, [
+      _c("a", [
+        _c("i", {
+          staticClass: "fa fa-arrows-h fix-chat",
+          attrs: { "aria-hidden": "true" }
+        })
+      ]),
+      _vm._v(" "),
+      _c("a", [
+        _c("i", {
+          staticClass: "fa fa-arrow-up scroll-to-nav right-arrows",
+          attrs: { "aria-hidden": "true" }
+        })
+      ])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -50543,7 +50591,7 @@ exports = module.exports = __webpack_require__(0)(undefined);
 
 
 // module
-exports.push([module.i, "\n.chat-log[data-v-fb7886b4] {\n    overflow: scroll;\n    overflow-x:hidden;\n}\n.empty[data-v-fb7886b4] {\n    margin: 25px 0;\n}\n.message-box[data-v-fb7886b4]{\n    background-color: #fff;\n    border-radius: 10px;\n    padding: 10px;\n    margin-bottom: 5px;\n    border: 1px solid #e8ecef;\n}\n.message-box span[data-v-fb7886b4] {\n    display: block;\n}\n", ""]);
+exports.push([module.i, "\n.chat-log[data-v-fb7886b4] {\n    overflow: scroll;\n    overflow-x:hidden;\n    height: 86vh;\n    z-index: -1;\n}\n.empty[data-v-fb7886b4] {\n    margin: 25px 0;\n}\n.message-box[data-v-fb7886b4]{\n    background-color: #fff;\n    border-radius: 10px;\n    padding: 10px;\n    margin-bottom: 5px;\n    border: 1px solid #e8ecef;\n}\n.message-box span[data-v-fb7886b4] {\n    display: block;\n}\n", ""]);
 
 // exports
 
@@ -50783,7 +50831,7 @@ exports = module.exports = __webpack_require__(0)(undefined);
 
 
 // module
-exports.push([module.i, "\n.input-group[data-v-5d25fd1e] {\n    margin-bottom: 25px;\n}\n.input-group button[data-v-5d25fd1e], .input-group input[data-v-5d25fd1e]{\n    border-radius: 0px;\n}\n", ""]);
+exports.push([module.i, "\n.input-group button[data-v-5d25fd1e], .input-group input[data-v-5d25fd1e]{\n    border-radius: 0px;\n}\n", ""]);
 
 // exports
 
@@ -50870,7 +50918,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _vm.admin
     ? _c("div", [
-        _c("div", { staticClass: "input-group" }, [
+        _c("div", { staticClass: "input-group chat-from" }, [
           _c("input", {
             directives: [
               {
@@ -50926,7 +50974,7 @@ var render = function() {
         ])
       ])
     : _c("div", [
-        _c("div", { staticClass: "input-group" }, [
+        _c("div", { staticClass: "input-group chat-from" }, [
           _c("input", {
             directives: [
               {

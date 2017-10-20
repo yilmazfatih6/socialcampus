@@ -1,6 +1,6 @@
 <template>
     <div v-if="admin">
-        <div class="input-group">
+        <div class="input-group chat-from">
             <input id="btn-input" type="text" name="message" class="form-control" placeholder="Mesaj yaz admin kardeş..." v-model="newMessage" @keyup.enter="sendMessageAsClub">
 
             <span class="input-group-btn">
@@ -11,7 +11,7 @@
         </div>
     </div>
     <div v-else>
-        <div class="input-group">
+        <div class="input-group chat-from">
             <input id="btn-input" type="text" name="message" class="form-control" placeholder="Mesaj yaz..." v-model="newMessage" @keyup.enter="sendMessageAsUser">
 
             <span class="input-group-btn">
@@ -66,9 +66,6 @@
 </script>
 
 <style scoped>
-    .input-group {
-        margin-bottom: 25px;
-    }
     .input-group button, .input-group input{
         border-radius: 0px;
     }
