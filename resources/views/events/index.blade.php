@@ -49,21 +49,21 @@
 			</div><br><br>
 			<div class="tab-content">
 				@if( count($joinedClubsEvents) )
-				<div id="joinedClubsEvents" class="tab-pane active fade content">
+				<div id="joinedClubsEvents" class="tab-pane active fade in content">
 					@include('events.partials.tabs.joinedClubsEvents')
 				</div>
-				<div id="others" class="tab-pane fade content">
+				<div id="others" class="tab-pane fade in content">
 					@include('events.partials.tabs.otherEvents')
 				</div>
 				@else
-				<div id="others" class="tab-pane active fade content">
+				<div id="others" class="tab-pane active fade in content">
 					@include('events.partials.tabs.otherEvents')
 				</div>
 				@endif
-				<div id="ownedEvents" class="tab-pane fade content">
+				<div id="ownedEvents" class="tab-pane fade in content">
 					@include('events.partials.tabs.ownedEvents')
 				</div>
-				<div id="attended" class="tab-pane fade content">
+				<div id="attended" class="tab-pane fade in content">
 					@include('events.partials.tabs.attendedEvents')
 				</div>
 			</div>

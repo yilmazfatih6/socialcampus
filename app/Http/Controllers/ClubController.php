@@ -38,7 +38,7 @@ class ClubController extends Controller
                     $i++;
                 }
 
-                $otherClubs = Club::whereNotIn('id', $clubIds)->paginate(1);
+                $otherClubs = Club::whereNotIn('id', $clubIds)->where('confirmed', true)->paginate(1);
                 $otherClubs->withPath('/other_clubs');
 
                 return view('clubs.index')->with('clubs', $clubs)
@@ -62,7 +62,6 @@ class ClubController extends Controller
         $this->validate($request, [
           'name' => 'required|max:200',//array isimleri formlardaki name değerleri ile eşleşmelidir.
           'abbreviation' => 'required|unique:clubs|alpha_dash|max:50',
-          'club_type' => 'required',
         ]);
 
         Club::create([
@@ -377,11 +376,11 @@ class ClubController extends Controller
                     $i++;
                 }
 
-                $otherClubs = Club::whereNotIn('id', $clubIds)->paginate(1);
+                $otherClubs = Club::whereNotIn('id', $clubIds)->where('confirmed', true)->paginate(1);
                 $otherClubs->withPath('/other_clubs');
 
                 if ($request->ajax()) {
-                    return view('clubs.partials.pagination.OtherClubs')->with('otherClubs', $otherClubs)->render();
+                    return view('clubs.partials.pagination.otherClubs')->with('otherClubs', $otherClubs)->render();
                 }
                 return redirect()->back('info', 'Tarayıcının javascipt özelliğini aktifleştirmende yarar var :D');
             }

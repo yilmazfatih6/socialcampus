@@ -248,6 +248,7 @@ class MessageController extends Controller
 
     // Load Event Messages 
     public function loadEventMessages($userId, $eventId) {
+        $event = Event::find($eventId);
         // Check if authenticated
         if (!Auth::check()) {
             return ['status' => 'Failed!'];
@@ -265,6 +266,7 @@ class MessageController extends Controller
     public function sendEventMessageAsUser($userId, $eventId) {
         // Find Event 
         $user = User::find(request()->get('sender_id'));
+        $event = Event::find($eventId);
 
         if (Auth::user()->id !== request()->get('sender_id')) {
             return ['status', 'Something went wrong!'];

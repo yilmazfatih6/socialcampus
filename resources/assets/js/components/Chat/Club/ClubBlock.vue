@@ -1,14 +1,37 @@
 <template>
 	<div class="wrapper">
-		<div class="pull-left"  style="line-height:10vh;">
-			<a href="/chat" class="inline"><i class="fa fa-arrow-left inline" aria-hidden="true"></i></a>
-			<img class="image inline" :src="src+club.avatar"/>
+		<div v-if="admin">
+			<a :href="'/club/'+club.abbreviation">
+				<div class="pull-left"  style="line-height:10vh;">
+					<a href="/chat" class="inline"><i class="fa fa-arrow-left inline" aria-hidden="true"></i></a>
+					<img class="image inline" :src="src+club.avatar"/>
+				</div>
+			</a>
+			<div class="name" style="line-height:10vh;">
+				<a :href="'/club/'+club.abbreviation">
+					<span>{{club.name}}</span>
+				</a>
+				<div class="pull-right">
+					<a><i class="fa fa-arrows-h fix-chat" aria-hidden="true"></i></a>
+					<a><i class="fa fa-arrow-up scroll-to-nav right-arrows" aria-hidden="true"></i></a>
+				</div>
+			</div>
 		</div>
-		<div class="name" style="line-height:10vh;">
-			<span>{{club.name}}</span>
-			<div class="pull-right">
-				<a><i class="fa fa-arrows-h fix-chat" aria-hidden="true"></i></a>
-				<a><i class="fa fa-arrow-up scroll-to-nav right-arrows" aria-hidden="true"></i></a>
+		<div v-else>
+			<a :href="'/user/'+user.username">
+				<div class="pull-left"  style="line-height:10vh;">
+					<a href="/chat" class="inline"><i class="fa fa-arrow-left inline" aria-hidden="true"></i></a>
+					<img class="image inline" :src="src+user.avatar"/>
+				</div>
+			</a>
+			<div class="name" style="line-height:10vh;">
+				<a :href="'/user/'+user.username">
+					<span>{{user.first_name}} {{user.last_name}}</span>
+				</a>
+				<div class="pull-right">
+					<a><i class="fa fa-arrows-h fix-chat" aria-hidden="true"></i></a>
+					<a><i class="fa fa-arrow-up scroll-to-nav right-arrows" aria-hidden="true"></i></a>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -16,10 +39,10 @@
 
 <script>
 	export default {
-		 props: ['club'],
+		 props: ['club', 'admin' , 'user'],
 		 data() {
             return {
-                src: '/storage/avatars/'
+                src: '/storage/avatars/',
             }
         },
 	}

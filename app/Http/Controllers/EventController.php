@@ -30,7 +30,8 @@ class EventController extends Controller
 
         // Getting Clubs with admin privileges 
         if(Auth::check() && Auth::user()->isAdminAny()) {
-            $ownedClubs = Auth::user()->clubs()->where('admin', true)->get();
+            $ownedClubsBuffer = Auth::user()->clubs()->where('admin', true)->get();
+            $ownedClubs = $ownedClubsBuffer->where('confirmed', true);
         }
 
         // Getting Events with admin privileges 

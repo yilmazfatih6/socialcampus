@@ -28,7 +28,7 @@
 			</div>
 
 			<div class="form-group{{ $errors->has('club_type') ? ' has-error' : '' }}">
-          			<label for="club_type" class="control-label">Kulübün Türü*</label>
+          			<label for="club_type" class="control-label">Kulübün Türü</label>
 				<select class="form-control" name="club_type" id="club_type" required>
 					<option @if (old('club_type') == null) selected="selected" @endif  disabled >Bir Tür Seçin</option>
 					<option @if (old('club_type') == 'Sosyoloji') selected="selected" @endif >Biyoloji</option>
