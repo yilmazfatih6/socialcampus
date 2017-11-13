@@ -8,7 +8,7 @@
                     <span class="help-block">{{$errors->first("reply-{$status->id}")}}</span>
                 @endif
             </div>
-            <button type="submit" class="btn btn-default btn-sm btn-purple pull-right">Yorum Yap</button>
+            <button type="submit" class="btn btn-default btn-sm btn-share pull-right">Yorum Yap</button>
             <input type="hidden" name="_token" value="{{ Session::token() }}">
         </form>
         <!--Ending of the Sharing Comment-->

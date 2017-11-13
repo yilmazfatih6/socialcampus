@@ -35,6 +35,11 @@ class Event extends Model
         return $this->belongsToMany('App\User', 'attenders', 'event_id', 'user_id');
     }
 
+    public function statuses()
+    {
+        return $this->hasMany('App\Status', 'event_id');
+    }
+
     public function confirm(User $user)
     {
         return $this->attenders()->where('user_id', $user->id)->first()->pivot->update(['confirmed' => true]);

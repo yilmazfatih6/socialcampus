@@ -10,6 +10,7 @@ use App\User;
 use App\Likeable;
 use App\Status;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use App\Notifications\AttendanceRequest;
@@ -240,6 +241,43 @@ class EventController extends Controller
                                 ]);
     }
 
+    // Delete Event Permanently
+    public function delete(Request $request, $id) {
+        $event = Event::find($id);
+
+        // Deleting status images and videos
+        foreach ($event->statuses as $status) {
+            if ($status->image) {
+                Storage::delete('/public/statuses/images/'.$status->image);
+            }
+            if ($status->video) {
+                Storage::delete('/public/statuses/videos/'.$status->video);
+            }
+        }
+        // Deleting Statuses 
+        $event->statuses()->delete();
+        
+        // Deleting attender's record
+        DB::table('attenders')->where('event_id', $id)->delete();
+
+        // Deleting posters
+        if ($event->poster !== 'default.jpg') {
+            Storage::delete('/public/events/posters/'.$event->poster);
+            Storage::delete('/public/events/posters/min/'.$event->poster);
+        }
+
+        // Deleting Event
+        $event->delete();
+
+        // Return values
+        if($request->ajax()) {
+            return response()->json(['message' => 'Etkinlik kalıcı olarak silindi.']);
+        } else {
+            return redirect()->route('events')->with('danger', 'Etkinlik kalıcı olarak silindi.');
+        }
+
+    }
+
     public function kickUser($eventId, $userId)
     {
         $event = Event::where('id', $eventId)->first();
@@ -374,6 +412,11 @@ class EventController extends Controller
 
         $status->save();
         return redirect()->back()->with('success', 'Paylaşıldı!');
+    }
+
+    // Posting Reply in Event
+    public function postReply(Request $request, $id) {
+        $event = Event::find($id);
     }
 
     public function eventblock($id)

@@ -1,4 +1,4 @@
-<div class="media">
+<div class="media margin-bottom-ten">
     <div class="media-left media-top">
         <a class="pull-left" href="/user/{{$user->username}}">
             <img class="img-circle" alt=" {{ $user->getNameOrUsername() }} " src="/storage/avatars/{{$user->avatar}}" style="width:65px; height:65px;"/>

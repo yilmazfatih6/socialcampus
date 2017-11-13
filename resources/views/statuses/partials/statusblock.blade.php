@@ -170,7 +170,7 @@
                             <!--Starting of the Col Class-->
                             <div class="col-lg-12">
                                 <div class="media">
-                                    <a class="pull-left" href="user/{{$reply->user->username}}">
+                                    <a class="pull-left" href="/user/{{$reply->user->username}}">
                                         <img class="img-circle" alt="{{$reply->user->getNameOrUsername()}}" src="/storage/avatars/{{$reply->user->avatar}}" style="width:20px; height:20px; margin-bottom: 10px;">
                                     </a>
 
@@ -190,7 +190,7 @@
                                     <!--End of the deleting post-->
 
                                     <div class="media-body">
-                                        <h5 class="media-heading"><a href="user/{{$reply->user->username}}" style="line-height: 20px;">{{$reply->user->getNameOrUsername()}}</a></h5>
+                                        <h5 class="media-heading"><a class="link color-blue" href="/user/{{$reply->user->username}}" style="line-height: 20px;">{{$reply->user->getNameOrUsername()}}</a></h5>
                                     </div>
 
 
@@ -201,7 +201,7 @@
                         <!--Ending of the User Information Row-->
 
                         <!--Starting of the Reply Body-->
-                        <div class="row"    >
+                        <div class="row">
                             <div class="col-lg-12">
                                 @if($reply->isLong())
                                     <div class="row">

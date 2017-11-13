@@ -82,14 +82,25 @@
 
 		<!--Event Buttons-->
 		@if(Auth::user()->isAttending($event))
-			<li id="qel" class="list-group-item text-center event-action-btn">
-				<form action="/event/{{$event->id}}/quit" method="post" class="inline" id="quit-event" data-id="{{$event->id}}">
-					<button type="submit" id="qeb">
-						İptal Et <i class="fa fa-times" aria-hidden="true"></i>
-					</button>
-					<input type="hidden" name="_token" value="{{csrf_token()}}">
-				</form>
-			</li>
+			@if(Auth::user()->isEventAdmin($event))
+				<li id="qel" class="list-group-item text-center event-action-btn">
+					<form action="/event/{{$event->id}}/delete" method="post" class="inline" id="delete-event" data-id="{{$event->id}}">
+						<button type="submit" id="qeb">
+							Etkinliği Sil <i class="fa fa-trash" aria-hidden="true"></i>
+						</button>
+						<input type="hidden" name="_token" value="{{csrf_token()}}">
+					</form>
+				</li>
+			@else
+				<li id="qel" class="list-group-item text-center event-action-btn">
+					<form action="/event/{{$event->id}}/quit" method="post" class="inline" id="quit-event" data-id="{{$event->id}}">
+						<button type="submit" id="qeb">
+							İptal Et <i class="fa fa-times" aria-hidden="true"></i>
+						</button>
+						<input type="hidden" name="_token" value="{{csrf_token()}}">
+					</form>
+				</li>
+			@endif
 		<!--Attend to Event-->
 		@else
 			<li id="ael" class="list-group-item text-center event-action-btn">

@@ -149,13 +149,15 @@
 
 
 /***********************EVENTS*********************/
-  Route::get('/events', 'EventController@index');
+  Route::get('/events', 'EventController@index')->name('events');
   Route::get('/event/create/{abbreviation}', 'EventController@getCreate')->middleware('auth');
   Route::post('/event/create/{abbreviation}', 'EventController@postCreate')->middleware('auth');
   // Attend To Event
   Route::post('/event/{id}/add', 'EventController@addEvent')->middleware('auth');
   // Quit Event
   Route::post('/event/{id}/quit', 'EventController@quitEvent')->middleware('auth');
+  // Delete Event
+  Route::post('/event/{id}/delete', 'EventController@delete')->middleware('auth');
   Route::post('/event/{eventId}/kick/{userId}', 'EventController@kickUser')->middleware('auth');
   Route::post('/event/{eventId}/make/admin/{userId}', 'EventController@makeAdmin')->middleware('auth');
   Route::get('/event/{id}', 'EventController@eventPage');

@@ -51,7 +51,6 @@
 			@endforeach
 
 		<!--Admins-->
-		p
 
 		<!--Attenders-->
 		<div id="attenders-wrapper">
