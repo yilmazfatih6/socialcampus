@@ -1876,6 +1876,23 @@ $(document).ready(function () {
 			}
 		});
 	});
+	// Delete to Event Quick
+	$('body').on('submit', '#delete-event-quick', function (e) {
+		event.preventDefault();
+		var id = $(this).attr('data-id');
+		$.ajax({
+			url: $(this).attr('action'),
+			method: $(this).attr('method'),
+			dataType: "json",
+			success: function success(data) {
+				/*Insert Alert*/
+				$('#after').after(alertDanger);
+				$("#alert").text(data['message']);
+				/*Refreshing some sections*/
+				$(".event-thumbnail-" + id).remove();
+			}
+		});
+	});
 	//Kick User from Event
 	$('body').on('submit', '#event-kick-user', function (e) {
 		event.preventDefault();

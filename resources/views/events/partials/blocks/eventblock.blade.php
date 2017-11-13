@@ -26,14 +26,26 @@
 		<div class="row">
 			<div class="container-fluid">
 				@if(Auth::user()->isConfirmed($event))
-				<form action="/event/{{$event->id}}/quit" method="post" class="inline" id="quit-event-quick" data-id="{{$event->id}}">
-					<div class="form-group inline">
-						<button type="submit" class="btn btn-danger">
-							İptal Et <i class="fa fa-times" aria-hidden="true"></i>
-						</button>
-						<input type="hidden" name="_token" value="{{csrf_token()}}">
-					</div>
-				</form>
+					<!--Delete Event if Admin-->
+					@if(Auth::user()->isEventAdmin($event))
+						<form action="/event/{{$event->id}}/delete" method="post" class="inline" id="delete-event-quick" data-id="{{$event->id}}">
+							<div class="form-group inline">
+								<button type="submit" class="btn btn-danger">
+									Etkinliği Sil <i class="fa fa-trash" aria-hidden="true"></i>
+								</button>
+								<input type="hidden" name="_token" value="{{csrf_token()}}">
+							</div>
+						</form>
+					@else
+						<form action="/event/{{$event->id}}/quit" method="post" class="inline" id="quit-event-quick" data-id="{{$event->id}}">
+							<div class="form-group inline">
+								<button type="submit" class="btn btn-danger">
+									İptal Et <i class="fa fa-times" aria-hidden="true"></i>
+								</button>
+								<input type="hidden" name="_token" value="{{csrf_token()}}">
+							</div>
+						</form>
+					@endif
 				@elseif(Auth::user()->waitingToBeConfirmed($event))
 					<button class="btn btn-warning">
 						Ödeme Bekleniyor <i class="fa fa-clock-o" aria-hidden="true"></i>
