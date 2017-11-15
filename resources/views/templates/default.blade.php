@@ -6,9 +6,9 @@
         <!--CSRF Protection-->
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <!--Videojs-->
-        <link href="http://vjs.zencdn.net/5.17.0/video-js.css" rel="stylesheet">
+        <link href="https://vjs.zencdn.net/5.17.0/video-js.css" rel="stylesheet">
         <!-- If you'd like to support Video Player in IE8 -->
-        <script src="http://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+        <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
         <!--Snowflake Icons taken from https://icons8.com/-->
         <link rel="shortcut icon" href="/storage/icons/snowflake.png">
         <!--Font Awesome-->
