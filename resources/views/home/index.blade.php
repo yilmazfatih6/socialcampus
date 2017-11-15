@@ -27,9 +27,9 @@
 	      		<div class="container-fluid text-center color-white">
 	      			<div class="col-md-6 col-md-offset-3"><br>
 					<i class="fa fa-snowflake-o hp-icon hidden-xs" aria-hidden="true"></i>
+		      			<h1 class="hidden">İstanbul Medeniyet Üniversitesi öğrencileri için sosyal paylaşım sitesi! Üniversite külupleri, üniversite için etkinlik ve üniversite sayfaları oluştur. Kampüste olanları kaçırma!</h1>
 		      			<h1><b>Merhaba!</b></h1>
 		      			<h2>Medeniyet Sosyal'e Hoşgeldin!</h2>
-		      			<h1 class="hidden">İstanbul Medeniyet Üniversitesi öğrencileri için sosyal paylaşım sitesi! Üniversite külupleri, üniversite için etkinlik ve üniversite sayfaları oluştur. Kampüste olanları kaçırma!</h1>
 		      			<small><b>Erken Erişim</b></small>
 		      			<!--Search-->
 		      			<div class="hp-search">
