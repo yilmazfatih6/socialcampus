@@ -14,7 +14,7 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-/*****INBOX*****/
+/******INBOX******/
 //User
 Vue.component('users', require('./components/Inbox/User/Users.vue'));
 Vue.component('inbox-user', require('./components/Inbox/User/Userblock.vue'));
