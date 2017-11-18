@@ -53,8 +53,8 @@ $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
 $response = $kernel->handle(
     $request = Illuminate\Http\Request::capture()
 );
-dd(\Request::ip());
-if(\Request::ip() !== '88.237.216.111') {
+
+if(\Request::ip() !== '141.101.76.100') {
 	dd('Duble yol yapıyoruz... Az bekleteceğiz.');
 };
 
