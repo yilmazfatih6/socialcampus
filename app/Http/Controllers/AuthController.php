@@ -38,11 +38,12 @@ class AuthController extends Controller
                 ]);
         
         Auth::attempt($request->only(['username','password']), $request->has('remember'));
-
+        /*
         // Send email for validation
         Mail::to(Auth::user()->email)
             ->send(new NewUserValidation($user));
         // Hesabınız oluşturuldu lütfen email adresinize gönderilen email ile doğrulama yapınız.
+        */
         return redirect()->route('home')->with('info', 'Hesabınız başarılı bir şekilde oluşturuldu.');
     }
 
