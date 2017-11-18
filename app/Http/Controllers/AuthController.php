@@ -26,23 +26,22 @@ class AuthController extends Controller
             'first_name' => 'required|max:50',
             'last_name' => 'required|alpha|max:50',
         ]);
-
-        User::create([
-            'email' => $request->input('email'),
-            'username' => $request->input('username'),
-            'password' => bcrypt($request->input('password')),
-            'first_name' => $request->input('first_name'),
-            'last_name' => $request->input('last_name'),
-            'department' => $request->input('department'),
-        ]);
-
+        
+        $user = User::create([
+                    'email' => $request->input('email'),
+                    'username' => $request->input('username'),
+                    'password' => bcrypt($request->input('password')),
+                    'first_name' => $request->input('first_name'),
+                    'last_name' => $request->input('last_name'),
+                    'department' => $request->input('department'),
+                    'email_token' => base64_encode($request->input('email')),
+                ]);
+        
         Auth::attempt($request->only(['username','password']), $request->has('remember'));
 
-        /*
         // Send email for validation
         Mail::to(Auth::user()->email)
-            ->send(new NewUserValidation());
-        */
+            ->send(new NewUserValidation($user));
         // Hesabınız oluşturuldu lütfen email adresinize gönderilen email ile doğrulama yapınız.
         return redirect()->route('home')->with('info', 'Hesabınız başarılı bir şekilde oluşturuldu.');
     }
@@ -89,4 +88,16 @@ class AuthController extends Controller
         return redirect()->route('home')->with('warning', 'Çıkış yapıldı.');
     }
 
+    // Verify user by email
+    public function verifyUser($token) {
+        $user = User::where('email_token', $token)->first();
+        if($user) {
+            $user->verified = true;
+            $user->email_token = null;
+            $user->save();
+            return view('auth.verify')->with('user', $user);
+        } else {
+            return view('auth.verify')->with('error', 'Doğrulama işlemi yapılırken bir hata oluştu.');
+        }
+    }
 }

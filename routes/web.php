@@ -66,6 +66,9 @@
   // Delete User Account
   Route::get('/account/delete', 'UserController@getDelete')->middleware('auth');
   Route::post('/account/{id}/delete', 'UserController@postDelete')->middleware('auth');
+
+  // Verify user
+  Route::get('/verify/{token}', 'AuthController@verifyUser');
 /***************END OF USER PROFILE******************/
 
 

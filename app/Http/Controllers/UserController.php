@@ -154,7 +154,7 @@ class UserController extends Controller
     }
 
     public function getDelete() {
-        return view('users.delete');
+        return view('users.delete')->with('user', Auth::user());
     }
 
     public function postDelete($id) {
