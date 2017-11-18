@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Laravel - A PHP Framework For Web Artisans
  *
@@ -54,6 +53,10 @@ $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
 $response = $kernel->handle(
     $request = Illuminate\Http\Request::capture()
 );
+
+if(\Request::ip() !== '88.237.216.111') {
+	dd('Duble yol yapıyoruz... Az bekleteceğiz.');
+};
 
 $response->send();
 
