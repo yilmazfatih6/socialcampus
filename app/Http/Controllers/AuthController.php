@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use Auth;
 use Mail;
 use App\User;
+Use App\Mail\PasswordReset;
 Use App\Mail\NewUserValidation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -34,15 +36,16 @@ class AuthController extends Controller
                     'first_name' => $request->input('first_name'),
                     'last_name' => $request->input('last_name'),
                     'department' => $request->input('department'),
-                    'email_token' => base64_encode($request->input('email')),
+                    'email_token' => base64_encode(bcrypt($request->input('email'))),
                 ]);
         
         Auth::attempt($request->only(['username','password']), $request->has('remember'));
+        
         // Send email for validation
         Mail::to(Auth::user()->email)
             ->send(new NewUserValidation($user));
-        // Hesabınız oluşturuldu lütfen email adresinize gönderilen email ile doğrulama yapınız.
-        return redirect()->route('home')->with('info', 'Hesabınız başarılı bir şekilde oluşturuldu.');
+
+        return redirect()->route('home')->with('info', 'Hesabınız oluşturuldu lütfen email adresinize gönderilen email ile doğrulama yapınız. Email outlook hesaplarında gereksizlerde görünebilir.');
     }
 
     //Get Login Page
@@ -98,5 +101,70 @@ class AuthController extends Controller
         } else {
             return view('auth.verify')->with('error', 'Doğrulama işlemi yapılırken bir hata oluştu.');
         }
+    }
+
+    // Get password reset page
+    public function getPasswordForgotten() {
+        return view('auth.passwordForgotten');
+    }
+
+    // Post Email for Password Reset
+    public function postPasswordForgotten(Request $request) {
+        
+        $this->validate($request, [
+            'email' => 'email|required',
+        ]);
+        
+        $email = $request->input('email');
+        $token = base64_encode(bcrypt($email));
+
+        if(User::where('email', $request->input('email'))->first()) {
+            // Insert new record to password_resets table
+            DB::insert('insert into password_resets (email, token) values (?, ?)', [$email, $token]);
+      
+            // Send email
+            Mail::to($email)
+                ->send(new PasswordReset($token));
+            return redirect()->back()->with('success', 'Değişiklik talebin emailine gönderildi. Lütfen gelen email ile onaylama yap.');
+        } else {
+            return redirect()->back()->with('danger', 'Böyle bir mail bulunamadı.');
+        }
+    }
+
+    public function getPasswordReset($token) {
+        $record = DB::select('select * from password_resets where token = ?', [$token]);
+        // get email from the record
+        if(!$record) {
+            return redirect()->route('login')->with('danger', 'Böyle bir istek bulunamadı.');
+        }
+        $email = $record[0]->email;
+        $user = User::where('email', $email)->first();
+        if(!$user) {
+            redirect()->route('login')->with('danger', 'Böyle bir kullanıcı bulunamadı.');
+        }    
+        return view('auth.passwordReset')->with('token', $token);
+    }
+
+    public function postPasswordReset(Request $request, $token) {
+        $this->validate($request, [
+            'password' => 'required|min:6|confirmed',
+            'password_confirmation' => 'required|min:6'
+        ]);
+        $record = DB::select('select * from password_resets where token = ?', [$token]);
+        // get email from the record
+        if(!$record) {
+            return view('auth.signin')->with('danger', 'Böyle bir istek bulunamadı.');
+        }
+        $email = $record[0]->email;
+        $user = User::where('email', $email)->first();
+        if(!$user) {
+            return view('auth.signin')->with('danger', 'Böyle bir kullanıcı bulunamadı.');
+        }        
+        $user->password = bcrypt($request->input('password'));
+        $user->save();
+        DB::delete('delete from password_resets where token = ?', [$token]);
+
+        return redirect()->route('login')->with('success', 'Şifreniz başarılı bir şekilde değiştirildi. Şimdi yeni şifreniz ile giriş yapabilirsiniz.');
+    
     }
 }

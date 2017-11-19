@@ -24,8 +24,8 @@
 					<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
 					<input type="password" class="form-control password" name="password" placeholder="Şifre" id="password" required>
 					@if($errors->has('password'))
-			            		<span class="help-block">{{ $errors->first('password') }}</span>
-			       		@endif
+		            		<span class="help-block">{{ $errors->first('password') }}</span>
+		       		@endif
 				</div>
 
 				<br>
@@ -39,8 +39,13 @@
 				-->
 				
 				<!--Submit Button-->
-				<div class="form-gorup inline pull-right">
-					<button type="submit" class="btn btn-success">Giriş Yap</button>
+				<div>
+					<button type="submit" class="btn btn-success pull-right">Giriş Yap</button>
+				</div>
+
+				<!--Password Reset-->
+				<div>
+					<a href="/password/forgotten" class="pull-left link">Şifremi Unuttum</a>
 				</div>
 
 				<br>

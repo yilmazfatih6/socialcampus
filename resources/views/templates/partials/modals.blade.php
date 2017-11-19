@@ -39,9 +39,13 @@
         			</div>-->
 
         			<!--Submit Button-->
-        			<div class="form-gorup inline">
-        				<button type="submit" class="btn btn-success btn-block">Giriş Yap</button>
-        			</div><br>
+    				<button type="submit" class="btn btn-success pull-right">Giriş Yap</button>
+                    
+                    <!--Password Reset-->
+                    <a href="/password/forgotten" class="pull-left link">Şifremi Unuttum</a>
+                    
+                    <br>
+                    <br>
         		
                 	<div role="alert" class="signin-alert"></div>
 

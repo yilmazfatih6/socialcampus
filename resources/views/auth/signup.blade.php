@@ -49,10 +49,7 @@
                     @endif
                 </div>
                 <small><b>* Zorunlu Alan</b></small><br>
-                <div class="alert alert-danger">
-                    <i class="fa fa-exclamation" aria-hidden="true"></i>
-                    <span>Şu anda erken erişimde olduğumuz için email yollayamıyoruz. Bu yüzden lütfen şifreni şimdilik unutma. Bu durumdan dolayı üzgünüz :(</span>
-                </div>
+                
                 <div class="form-group">
                     <button type="submit" class="btn btn-info btn-block">Kayıt Ol</button>
                 </div>

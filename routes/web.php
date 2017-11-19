@@ -38,6 +38,11 @@
       'uses' => '\App\Http\Controllers\AuthController@getSignOut',
       'as' => 'auth.signout',
   ]);
+
+  Route::get('/password/forgotten', 'AuthController@getPasswordForgotten')->middleware('guest');
+  Route::post('/password/forgotten', 'AuthController@postPasswordForgotten')->middleware('guest');
+  Route::get('/password/reset/{token}', 'AuthController@getPasswordReset')->middleware('guest');
+  Route::post('/password/reset/{token}', 'AuthController@postPasswordReset')->middleware('guest');
 /***********************END OF AUTHENTICATION******************/
 
 /********************SEARCH******************/
