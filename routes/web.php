@@ -11,6 +11,11 @@
 
 /*******************END OF FEEDBACK***********************/
 
+/******************* DEVELOPER***********************/
+  Route::get('/developers', 'DevelopersController@index');
+  Route::post('/developers/apply', 'DevelopersController@apply');
+/*******************END OF DEVELOPER***********************/
+
 /***********************AUTHENTICATION*********************/
   Route::get('/signup', [
       'uses' => '\App\Http\Controllers\AuthController@getSignup',

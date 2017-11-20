@@ -23,7 +23,9 @@
         <div class="navigation">
             @include('templates.partials.navigation')
         </div>
+
         @include('templates.partials.modals')
+
         <div class="container-fluid">
             @yield('header')
                 @include('templates.partials.alerts')
@@ -35,6 +37,15 @@
                 </a>
             @yield('content')
         </div>
+        
+        <!--
+        <footer class="text-center">
+            <div class="container-fluid">
+                <h5 class="blackish-blue">Medeniyet Sosyal İstanbul Medeniyet Üniversitesi öğrencileri tarafından geliştirilmiştir.</h5>
+                <a href="/developers" class="link blackish-blue" style="font-size:20px;">Ekibe Takıl</a>
+            </div>
+        </footer>-->
+
         <!--app.js File-->
         <script src="/js/app.js"></script>
         <!--End of app.js File-->
@@ -45,13 +56,5 @@
                 $('#tabs a[href="#{{ old('tab') }}"]').tab('show');
             });
         </script>
-        <!--
-
-            Background taken from,
-            <a href="http://www.freepik.com/free-vector/beautiful-watercolor-background-with-splatters_1324341.htm">Designed by Freepik</a>
-
-            Snowflake Icon
-            <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
-        -->
     </body>
 </html>

@@ -76,14 +76,12 @@
 		</div>
 		<div id="hp-signup">
 			<div class="container-fluid color-white">
-	      			<div class="col-md-6 col-md-offset-3">
-					<div class="row text-center hp-join-div vertical-center">
-						<div>
-							<i class="fa fa-rocket hp-rocket" aria-hidden="true"></i>
-							<h3 class="text-center">Bunları yapabilmeniz için tek ihtiyacınız olan hesap oluşturmak!</h3><br>
-							<a href="/signup" class="btn btn-default btn-block btn-yellow"><b>Kayıt Ol ve Başla!</b></a>
-							<a id="hp-scroll-to-top"><i class="fa fa-arrow-up hp-up" aria-hidden="true"></i></a>
-						</div>
+				<div class="row hp-join-div vertical-center">
+      				<div class="col-md-6 col-md-offset-3 text-center">
+						<i class="fa fa-rocket hp-rocket" aria-hidden="true"></i>
+						<h3>Bunları yapabilmeniz için tek ihtiyacınız olan hesap oluşturmak!</h3><br>
+						<a href="/signup" class="btn btn-default btn-block btn-yellow"><b>Kayıt Ol ve Başla!</b></a>
+						<a id="hp-scroll-to-top"><i class="fa fa-arrow-up hp-up" aria-hidden="true"></i></a>
 					</div>
 				</div>
 			</div>
