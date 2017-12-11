@@ -18,6 +18,14 @@
     <!--Pusher-->
     <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
     <title>Medeniyet Sosyal</title>
+    <!--Adsense-->
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: "ca-pub-6712039432984718",
+        enable_page_level_ads: true
+      });
+    </script>
 </head>
 <body>
 	<div id="app">
