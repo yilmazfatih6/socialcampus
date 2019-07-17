@@ -7,7 +7,8 @@ Pusher API is used for realtime chat app.<br/>
 
 # Here are some screen shots from the web app.
 Welcome Page
-[![Welcome Page](https://github.com/fastafaryan/socialcampus/blob/master/Screenshots/welcome_page.png)]
+![Welcome Page](https://github.com/fastafaryan/socialcampus/blob/master/Screenshots/welcome_page.png)
+
 
 User Profiles
 [![User Profiles](https://github.com/fastafaryan/socialcampus/blob/master/Screenshots/user_page.png)]
