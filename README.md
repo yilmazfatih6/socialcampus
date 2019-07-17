@@ -11,19 +11,19 @@ Welcome Page
 
 
 User Profiles
-[![User Profiles](https://github.com/fastafaryan/socialcampus/blob/master/Screenshots/user_page.png)]
+![User Profiles](https://github.com/fastafaryan/socialcampus/blob/master/Screenshots/user_page.png)
 
 Clubs Main Page
-[![Clubs Page](https://github.com/fastafaryan/socialcampus/blob/master/Screenshots/clubs_main_page.png)]
+![Clubs Page](https://github.com/fastafaryan/socialcampus/blob/master/Screenshots/clubs_main_page.png)
 
 Clubs Main Page on Mobile
-[![Clubs Page_Mobile](https://github.com/fastafaryan/socialcampus/blob/master/Screenshots/clubs_main_page_mobile.png)]
+![Clubs Page_Mobile](https://github.com/fastafaryan/socialcampus/blob/master/Screenshots/clubs_main_page_mobile.png)
 
 Events Displayed from Club's Page
-[![Events Page](https://github.com/fastafaryan/socialcampus/blob/master/Screenshots/clubs_event.png)]
+![Events Page](https://github.com/fastafaryan/socialcampus/blob/master/Screenshots/clubs_event.png)
 
 Events Displayed from Club's Page on Mobile
-[![Event Page_Mobile](https://github.com/fastafaryan/socialcampus/blob/master/Screenshots/clubs_event_mobile.png)]
+![Event Page_Mobile](https://github.com/fastafaryan/socialcampus/blob/master/Screenshots/clubs_event_mobile.png)
 
 Events Page
-[![Event Page](https://github.com/fastafaryan/socialcampus/blob/master/Screenshots/event_page.png)]
+![Event Page](https://github.com/fastafaryan/socialcampus/blob/master/Screenshots/event_page.png)
