@@ -5,6 +5,9 @@ Vue.js and Jquery are used on frontend.<br/>
 Mailgun API is used to handle mailing.<br/>
 Pusher API is used for realtime chat app.<br/>
 
+# What is Social Campus
+Social campus allow users to interact with each other, create clubs and event so people can gather better. Social campus helps organizations to let other people hear about their events.
+
 # Here are some screen shots from the web app.
 Welcome Page
 
